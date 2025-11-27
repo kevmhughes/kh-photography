@@ -518,6 +518,7 @@ export interface ApiPhotoPhoto extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::photo.photo'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    sort_order: Schema.Attribute.Integer;
     thumbnail_url: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

@@ -34,6 +34,9 @@
       "relation": "manyToMany",
       "target": "api::album.album",
       "mappedBy": "photos"
+    },
+    "sort_order": {
+      "type": "integer"
     }
   }
 }
