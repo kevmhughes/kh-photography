@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "photos",
+  "info": {
+    "singularName": "photo",
+    "pluralName": "photos",
+    "displayName": "Photo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "richtext"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "exif_data": {
+      "type": "json"
+    },
+    "full_image_url": {
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "type": "string"
+    },
+    "albums": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::album.album",
+      "mappedBy": "photos"
+    }
+  }
+}

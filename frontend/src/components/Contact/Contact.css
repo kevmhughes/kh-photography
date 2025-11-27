@@ -1,0 +1,14 @@
+.contact-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 15rem);
+  align-items: center;
+  font-size: 1.75rem;
+  line-height: 1.5;
+  font-weight: 200;
+  font-style: italic;
+  position: relative;
+  top: -5rem;
+  color: #656363;
+}

@@ -1,0 +1,70 @@
+.about-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - 15rem);
+  align-items: center;
+  font-size: 1.75rem;
+  line-height: 1.5;
+  font-weight: 200;
+  font-style: italic;
+  position: relative;
+  top: -5rem;
+  color: #656363;
+}
+
+.about-text-line-one,
+.about-text-line-two,
+.about-text-line-three,
+.about-text-line-four,
+.about-text-line-five,
+.about-text-line-six {
+  transform: translateY(2rem);
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+.about-text-line-one {
+  animation-delay: 1s;
+}
+
+.about-text-line-two {
+  animation-delay: 1.75s;
+}
+
+.about-text-line-three {
+  animation-delay: 2.75s;
+}
+
+.about-text-line-four {
+  animation-delay: 3.75s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.slide-in {
+  opacity: 0; /* start invisible */
+  transform: translateX(-100%); /* start off-screen left */
+  animation: slideIn 1s ease forwards;
+  animation-delay: 5s; /* optional: delay before animation */
+}
+
+.slide-in-two {
+  opacity: 0; /* start invisible */
+  transform: translateX(100%); /* start off-screen left */
+  animation: slideIn 1s ease forwards;
+  animation-delay: 6.5s; /* optional: delay before animation */
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0); /* end at natural position */
+  }
+}

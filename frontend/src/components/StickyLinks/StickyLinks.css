@@ -1,0 +1,10 @@
+.insta-icon {
+  opacity: 60%;
+  height: 1.75rem;
+  position: relative;
+  top: 2px;
+}
+
+.insta-icon:hover {
+  opacity: 80%;
+}
