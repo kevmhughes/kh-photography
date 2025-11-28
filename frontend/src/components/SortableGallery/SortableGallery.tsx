@@ -1,10 +1,6 @@
 import { useRef, useState } from "react";
 
-import type {
-  ComponentProps,
-  ComponentType,
-  JSX,
-} from "react";
+import type { ComponentProps, ComponentType, JSX } from "react";
 import type {
   ColumnsPhotoAlbumProps,
   MasonryPhotoAlbumProps,
@@ -56,6 +52,7 @@ type SortableGalleryProps<
 > = GalleryProps<TPhoto>[TGalleryType] & {
   gallery: ComponentType<GalleryProps<TPhoto>[TGalleryType]>;
   movePhoto: (oldIndex: number, newIndex: number) => void;
+  layoutOptions?: Partial<RowsPhotoAlbumProps<TPhoto>>;
 };
 
 export default function SortableGallery<
@@ -145,6 +142,7 @@ export default function SortableGallery<
                 renderSortable("button", index, photo, props),
             }}
             {...rest}
+            {...rest.layoutOptions}
           />
         </div>
       </SortableContext>

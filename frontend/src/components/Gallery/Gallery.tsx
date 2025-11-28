@@ -10,6 +10,7 @@ import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import "yet-another-react-lightbox/styles.css";
 import { arrayMove } from "@dnd-kit/sortable";
 import SortableGallery from "../SortableGallery/SortableGallery";
+import { useResponsiveRowHeight } from "../../hooks/useResponsiveRowHeight"; //
 
 import sanityClient from "../../sanityClient";
 
@@ -28,9 +29,17 @@ interface Photo {
 }
 
 const Gallery = () => {
+  const targetRowHeight = useResponsiveRowHeight();
   const { id } = useParams<{ id: string }>();
   const [photos, setPhotos] = useState<
-    { id: string; src: string; alt: string; width: number; height: number; lqip?: string }[]
+    {
+      id: string;
+      src: string;
+      alt: string;
+      width: number;
+      height: number;
+      lqip?: string;
+    }[]
   >([]);
   const [index, setIndex] = useState<number | null>(null);
 
@@ -70,7 +79,9 @@ const Gallery = () => {
           }
         }`;
 
-        const album: { photos?: Photo[] } = await sanityClient.fetch(query, { id });
+        const album: { photos?: Photo[] } = await sanityClient.fetch(query, {
+          id,
+        });
         if (!album?.photos) return;
 
         const mapped = album.photos.map((item) => ({
@@ -99,6 +110,9 @@ const Gallery = () => {
         gallery={RowsPhotoAlbum}
         spacing={10}
         photos={photos}
+        layoutOptions={{
+          targetRowHeight,
+        }}
         onClick={({ index: photoIndex }) => setIndex(photoIndex)}
         movePhoto={(oldIndex, newIndex) => {
           const newOrder = arrayMove(photos, oldIndex, newIndex);
