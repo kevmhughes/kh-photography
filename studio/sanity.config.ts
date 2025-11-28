@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'default',
   title: 'KH Photography Studio',
 
-  projectId: '0xt4wrbo',
-  dataset: 'production',
+  projectId: import.meta.env.SANITY_STUDIO_API_PROJECT_ID,
+  dataset: import.meta.env.SANITY_STUDIO_API_DATASET || 'production',
 
   plugins: [structureTool(), visionTool()],
 

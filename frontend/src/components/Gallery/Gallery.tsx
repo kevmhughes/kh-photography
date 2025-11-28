@@ -34,9 +34,7 @@ const Gallery = () => {
   >([]);
   const [index, setIndex] = useState<number | null>(null);
 
-  // ------------------------------
-  // SAVE ORDER TO SANITY
-  // ------------------------------
+  // save order after photo drag and srop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
     try {
       const newOrder = newPhotos.map((p) => ({

@@ -1,4 +1,3 @@
-// frontend/src/sanityClient.ts
 import { createClient } from "@sanity/client";
 import {
   createImageUrlBuilder,
