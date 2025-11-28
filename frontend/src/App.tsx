@@ -5,7 +5,7 @@ import Home from "./components/Home/Home";
 import Albums from "./components/Albums/Albums";
 import Gallery from "./components/Gallery/Gallery";
 import About from "./components/About/About";
-import Shop from "./components/Shop";
+import Shop from "./components/Shop/Shop";
 import Contact from "./components/Contact/Contact";
 
 import "./App.css";

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import type { AlbumPhoto } from "../../types/strapi";
 import { RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/rows.css";
 import "./Gallery.css";
@@ -13,53 +11,78 @@ import "yet-another-react-lightbox/styles.css";
 import { arrayMove } from "@dnd-kit/sortable";
 import SortableGallery from "../SortableGallery/SortableGallery";
 
-const token = import.meta.env.VITE_API_TOKEN;
-const apiUrl = import.meta.env.VITE_API_URL;
+import sanityClient from "../../sanityClient";
+
+interface Photo {
+  _id: string;
+  title: string;
+  image: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: { width: number; height: number; aspectRatio: number };
+        lqip?: string;
+      };
+    };
+  };
+}
 
 const Gallery = () => {
-  const [photos, setPhotos] = useState<AlbumPhoto[]>([]);
-  const [index, setIndex] = useState<number | null>(null);
   const { id } = useParams<{ id: string }>();
+  const [photos, setPhotos] = useState<
+    { id: string; src: string; alt: string; width: number; height: number; lqip?: string }[]
+  >([]);
+  const [index, setIndex] = useState<number | null>(null);
 
-  function loadImageDimensions(url: string) {
-    return new Promise<{ width: number; height: number }>((resolve) => {
-      const img = new Image();
-      img.src = url;
-      img.onload = () =>
-        resolve({ width: img.naturalWidth, height: img.naturalHeight });
-      img.onerror = () => resolve({ width: 0, height: 0 }); // ✅ fail-safe
-    });
+  // ------------------------------
+  // SAVE ORDER TO SANITY
+  // ------------------------------
+  async function saveOrderToSanity(newPhotos: { id: string }[]) {
+    try {
+      const newOrder = newPhotos.map((p) => ({
+        _type: "reference",
+        _ref: p.id,
+      }));
+
+      await sanityClient.patch(id!).set({ photos: newOrder }).commit();
+
+      console.log("Saved new order to Sanity:", newOrder);
+    } catch (err) {
+      console.error("Error saving new photo order:", err);
+    }
   }
 
   useEffect(() => {
     async function fetchPhotos() {
       try {
-        const res = await axios.get(
-          `${apiUrl}/api/albums?filters[id][$eq]=${id}&populate=*`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const query = `*[_type == "album" && _id == $id][0]{
+          title,
+          "photos": photos[]->{
+            _id,
+            title,
+            image{
+              asset->{
+                url,
+                metadata {
+                  dimensions { width, height, aspectRatio },
+                  lqip
+                }
+              }
+            }
           }
-        );
+        }`;
 
-        const items = res.data.data[0]?.photos ?? [];
+        const album: { photos?: Photo[] } = await sanityClient.fetch(query, { id });
+        if (!album?.photos) return;
 
-        const mapped = await Promise.all(
-          items.map(async (item: any) => {
-            const url = item.full_image_url;
-            const alt = item.title;
-            const dims = await loadImageDimensions(url);
-
-            return {
-              src: url,
-              alt,
-              width: dims.width || 1,
-              height: dims.height || 1,
-              id: url, // ✅ unique id
-            };
-          })
-        );
+        const mapped = album.photos.map((item) => ({
+          id: item._id,
+          src: item.image.asset.url,
+          alt: item.title,
+          width: item.image.asset.metadata.dimensions.width,
+          height: item.image.asset.metadata.dimensions.height,
+          lqip: item.image.asset.metadata.lqip,
+        }));
 
         setPhotos(mapped);
       } catch (err) {
@@ -79,18 +102,25 @@ const Gallery = () => {
         spacing={10}
         photos={photos}
         onClick={({ index: photoIndex }) => setIndex(photoIndex)}
-        movePhoto={(oldIndex, newIndex) =>
-          setPhotos(arrayMove(photos, oldIndex, newIndex))
-        }
+        movePhoto={(oldIndex, newIndex) => {
+          const newOrder = arrayMove(photos, oldIndex, newIndex);
+          setPhotos(newOrder);
+
+          // Save to Sanity:
+          saveOrderToSanity(newOrder);
+        }}
       />
 
       {index !== null && (
         <Lightbox
-          open={index !== null}
+          open
           close={() => setIndex(null)}
           plugins={[Fullscreen, Slideshow]}
-          slides={photos.map((p) => ({ src: p.src, title: p.alt }))}
           index={index}
+          slides={photos.map((p) => ({
+            src: p.src,
+            title: p.alt,
+          }))}
         />
       )}
     </>
