@@ -7,12 +7,12 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <div className="navbar-container">
-      <div style={{ display: "flex", gap: ".5rem", height: "4rem" }}>
+      <div className="navbar-icons-container">
         <Link to="/">
-          <img src={Logo} alt="Passerine icon" style={{ height: "4rem" }} />
+          <img src={Logo} alt="Web logo" className="web-logo" />
         </Link>
         <Link to="/">
-          <img src={Khp} alt="" style={{ height: "4rem" }} />
+          <img src={Khp} alt="KH icon" className="kh-icon"/>
         </Link>
       </div>
     </div>

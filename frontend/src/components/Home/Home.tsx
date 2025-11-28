@@ -109,8 +109,8 @@ const Home = () => {
                   <div className="no-image-placeholder">No cover image</div>
                 )}
 
-                <div className="album-title">
-                  <div className="title-container">{item.title}</div>
+                <div className="album-title-container">
+                  <div className="album-title">{item.title}</div>
                 </div>
               </Link>
             </div>

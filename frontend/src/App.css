@@ -50,15 +50,18 @@ li {
   margin-bottom: 1rem;
 }
 
-/* react-photo-album styling */
-/* .react-photo-album--image {
-  transition: transform 0.2s ease;
-}
-
-.react-photo-album--image:hover {
-  transform: scale(1.02);
-}
- */
 button:focus {
   border-radius: 0;
+}
+
+/* Media queries */
+
+/* normal phones  */
+@media (max-width: 480px) {
+  .navbar-sticky-links {
+    display: none;
+  }
+  .navbar-sticky-links-bottom-bar {
+    display: none;
+  }
 }

@@ -23,7 +23,7 @@
   height: 100%;
 }
 
-.album-title {
+.album-title-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -34,12 +34,12 @@
   width: 100%;
 }
 
-.album-title:hover {
+.album-title-container:hover {
   opacity: 1;
   transition: opacity 1s ease-in;
 }
 
-.title-container {
+.album-title {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
@@ -51,4 +51,22 @@
   font-weight: 600;
   color: #222;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 480px) {
+  .albums-container {
+    display: flex;
+    overflow-x: visible;
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .album-image {
+    width: 100%;
+  }
+
+  .album-title-container {
+    opacity: 1;
+  }
 }

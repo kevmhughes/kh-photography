@@ -9,3 +9,42 @@
   align-items: center;
   padding-top: 4rem;
 }
+
+.navbar-icons-container {
+  display: flex;
+  gap: 0.5rem;
+  height: 4rem;
+}
+
+.web-logo {
+  height: 4rem;
+}
+
+.kh-icon {
+  height: 4rem;
+}
+
+/* Media queries */
+
+/* normal phones  */
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 1rem 0;
+    align-items: flex-start;
+    position: sticky;
+    top: 0;
+  }
+
+  .navbar-icons-container {
+    gap: 0;
+    height: 3rem;
+  }
+
+  .web-logo {
+    height: 3rem;
+  }
+
+  .kh-icon {
+    display: none;
+  }
+}

@@ -42,7 +42,7 @@ const Home = () => {
     fetchAlbums();
   }, []);
 
-    console.log("albums on homepage", albums)
+  console.log("albums on homepage", albums);
 
   return (
     <>
@@ -50,29 +50,21 @@ const Home = () => {
 
       <div className="albums-container" ref={containerRef}>
         {albums.map((item) => {
-          const imgUrl =
-            item.coverImage?.asset
-              ? urlFor(item.coverImage).url()
-              : null;
+          const imgUrl = item.coverImage?.asset
+            ? urlFor(item.coverImage).url()
+            : null;
 
           return (
             <div key={item._id} className="album-card">
               <Link to={`/gallery/${item._id}`}>
-
                 {imgUrl ? (
-                  <img
-                    src={imgUrl}
-                    alt={item.title}
-                    className="album-image"
-                  />
+                  <img src={imgUrl} alt={item.title} className="album-image" />
                 ) : (
-                  <div className="no-image-placeholder">
-                    No cover image
-                  </div>
+                  <div className="no-image-placeholder">No cover image</div>
                 )}
 
-                <div className="album-title">
-                  <div className="title-container">{item.title}</div>
+                <div className="album-title-container">
+                  <div className="album-title">{item.title}</div>
                 </div>
               </Link>
             </div>
