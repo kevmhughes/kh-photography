@@ -14,6 +14,15 @@
   display: flex;
   gap: 0.5rem;
   height: 4rem;
+  z-index: 1000;
+}
+
+.navbar-hamburger-menu-container {
+  display: none;
+}
+
+.hamburger-menu {
+  display: none;
 }
 
 .web-logo {
@@ -24,19 +33,68 @@
   height: 4rem;
 }
 
-/* Media queries */
-
-/* normal phones  */
+/* ========================= */
+/*        MOBILE MODE        */
+/* ========================= */
 @media (max-width: 480px) {
   .navbar-container {
     padding: 1rem 0;
     align-items: flex-start;
     position: sticky;
     top: 0;
+    flex-direction: row;
+  }
+
+  .navbar-hamburger-menu-container {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+  }
+
+  .navbar-hamburger-icon {
+    position: absolute;
+    right: 1rem;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .hamburger-menu {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 5rem;
+    padding-right: 2rem;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .active-hamburger-menu {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbar-hamburger-menu-link-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-end;
+    padding-right: 2rem;
   }
 
   .navbar-icons-container {
-    gap: 0;
+    gap: 0.5rem;
     height: 3rem;
   }
 
@@ -44,7 +102,18 @@
     height: 3rem;
   }
 
+  .kh-icon-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 2px;
+  }
+
   .kh-icon {
-    display: none;
+    height: 2rem;
+  }
+
+  .insta-icon {
+    height: 3rem;
   }
 }

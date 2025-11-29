@@ -47,7 +47,6 @@
   }
 }
 
-
 .slide-in {
   opacity: 0; /* start invisible */
   transform: translateX(-100%); /* start off-screen left */
@@ -66,5 +65,17 @@
   to {
     opacity: 1;
     transform: translateX(0); /* end at natural position */
+  }
+}
+
+/* ========================= */
+/*        MEDIA QUERIES      */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .about-text {
+    height: 100vh;
+    width: 300px;
+    margin: auto;
   }
 }

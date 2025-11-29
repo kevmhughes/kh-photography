@@ -6,11 +6,11 @@
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: black;
 }
 
 a:hover {
-  color: black;
+  color: rgb(105, 105, 105);
 }
 
 ul {
@@ -25,27 +25,6 @@ li {
   padding: 0;
 }
 
-/* Sticky Navbar styles */
-.navbar-sticky-links {
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  background-color: white;
-  z-index: 1000;
-}
-
-.navbar-list-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  height: 3rem;
-}
-
-.navbar-sticky-links-bottom-bar {
-  height: 2rem;
-}
-
 .react-photo-album--masonry {
   margin-bottom: 1rem;
 }
@@ -54,7 +33,9 @@ button:focus {
   border-radius: 0;
 }
 
-/* Media queries */
+/* ========================= */
+/*        MEDIA QUERIES      */
+/* ========================= */
 
 /* normal phones  */
 @media (max-width: 480px) {

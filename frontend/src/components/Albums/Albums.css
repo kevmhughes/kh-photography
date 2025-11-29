@@ -53,6 +53,10 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* ========================= */
+/*        MEDIA QUERIES      */
+/* ========================= */
+
 @media (max-width: 480px) {
   .albums-container {
     display: flex;
