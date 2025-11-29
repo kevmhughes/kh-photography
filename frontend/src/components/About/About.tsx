@@ -12,12 +12,12 @@ const About = () => {
         <div className="about-text-line-four">
           and how light shapes emotion.
         </div>
-        <div className="slide-in">
+        {/* <div className="slide-in">
           I capture quiet, fleeting moments
         </div>
         <div className="slide-in-two">
           where nature wants to tell its subtle story
-        </div>
+        </div> */}
       </div>
     </div>
   );

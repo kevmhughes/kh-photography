@@ -47,9 +47,27 @@ const Home = () => {
     const container = containerRef.current;
     if (!container || albums.length === 0) return;
 
-    let count = 0; // how many times it has scrolled
+    // Cancel on mobile
+    if (window.innerWidth < 768) return;
 
-    // Wait until images are fully loaded
+    let count = 0;
+    let interval: ReturnType<typeof setInterval> | null = null;
+    let userInteracted = false;
+
+    // Cancel on *real* user interaction (not programmatic scroll)
+    const markUserInteracted = () => {
+      userInteracted = true;
+      if (interval) clearInterval(interval);
+    };
+
+    container.addEventListener("wheel", markUserInteracted, { once: true });
+    container.addEventListener("touchstart", markUserInteracted, {
+      once: true,
+    });
+    container.addEventListener("pointerdown", markUserInteracted, {
+      once: true,
+    });
+
     const waitForImages = Promise.all(
       Array.from(container.querySelectorAll("img")).map(
         (img) =>
@@ -62,30 +80,43 @@ const Home = () => {
     );
 
     waitForImages.then(() => {
+      if (userInteracted) return;
+
       const scrollOnce = () => {
+        if (userInteracted) {
+          clearInterval(interval!);
+          return;
+        }
+
         count++;
 
         const cards = container.children;
-        const nextIndex = count; // move 1 → 2
+        const nextIndex = count;
 
-        if (nextIndex >= cards.length) return; // avoid errors
+        if (nextIndex >= cards.length) {
+          clearInterval(interval!);
+          return;
+        }
 
-        const card = cards[nextIndex] as HTMLElement;
-
-        card.scrollIntoView({
+        (cards[nextIndex] as HTMLElement).scrollIntoView({
           behavior: "smooth",
           inline: "start",
         });
 
         if (count >= 2) {
-          clearInterval(interval); // STOP after 2 scrolls
+          clearInterval(interval!);
         }
       };
 
-      const interval = setInterval(scrollOnce, 3000); // scroll every 3 seconds
-
-      return () => clearInterval(interval);
+      interval = setInterval(scrollOnce, 3000);
     });
+
+    return () => {
+      container.removeEventListener("wheel", markUserInteracted);
+      container.removeEventListener("touchstart", markUserInteracted);
+      container.removeEventListener("pointerdown", markUserInteracted);
+      if (interval) clearInterval(interval);
+    };
   }, [albums]);
 
   console.log("albums on homepage", albums);
