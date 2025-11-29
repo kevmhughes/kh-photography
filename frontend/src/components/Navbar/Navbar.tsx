@@ -40,8 +40,8 @@ const Navbar = () => {
         }`}
       >
         <div className="navbar-hamburger-menu-link-container">
-          <Link to="/" onClick={closeMenu}>
-            Home
+          <Link to="/galleries" onClick={closeMenu}>
+            Galleries
           </Link>
           <Link to="/about" onClick={closeMenu}>
             About

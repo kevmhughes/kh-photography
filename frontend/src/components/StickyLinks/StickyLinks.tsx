@@ -8,7 +8,7 @@ const StickyLinks = () => {
       <div className="navbar-sticky-links">
         <ul className="navbar-list-container">
           <li>
-            <Link to="/albums" className="navbar-links">
+            <Link to="/galleries" className="navbar-links">
               Galleries
             </Link>
           </li>
