@@ -56,6 +56,7 @@
   .navbar-hamburger-menu-target-area {
     height: 100%;
     width: 4rem;
+    display: block;
   }
 
   .navbar-hamburger-menu-container {

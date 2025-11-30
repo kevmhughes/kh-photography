@@ -76,7 +76,7 @@ const Home = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container || albums.length === 0) return;
-    if (window.innerWidth < 768) return;
+    if (window.innerWidth < 768) return; 
 
     let count = 0;
     let interval: ReturnType<typeof setInterval> | null = null;
