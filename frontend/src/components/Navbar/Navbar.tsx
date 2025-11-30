@@ -10,20 +10,20 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-  if (isOpen) {
-    const scrollY = window.scrollY;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
 
-    return () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.width = "";
-      window.scrollTo(0, scrollY);
-    };
-  }
-}, [isOpen]);
+      return () => {
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [isOpen]);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -37,10 +37,20 @@ const Navbar = () => {
     <div className="navbar-container">
       <div className="navbar-icons-container">
         <Link to="/">
-          <img src={Logo} alt="Web logo" className="web-logo" />
+          <img
+            src={Logo}
+            alt="Web logo"
+            className="web-logo"
+            onClick={closeMenu}
+          />
         </Link>
         <Link to="/" className="kh-icon-container">
-          <img src={Khp} alt="KH icon" className="kh-icon" />
+          <img
+            src={Khp}
+            alt="KH icon"
+            className="kh-icon"
+            onClick={closeMenu}
+          />
         </Link>
       </div>
 
@@ -68,13 +78,17 @@ const Navbar = () => {
           <Link to="/contact" onClick={closeMenu}>
             Contact
           </Link>
-            <a
-              href="https://www.instagram.com/kevin_hughes_photography/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={Insta} alt="instagram icon" className="mobile-insta-icon" />
-            </a>
+          <a
+            href="https://www.instagram.com/kevin_hughes_photography/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={Insta}
+              alt="instagram icon"
+              className="mobile-insta-icon"
+            />
+          </a>
         </div>
       </div>
     </div>
