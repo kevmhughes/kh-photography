@@ -22,6 +22,10 @@ const Navbar = () => {
         document.body.style.width = "";
         window.scrollTo(0, scrollY);
       };
+    } else {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
     }
   }, [isOpen]);
 

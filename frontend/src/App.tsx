@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
+/* import { Analytics } from "@vercel/analytics/react"; */
 
+import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Albums from "./components/Albums/Albums";
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,7 +26,7 @@ function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
-        <Analytics />
+        {/* <Analytics /> */}
       </BrowserRouter>
     </>
   );
