@@ -42,8 +42,6 @@ const Home = () => {
     fetchAlbums();
   }, []);
 
-  console.log("albums on homepage", albums);
-
   return (
     <>
       <StickyLinks />

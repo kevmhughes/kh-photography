@@ -56,15 +56,19 @@ const Navbar = () => {
 
       <div className="navbar-hamburger-menu-container">
         <div onClick={toggleMenu} className="navbar-hamburger-icon">
-          X
+          <span
+            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
+          ></span>
+          <span
+            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
+          ></span>
+          <span
+            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
+          ></span>
         </div>
       </div>
 
-      <div
-        className={`hamburger-menu ${
-          isOpen ? "active-hamburger-menu" : "inactive-hamburger-menu"
-        }`}
-      >
+      <div className={`hamburger-menu ${isOpen && "active-hamburger-menu"}`}>
         <div className="navbar-hamburger-menu-link-container">
           <Link to="/galleries" onClick={closeMenu}>
             Galleries
