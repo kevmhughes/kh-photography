@@ -54,17 +54,13 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="navbar-hamburger-menu-container">
-        <div onClick={toggleMenu} className="navbar-hamburger-icon">
-          <span
-            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
-          ></span>
-          <span
-            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
-          ></span>
-          <span
-            className={`bar ${isOpen ? "bar-menu-opened" : ""}`}
-          ></span>
+      <div onClick={toggleMenu} className="navbar-hamburger-menu-target-area">
+        <div className="navbar-hamburger-menu-container">
+          <div className="navbar-hamburger-icon">
+            <span className={`bar ${isOpen ? "bar-menu-opened" : ""}`}></span>
+            <span className={`bar ${isOpen ? "bar-menu-opened" : ""}`}></span>
+            <span className={`bar ${isOpen ? "bar-menu-opened" : ""}`}></span>
+          </div>
         </div>
       </div>
 
