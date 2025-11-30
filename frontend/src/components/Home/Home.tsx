@@ -16,12 +16,12 @@ interface Album {
 
 const Home = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showLoader, setShowLoader] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Fetch albums
   useEffect(() => {
-    setLoading(true);
     async function fetchAlbums() {
       try {
         const query = `*[_type == "album"]{
@@ -41,80 +41,76 @@ const Home = () => {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching albums:", err);
+        setLoading(false);
       }
     }
 
     fetchAlbums();
   }, []);
 
-  // AUTO SCROLL (only 2 times)
+  // Preload all album cover images
+  useEffect(() => {
+    if (albums.length === 0) return;
+
+    const promises = albums.map((album) => {
+      const imgUrl = album.coverImage?.asset?.url;
+      if (!imgUrl) return Promise.resolve(true); // skip if no cover image
+      const img = new Image();
+      img.src = imgUrl;
+      return new Promise((resolve) => {
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(true);
+      });
+    });
+
+    Promise.all(promises).then(() => setImagesLoaded(true));
+  }, [albums]);
+
+  // AUTO SCROLL (desktop only)
   useEffect(() => {
     const container = containerRef.current;
     if (!container || albums.length === 0) return;
 
-    // Cancel on mobile
     if (window.innerWidth < 768) return;
 
     let count = 0;
     let interval: ReturnType<typeof setInterval> | null = null;
     let userInteracted = false;
 
-    // Cancel on *real* user interaction (not programmatic scroll)
     const markUserInteracted = () => {
       userInteracted = true;
       if (interval) clearInterval(interval);
     };
 
     container.addEventListener("wheel", markUserInteracted, { once: true });
-    container.addEventListener("touchstart", markUserInteracted, {
-      once: true,
-    });
-    container.addEventListener("pointerdown", markUserInteracted, {
-      once: true,
-    });
+    container.addEventListener("touchstart", markUserInteracted, { once: true });
+    container.addEventListener("pointerdown", markUserInteracted, { once: true });
 
-    const waitForImages = Promise.all(
-      Array.from(container.querySelectorAll("img")).map(
-        (img) =>
-          new Promise((resolve) => {
-            if (img.complete) resolve(true);
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(true);
-          })
-      )
-    );
+    const scrollOnce = () => {
+      if (userInteracted) {
+        clearInterval(interval!);
+        return;
+      }
 
-    waitForImages.then(() => {
-      if (userInteracted) return;
+      count++;
 
-      const scrollOnce = () => {
-        if (userInteracted) {
-          clearInterval(interval!);
-          return;
-        }
+      const cards = container.children;
+      const nextIndex = count;
 
-        count++;
+      if (nextIndex >= cards.length) {
+        clearInterval(interval!);
+        return;
+      }
 
-        const cards = container.children;
-        const nextIndex = count;
+      (cards[nextIndex] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        inline: "start",
+      });
 
-        if (nextIndex >= cards.length) {
-          clearInterval(interval!);
-          return;
-        }
+      if (count >= 2) clearInterval(interval!);
+    };
 
-        (cards[nextIndex] as HTMLElement).scrollIntoView({
-          behavior: "smooth",
-          inline: "start",
-        });
-
-        if (count >= 2) {
-          clearInterval(interval!);
-        }
-      };
-
-      interval = setInterval(scrollOnce, 3000);
-    });
+    interval = setInterval(scrollOnce, 3000);
 
     return () => {
       container.removeEventListener("wheel", markUserInteracted);
@@ -124,16 +120,19 @@ const Home = () => {
     };
   }, [albums]);
 
-  useEffect(() => {
-    const t = setTimeout(() => setShowLoader(true), 200);
-    return () => clearTimeout(t);
-  }, []);
+  // Show loader if albums are still loading OR images haven't loaded yet
+  if (loading || !imagesLoaded) {
+    return (
+      <>
+        <StickyLinks />
+        <Loader />
+      </>
+    );
+  }
 
   return (
     <>
       <StickyLinks />
-      {showLoader && loading && <Loader />}
-
       <div className="albums-container" ref={containerRef}>
         {albums.map((item) => {
           const imgUrl = item.coverImage?.asset
