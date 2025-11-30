@@ -17,6 +17,14 @@
   z-index: 1000;
 }
 
+.menu-overlay {
+  display: none;
+}
+
+.navbar-hamburger-menu-target-area {
+  display: none;
+}
+
 .navbar-hamburger-menu-container {
   display: none;
 }
