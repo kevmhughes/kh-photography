@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import Khp from "../../assets/khp.svg";
 import Insta from "../../assets/insta.svg";
@@ -8,6 +9,12 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  // Close menu immediately on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isOpen) {
