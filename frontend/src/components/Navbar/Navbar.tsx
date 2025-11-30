@@ -57,7 +57,7 @@ const Navbar = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={Insta} alt="instagram icon" className="insta-icon" />
+              <img src={Insta} alt="instagram icon" className="mobile-insta-icon" />
             </a>
         </div>
       </div>
