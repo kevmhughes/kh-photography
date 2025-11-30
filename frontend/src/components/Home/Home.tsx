@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import Loader from "../Loader/Loader";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "../Albums/Albums.css";
 import sanityClient, { urlFor } from "../../sanityClient";
@@ -16,8 +17,11 @@ interface Album {
 const Home = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     async function fetchAlbums() {
       try {
         const query = `*[_type == "album"]{
@@ -34,6 +38,7 @@ const Home = () => {
 
         const res = await sanityClient.fetch(query);
         setAlbums(res);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching albums:", err);
       }
@@ -119,11 +124,15 @@ const Home = () => {
     };
   }, [albums]);
 
-  console.log("albums on homepage", albums);
+  useEffect(() => {
+    const t = setTimeout(() => setShowLoader(true), 200);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <>
       <StickyLinks />
+      {showLoader && loading && <Loader />}
 
       <div className="albums-container" ref={containerRef}>
         {albums.map((item) => {

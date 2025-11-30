@@ -1,0 +1,29 @@
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 15rem);
+}
+
+.spinner-icon {
+  height: 7rem;
+  position: relative;
+  bottom: 3rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .loader-container {
+    height: calc(100vh - 5rem);
+  }
+
+  .spinner-icon {
+    height: 6rem;
+  }
+}

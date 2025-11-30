@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Loader from "../Loader/Loader";
 import StickyLinks from "../StickyLinks/StickyLinks";
+// react-photo-album
 import { RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/rows.css";
 import "./Gallery.css";
+// yet-another-react-lightbox
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import "yet-another-react-lightbox/styles.css";
+// dnd-kit (drag and drop kit)
 import { arrayMove } from "@dnd-kit/sortable";
 import SortableGallery from "../SortableGallery/SortableGallery";
 import { useResponsiveRowHeight } from "../../hooks/useResponsiveRowHeight"; //
-
+// Sanity
 import sanityClient from "../../sanityClient";
 
 interface Photo {
@@ -41,7 +45,10 @@ const Gallery = () => {
       lqip?: string;
     }[]
   >([]);
+
   const [index, setIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
 
   // save order after photo drag and srop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
@@ -61,6 +68,7 @@ const Gallery = () => {
 
   useEffect(() => {
     async function fetchPhotos() {
+      setLoading(true);
       try {
         const query = `*[_type == "album" && _id == $id][0]{
           title,
@@ -94,6 +102,7 @@ const Gallery = () => {
         }));
 
         setPhotos(mapped);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching photos:", err);
       }
@@ -102,9 +111,15 @@ const Gallery = () => {
     fetchPhotos();
   }, [id]);
 
+  useEffect(() => {
+    const t = setTimeout(() => setShowLoader(true), 200);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <>
       <StickyLinks />
+      {showLoader && loading && <Loader />}
 
       <SortableGallery
         gallery={RowsPhotoAlbum}
