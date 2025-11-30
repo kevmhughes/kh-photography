@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import Khp from "../../assets/khp.svg";
 import Insta from "../../assets/insta.svg";
@@ -9,12 +8,6 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  // Close menu immediately on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
 
   useEffect(() => {
     if (isOpen) {
@@ -75,20 +68,48 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className={`hamburger-menu ${isOpen && "active-hamburger-menu"}`}>
+      <div
+        className={`menu-overlay ${isOpen ? "open" : ""}`}
+        onClick={closeMenu}
+      ></div>
+
+      <div
+        className={`hamburger-menu ${isOpen ? "active-hamburger-menu" : ""}`}
+      >
         <div className="navbar-hamburger-menu-link-container">
-          <Link to="/galleries" onClick={closeMenu}>
+          <Link
+            to="/galleries"
+            onClick={() => {
+              setTimeout(() => closeMenu(), 10);
+            }}
+          >
             Galleries
           </Link>
-          <Link to="/about" onClick={closeMenu}>
+          <Link
+            to="/about"
+            onClick={() => {
+              setTimeout(() => closeMenu(), 10);
+            }}
+          >
             About
           </Link>
-          <Link to="/shop" onClick={closeMenu}>
+          <Link
+            to="/shop"
+            onClick={() => {
+              setTimeout(() => closeMenu(), 10);
+            }}
+          >
             Shop
           </Link>
-          <Link to="/contact" onClick={closeMenu}>
+          <Link
+            to="/contact"
+            onClick={() => {
+              setTimeout(() => closeMenu(), 10);
+            }}
+          >
             Contact
           </Link>
+
           <a
             href="https://www.instagram.com/kevin_hughes_photography/"
             target="_blank"

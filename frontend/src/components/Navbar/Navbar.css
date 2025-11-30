@@ -148,4 +148,21 @@
   .mobile-insta-icon {
     height: 3rem;
   }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 998;
+    background: transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .menu-overlay.open {
+    pointer-events: auto;
+  }
 }
