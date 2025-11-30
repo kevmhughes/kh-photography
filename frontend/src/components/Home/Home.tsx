@@ -20,9 +20,9 @@ const Home = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Fetch albums
+  // Fetch albums using async/await
   useEffect(() => {
-    async function fetchAlbums() {
+    const fetchAlbums = async () => {
       try {
         const query = `*[_type == "album"]{
           _id,
@@ -43,34 +43,39 @@ const Home = () => {
         console.error("Error fetching albums:", err);
         setLoading(false);
       }
-    }
+    };
 
     fetchAlbums();
   }, []);
 
-  // Preload all album cover images
+  // Preload all album cover images using async/await
   useEffect(() => {
     if (albums.length === 0) return;
 
-    const promises = albums.map((album) => {
-      const imgUrl = album.coverImage?.asset?.url;
-      if (!imgUrl) return Promise.resolve(true); // skip if no cover image
-      const img = new Image();
-      img.src = imgUrl;
-      return new Promise((resolve) => {
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(true);
-      });
-    });
+    const preloadImages = async () => {
+      const promises = albums.map(async (album) => {
+        const imgUrl = album.coverImage?.asset?.url;
+        if (!imgUrl) return true;
 
-    Promise.all(promises).then(() => setImagesLoaded(true));
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = imgUrl;
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(true);
+        });
+      });
+
+      await Promise.all(promises);
+      setImagesLoaded(true);
+    };
+
+    preloadImages();
   }, [albums]);
 
   // AUTO SCROLL (desktop only)
   useEffect(() => {
     const container = containerRef.current;
     if (!container || albums.length === 0) return;
-
     if (window.innerWidth < 768) return;
 
     let count = 0;
@@ -93,7 +98,6 @@ const Home = () => {
       }
 
       count++;
-
       const cards = container.children;
       const nextIndex = count;
 
@@ -120,7 +124,7 @@ const Home = () => {
     };
   }, [albums]);
 
-  // Show loader if albums are still loading OR images haven't loaded yet
+  // Show loader if albums or images are still loading
   if (loading || !imagesLoaded) {
     return (
       <>
