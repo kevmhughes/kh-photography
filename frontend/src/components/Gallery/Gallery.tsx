@@ -18,7 +18,7 @@ import SortableGallery from "../SortableGallery/SortableGallery";
 import { useResponsiveRowHeight } from "../../hooks/useResponsiveRowHeight";
 // Sanity
 import sanityClient from "../../sanityClient";
-
+// customised CSS
 import "./Gallery.css";
 
 interface ExifData {
@@ -53,6 +53,7 @@ const Gallery = () => {
     show: () => void;
     hide: () => void;
   } | null>(null);
+  console.log("captionRef", captionsRef)
   const targetRowHeight = useResponsiveRowHeight();
   const { id } = useParams<{ id: string }>();
   const [photos, setPhotos] = useState<
@@ -72,8 +73,10 @@ const Gallery = () => {
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const [captionsVisible, setCaptionsVisible] = useState(false)
 
   console.log("photos", photos);
+  console.log("toggle", captionsVisible)
 
   // Save new order after drag & drop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
@@ -226,13 +229,14 @@ const Gallery = () => {
               <button
                 key="my-button"
                 type="button"
-                className="yarl__button toggle-button"
+                className="yarl__button togglebutton"
                 onClick={() => {
                   captionsRef.current?.visible
                     ? captionsRef.current.hide?.()
                     : captionsRef.current?.show?.();
+                    setCaptionsVisible((prev) => !prev)
                 }}
-              >Toggle Info
+              >{captionsVisible ? "Show Details" : "Hide Details"}
               </button>,
               "close",
             ],
@@ -261,6 +265,7 @@ const Gallery = () => {
               (captionsRef.current?.visible
                 ? captionsRef.current?.hide
                 : captionsRef.current?.show)?.();
+                setCaptionsVisible((prev) => !prev)
             },
           }}
         />

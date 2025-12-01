@@ -10,8 +10,14 @@
   cursor: pointer;
 }
 
+.yarl__button.togglebutton {
+  width: 100px;
+}
+
 @media (max-width: 480px) {
-  .yarl__slide_description, .yarl__slide_title, .toggle-button {
+  .yarl__slide_description,
+  .yarl__slide_title,
+  .toggle-button {
     display: none;
   }
 }
