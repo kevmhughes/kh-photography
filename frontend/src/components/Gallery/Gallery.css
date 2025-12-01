@@ -1,3 +1,17 @@
 .react-photo-album--rows {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.yarl__slide_description {
+  display: flex;
+}
+
+.yarl__slide_image:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .yarl__slide_description, .yarl__slide_title, .toggle-button {
+    display: none;
+  }
 }

@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import StickyLinks from "../StickyLinks/StickyLinks";
 // react-photo-album
 import { RowsPhotoAlbum } from "react-photo-album";
 import "react-photo-album/rows.css";
-import "./Gallery.css";
 // yet-another-react-lightbox
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Captions from "yet-another-react-lightbox/plugins/captions";
 import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/captions.css";
 // dnd-kit
 import { arrayMove } from "@dnd-kit/sortable";
 import SortableGallery from "../SortableGallery/SortableGallery";
@@ -18,9 +19,23 @@ import { useResponsiveRowHeight } from "../../hooks/useResponsiveRowHeight";
 // Sanity
 import sanityClient from "../../sanityClient";
 
+import "./Gallery.css";
+
+interface ExifData {
+  camera?: string;
+  lens?: string;
+  aperture?: string;
+  iso?: number;
+  focalLength?: string;
+  shutterSpeed?: string;
+}
+
 interface Photo {
   _id: string;
   title: string;
+  caption: string;
+  description: string;
+  exif_data: ExifData;
   image: {
     asset: {
       url: string;
@@ -33,20 +48,40 @@ interface Photo {
 }
 
 const Gallery = () => {
+  const captionsRef = useRef<{
+    visible: boolean;
+    show: () => void;
+    hide: () => void;
+  } | null>(null);
   const targetRowHeight = useResponsiveRowHeight();
   const { id } = useParams<{ id: string }>();
   const [photos, setPhotos] = useState<
-    { id: string; src: string; alt: string; width: number; height: number; lqip?: string }[]
+    {
+      id: string;
+      src: string;
+      alt: string;
+      width: number;
+      height: number;
+      lqip?: string;
+      caption?: string;
+      description?: string;
+      exif?: ExifData;
+    }[]
   >([]);
   const [index, setIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
 
+  console.log("photos", photos);
+
   // Save new order after drag & drop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
     try {
-      const newOrder = newPhotos.map((p) => ({ _type: "reference", _ref: p.id }));
+      const newOrder = newPhotos.map((p) => ({
+        _type: "reference",
+        _ref: p.id,
+      }));
       await sanityClient.patch(id!).set({ photos: newOrder }).commit();
       console.log("Saved new order to Sanity:", newOrder);
     } catch (err) {
@@ -65,6 +100,9 @@ const Gallery = () => {
           "photos": photos[]->{
             _id,
             title,
+            caption,
+            description,
+            exif_data,
             image{
               asset->{
                 url,
@@ -76,7 +114,9 @@ const Gallery = () => {
             }
           }
         }`;
-        const album: { photos?: Photo[] } = await sanityClient.fetch(query, { id });
+        const album: { photos?: Photo[] } = await sanityClient.fetch(query, {
+          id,
+        });
         if (!album?.photos) {
           setPhotos([]);
           return;
@@ -85,9 +125,12 @@ const Gallery = () => {
           id: item._id,
           src: item.image.asset.url,
           alt: item.title,
+          caption: item.caption,
+          description: item.description,
           width: item.image.asset.metadata.dimensions.width,
           height: item.image.asset.metadata.dimensions.height,
           lqip: item.image.asset.metadata.lqip,
+          exif: item.exif_data,
         }));
         setPhotos(mapped);
       } catch (err) {
@@ -176,9 +219,50 @@ const Gallery = () => {
         <Lightbox
           open
           close={() => setIndex(null)}
-          plugins={[Fullscreen, Slideshow]}
+          plugins={[Fullscreen, Slideshow, Captions]}
           index={index}
-          slides={photos.map((p) => ({ src: p.src, title: p.alt }))}
+          toolbar={{
+            buttons: [
+              <button
+                key="my-button"
+                type="button"
+                className="yarl__button toggle-button"
+                onClick={() => {
+                  captionsRef.current?.visible
+                    ? captionsRef.current.hide?.()
+                    : captionsRef.current?.show?.();
+                }}
+              >Toggle Info
+              </button>,
+              "close",
+            ],
+          }}
+          slides={photos.map((p) => ({
+            src: p.src,
+            title: p.alt,
+            description: `
+              ${
+                p.exif
+                  ? `
+                Camera: ${p.exif.camera || "-"}
+                Lens: ${p.exif.lens || "-"}
+                Aperture: ${p.exif.aperture || "-"}
+                ISO: ${p.exif.iso ?? "-"}
+                Focal Length: ${p.exif.focalLength || "-"}
+                Shutter Speed: ${p.exif.shutterSpeed || "-"}
+              `
+                  : ""
+              }
+            `,
+          }))}
+          captions={{ ref: captionsRef }}
+          on={{
+            click: () => {
+              (captionsRef.current?.visible
+                ? captionsRef.current?.hide
+                : captionsRef.current?.show)?.();
+            },
+          }}
         />
       )}
     </>
