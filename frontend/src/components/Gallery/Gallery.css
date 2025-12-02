@@ -14,10 +14,18 @@
   width: 100px;
 }
 
-/* @media (max-width: 480px) {
-  .yarl__slide_description,
+@media (max-width: 480px) {
+  /* .yarl__slide_description,
   .yarl__slide_title,
   .toggle-button {
     display: none;
-  }
+  } */
+
+  /* .yarl__slide_title {
+  width: auto;         
+  max-width: 90%;       
+  white-space: normal;  
+  position: absolute;
+  bottom: 0;
 } */
+}

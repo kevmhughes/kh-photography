@@ -53,7 +53,8 @@ const Gallery = () => {
     show: () => void;
     hide: () => void;
   } | null>(null);
-  console.log("captionRef", captionsRef)
+  const buttonRef = useRef<HTMLButtonElement>(null);
+    console.log("buttonnRef", buttonRef);
   const targetRowHeight = useResponsiveRowHeight();
   const { id } = useParams<{ id: string }>();
   const [photos, setPhotos] = useState<
@@ -73,10 +74,8 @@ const Gallery = () => {
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const [captionsVisible, setCaptionsVisible] = useState(false)
 
   console.log("photos", photos);
-  console.log("toggle", captionsVisible)
 
   // Save new order after drag & drop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
@@ -227,16 +226,25 @@ const Gallery = () => {
           toolbar={{
             buttons: [
               <button
+                ref={buttonRef} 
                 key="my-button"
                 type="button"
                 className="yarl__button togglebutton"
                 onClick={() => {
-                  captionsRef.current?.visible
-                    ? captionsRef.current.hide?.()
-                    : captionsRef.current?.show?.();
-                    setCaptionsVisible((prev) => !prev)
+                  if (!captionsRef.current) return;
+
+                  if (captionsRef.current.visible) {
+                    captionsRef.current.hide?.();
+                    if (buttonRef.current)
+                      buttonRef.current.textContent = "Show Details";
+                  } else {
+                    captionsRef.current.show?.();
+                    if (buttonRef.current)
+                      buttonRef.current.textContent = "Hide Details";
+                  }
                 }}
-              >{captionsVisible ? "Show Details" : "Hide Details"}
+              >
+                Hide Details
               </button>,
               "close",
             ],
@@ -262,10 +270,15 @@ const Gallery = () => {
           captions={{ ref: captionsRef }}
           on={{
             click: () => {
-              (captionsRef.current?.visible
-                ? captionsRef.current?.hide
-                : captionsRef.current?.show)?.();
-                setCaptionsVisible((prev) => !prev)
+              if (!captionsRef.current) return;
+
+              if (captionsRef.current.visible) {
+                captionsRef.current.hide?.();
+                buttonRef.current!.textContent = "Show Details";
+              } else {
+                captionsRef.current.show?.();
+                buttonRef.current!.textContent = "Hide Details";
+              }
             },
           }}
         />
