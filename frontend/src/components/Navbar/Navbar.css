@@ -72,7 +72,7 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 7px;
   }
 
   .bar {
@@ -86,7 +86,8 @@
   .bar-menu-opened:nth-of-type(1) {
     transform: rotate(45deg);
     position: relative;
-    top: 4px;
+    top: 6px;
+    width: 2rem;
   }
 
   .bar-menu-opened:nth-of-type(2) {
@@ -96,7 +97,8 @@
   .bar-menu-opened:nth-of-type(3) {
     transform: rotate(-45deg);
     position: relative;
-    bottom: 5px;
+    bottom: 4px;
+    width: 2rem;
   }
 
   .hamburger-menu {
