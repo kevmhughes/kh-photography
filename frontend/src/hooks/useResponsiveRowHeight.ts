@@ -12,8 +12,10 @@ export function useResponsiveRowHeight() {
       } else if (width <= 1024) {
         // tablet
         setTargetRowHeight(500);
-      } else {
+      } else if (width <= 1920) {
         // desktop
+        setTargetRowHeight(450);
+      } else {
         setTargetRowHeight(900);
       }
     }
