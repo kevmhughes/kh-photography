@@ -41,10 +41,5 @@ export default {
       type: 'array',
       of: [{type: 'reference', to: [{type: 'album'}]}],
     },
-    {
-      name: 'sort_order',
-      title: 'Sort Order',
-      type: 'number',
-    },
   ],
 }
