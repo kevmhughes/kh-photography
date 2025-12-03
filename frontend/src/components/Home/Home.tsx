@@ -9,6 +9,9 @@ interface Album {
   _id: string;
   title: string;
   description?: string;
+  slug?: {
+    current: string;
+  };
   coverImage?: {
     asset?: any;
   };
@@ -28,6 +31,7 @@ const Home = () => {
           _id,
           title,
           description,
+          slug,
           coverImage{
             asset->{
               url,
@@ -76,7 +80,7 @@ const Home = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container || albums.length === 0) return;
-    if (window.innerWidth < 768) return; 
+    if (window.innerWidth < 768) return;
 
     let count = 0;
     let interval: ReturnType<typeof setInterval> | null = null;
@@ -88,8 +92,12 @@ const Home = () => {
     };
 
     container.addEventListener("wheel", markUserInteracted, { once: true });
-    container.addEventListener("touchstart", markUserInteracted, { once: true });
-    container.addEventListener("pointerdown", markUserInteracted, { once: true });
+    container.addEventListener("touchstart", markUserInteracted, {
+      once: true,
+    });
+    container.addEventListener("pointerdown", markUserInteracted, {
+      once: true,
+    });
 
     const scrollOnce = () => {
       if (userInteracted) {
@@ -145,7 +153,7 @@ const Home = () => {
 
           return (
             <div key={item._id} className="album-card">
-              <Link to={`/gallery/${item._id}`}>
+              <Link to={`/gallery/${item.slug?.current}`}>
                 {imgUrl ? (
                   <img src={imgUrl} alt={item.title} className="album-image" />
                 ) : (

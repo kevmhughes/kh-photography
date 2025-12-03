@@ -53,10 +53,14 @@ const Gallery = () => {
     show: () => void;
     hide: () => void;
   } | null>(null);
+
   const buttonRef = useRef<HTMLButtonElement>(null);
-    console.log("buttonnRef", buttonRef);
+
+  const { slug } = useParams<{ slug: string }>();
   const targetRowHeight = useResponsiveRowHeight();
-  const { id } = useParams<{ id: string }>();
+
+  const [albumId, setAlbumId] = useState<string | null>(null);
+
   const [photos, setPhotos] = useState<
     {
       id: string;
@@ -70,34 +74,38 @@ const Gallery = () => {
       exif?: ExifData;
     }[]
   >([]);
+
   const [index, setIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
 
-  console.log("photos", photos);
-
   // Save new order after drag & drop
   async function saveOrderToSanity(newPhotos: { id: string }[]) {
     try {
+      if (!albumId) return;
+
       const newOrder = newPhotos.map((p) => ({
         _type: "reference",
         _ref: p.id,
       }));
-      await sanityClient.patch(id!).set({ photos: newOrder }).commit();
+
+      await sanityClient.patch(albumId).set({ photos: newOrder }).commit();
       console.log("Saved new order to Sanity:", newOrder);
     } catch (err) {
       console.error("Error saving new photo order:", err);
     }
   }
 
-  // Fetch photos from Sanity
+  // Fetch photos by slug
   useEffect(() => {
     async function fetchPhotos() {
       setLoading(true);
       setImagesLoaded(false);
+
       try {
-        const query = `*[_type == "album" && _id == $id][0]{
+        const query = `*[_type == "album" && slug.current == $slug][0]{
+          _id,
           title,
           "photos": photos[]->{
             _id,
@@ -116,14 +124,17 @@ const Gallery = () => {
             }
           }
         }`;
-        const album: { photos?: Photo[] } = await sanityClient.fetch(query, {
-          id,
-        });
+
+        const album = await sanityClient.fetch(query, { slug });
+
         if (!album?.photos) {
           setPhotos([]);
           return;
         }
-        const mapped = album.photos.map((item) => ({
+
+        setAlbumId(album._id);
+
+        const mapped = album.photos.map((item: Photo) => ({
           id: item._id,
           src: item.image.asset.url,
           alt: item.title,
@@ -134,6 +145,7 @@ const Gallery = () => {
           lqip: item.image.asset.metadata.lqip,
           exif: item.exif_data,
         }));
+
         setPhotos(mapped);
       } catch (err) {
         console.error("Error fetching photos:", err);
@@ -144,7 +156,7 @@ const Gallery = () => {
     }
 
     fetchPhotos();
-  }, [id]);
+  }, [slug]);
 
   // Preload all images
   useEffect(() => {
@@ -162,19 +174,21 @@ const Gallery = () => {
             new Promise<void>((resolve) => {
               const img = new Image();
               img.src = photo.src;
-              if (img.complete) {
-                resolve();
-              } else {
+
+              if (img.complete) resolve();
+              else {
                 img.onload = () => resolve();
                 img.onerror = () => resolve();
               }
             })
         );
+
         await Promise.all(promises);
+
         if (!isCancelled) setImagesLoaded(true);
       } catch (err) {
         console.error("Error preloading images:", err);
-        if (!isCancelled) setImagesLoaded(true); // fail-safe
+        if (!isCancelled) setImagesLoaded(true);
       }
     }
 
@@ -185,13 +199,13 @@ const Gallery = () => {
     };
   }, [photos]);
 
-  // Show loader after a short delay to prevent flicker
+  // Show loader with slight delay to avoid flicker
   useEffect(() => {
     const t = setTimeout(() => setShowLoader(true), 200);
     return () => clearTimeout(t);
   }, []);
 
-  // Early return until data & images are loaded
+  // Early loading state
   if (loading || !imagesLoaded) {
     return (
       <>
@@ -204,6 +218,7 @@ const Gallery = () => {
   return (
     <>
       <StickyLinks />
+
       <SortableGallery
         gallery={RowsPhotoAlbum}
         spacing={10}
@@ -226,7 +241,7 @@ const Gallery = () => {
           toolbar={{
             buttons: [
               <button
-                ref={buttonRef} 
+                ref={buttonRef}
                 key="my-button"
                 type="button"
                 className="yarl__button togglebutton"

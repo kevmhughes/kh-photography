@@ -7,6 +7,9 @@ import sanityClient, { urlFor } from "../../sanityClient";
 interface Album {
   _id: string;
   title: string;
+  slug?: {
+    current: string;
+  };
   description?: string;
   coverImage?: {
     asset?: any;
@@ -24,6 +27,7 @@ const Home = () => {
           _id,
           title,
           description,
+          slug,
           coverImage{
             asset->{
               url,
@@ -42,6 +46,8 @@ const Home = () => {
     fetchAlbums();
   }, []);
 
+  console.log("albums", albums)
+
   return (
     <>
       <StickyLinks />
@@ -54,7 +60,7 @@ const Home = () => {
 
           return (
             <div key={item._id} className="album-card">
-              <Link to={`/gallery/${item._id}`}>
+              <Link to={`/gallery/${item.slug?.current}`}>
                 {imgUrl ? (
                   <img src={imgUrl} alt={item.title} className="album-image" />
                 ) : (
