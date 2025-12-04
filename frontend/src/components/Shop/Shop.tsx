@@ -26,10 +26,10 @@ const Shop = () => {
       try {
         // Call your Vercel function
         const res = await axios.get("/api/articles");
-        console.log("API response:", res.data);
+        console.log("API response:", res.data.items);
 
         // SpreadConnect API returns `articles` array
-        setProducts(res.data.articles || []);
+        setProducts(res.data.items || []);
       } catch (err) {
         console.error("Failed to fetch products:", err);
         setError("Failed to load products");
