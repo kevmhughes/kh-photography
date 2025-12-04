@@ -1,12 +1,71 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import "../About/About.css"
+import "../About/About.css";
+
+interface SpreadProduct {
+  id: number;
+  name: string;
+  images: { imageUrl: string }[];
+  price: {
+    value: number;
+    currency: string;
+  };
+}
 
 const Shop = () => {
+  const [products, setProducts] = useState<SpreadProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Call your Vercel function
+        const res = await axios.get("/api/articles");
+        console.log("API response:", res.data);
+
+        // SpreadConnect API returns `articles` array
+        setProducts(res.data.articles || []);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) return <p style={{ textAlign: "center" }}>Loading products…</p>;
+  if (error)
+    return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
+
   return (
     <div>
       <StickyLinks />
-      <div className="about-text">
-        <div className="about-text-line-one">Shop coming soon...</div>
+
+      <h1 style={{ textAlign: "center", marginTop: "20px" }}>Shop</h1>
+
+      <div className="product-grid" style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+        {products.map((p) => (
+          <div key={p.id} className="product-card">
+            <img
+              src={p.images?.[0]?.imageUrl}
+              alt={p.name}
+              style={{ height: "20rem" }}
+              className="product-image"
+            />
+            <h3>{p.name}</h3>
+            <p>
+              {p.price?.value} {p.price?.currency}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
