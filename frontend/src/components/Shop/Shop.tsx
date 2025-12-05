@@ -65,7 +65,7 @@ const Shop = () => {
               className="product-image"
             />
             <h3>{p.title}</h3>
-            <p>&euro {p.variants?.[0]?.d2cPrice}</p>
+            <p>€{p.variants?.[0]?.d2cPrice}</p>
           </div>
         ))}
       </div>
