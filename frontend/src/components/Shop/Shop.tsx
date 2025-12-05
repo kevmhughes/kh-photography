@@ -5,12 +5,15 @@ import "../About/About.css";
 
 interface SpreadProduct {
   id: number;
-  name: string;
+  title: string;
   images: { imageUrl: string }[];
   price: {
     value: number;
     currency: string;
   };
+  variants?: {
+    d2cPrice: string;
+  }[];
 }
 
 const Shop = () => {
@@ -24,11 +27,9 @@ const Shop = () => {
       setError(null);
 
       try {
-        // Call your Vercel function
         const res = await axios.get("/api/articles");
         console.log("API response:", res.data.items);
 
-        // SpreadConnect API returns `articles` array
         setProducts(res.data.items || []);
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -51,19 +52,20 @@ const Shop = () => {
 
       <h1 style={{ textAlign: "center", marginTop: "20px" }}>Shop</h1>
 
-      <div className="product-grid" style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+      <div
+        className="product-grid"
+        style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
+      >
         {products.map((p) => (
           <div key={p.id} className="product-card">
             <img
               src={p.images?.[0]?.imageUrl}
-              alt={p.name}
+              alt={p.title}
               style={{ height: "20rem" }}
               className="product-image"
             />
-            <h3>{p.name}</h3>
-            <p>
-              {p.price?.value} {p.price?.currency}
-            </p>
+            <h3>{p.title}</h3>
+            <p>&euro {p.variants?.[0]?.d2cPrice}</p>
           </div>
         ))}
       </div>
