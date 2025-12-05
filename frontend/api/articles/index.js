@@ -1,4 +1,4 @@
-/* import axios from "axios";
+import axios from "axios";
 
 export default async function handler(req, res) {
   try {
@@ -13,9 +13,9 @@ export default async function handler(req, res) {
     console.error("API error:", err);
     res.status(500).json({ error: "Failed to fetch products" });
   }
-} */
+}
 
-import axios from "axios";
+/* import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config(); // loads .env.local locally
@@ -40,3 +40,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Failed to fetch products" });
   }
 }
+ */
