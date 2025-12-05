@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import "../About/About.css";
+import "./Shop.css"
 
 interface SpreadProduct {
   id: number;
@@ -50,11 +50,8 @@ const Shop = () => {
     <div>
       <StickyLinks />
 
-      <h1 style={{ textAlign: "center", marginTop: "20px" }}>Shop</h1>
-
       <div
         className="product-grid"
-        style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
       >
         {products.map((p) => (
           <div key={p.id} className="product-card">
@@ -64,8 +61,8 @@ const Shop = () => {
               style={{ height: "20rem" }}
               className="product-image"
             />
-            <h3>{p.title}</h3>
-            <p>€{p.variants?.[0]?.d2cPrice}</p>
+            <h3 className="product-title">{p.title}</h3>
+            <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
           </div>
         ))}
       </div>
