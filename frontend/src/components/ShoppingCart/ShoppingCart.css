@@ -1,0 +1,24 @@
+.shopping-cart-icon-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.shopping-cart-icon {
+  height: 2rem;
+}
+
+.shopping-cart-number {
+  background-color: red;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  position: relative;
+  bottom: 40px;
+  left: 12px;
+  color: white;
+}
+
+.shopping-cart-number:hover {
+  cursor: pointer;
+}
