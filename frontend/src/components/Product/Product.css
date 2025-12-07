@@ -126,6 +126,8 @@
   .product-details-container {
     flex-direction: column;
     bottom: 3rem;
+    right: auto;
+    gap: unset;
   }
 
   .product-details-information-container {
