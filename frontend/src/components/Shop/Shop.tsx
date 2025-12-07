@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import "./Shop.css"
+import Loader from "../Loader/Loader";
+import "./Shop.css";
+import type { SpreadProduct } from "../../types/product.types";
 
-interface SpreadProduct {
+/* interface SpreadProduct {
   id: number;
   title: string;
   images: { imageUrl: string }[];
@@ -14,7 +17,7 @@ interface SpreadProduct {
   variants?: {
     d2cPrice: string;
   }[];
-}
+} */
 
 const Shop = () => {
   const [products, setProducts] = useState<SpreadProduct[]>([]);
@@ -28,8 +31,6 @@ const Shop = () => {
 
       try {
         const res = await axios.get("/api/articles");
-        console.log("API response:", res.data.items);
-
         setProducts(res.data.items || []);
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -42,7 +43,15 @@ const Shop = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading products…</p>;
+  if (loading)
+    return (
+      <>
+        <StickyLinks />
+        <p>Loading products...</p>
+        <Loader />
+      </>
+    );
+
   if (error)
     return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
 
@@ -50,20 +59,19 @@ const Shop = () => {
     <div>
       <StickyLinks />
 
-      <div
-        className="product-grid"
-      >
+      <div className="product-grid">
         {products.map((p) => (
-          <div key={p.id} className="product-card">
-            <img
-              src={p.images?.[0]?.imageUrl}
-              alt={p.title}
-              style={{ height: "20rem" }}
-              className="product-image"
-            />
-            <h3 className="product-title">{p.title}</h3>
-            <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
-          </div>
+          <Link to={`/shop/${p.id}`} key={p.id} className="product-card-link-container">
+            <div className="product-card">
+              <img
+                src={p.images?.[0]?.imageUrl}
+                alt={p.title}
+                className="product-image"
+              />
+              <h3 className="product-title">{p.title}</h3>
+              <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
