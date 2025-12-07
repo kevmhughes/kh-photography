@@ -1,0 +1,150 @@
+.product-details-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 4rem;
+  right: 1rem;
+  gap: 2rem;
+}
+
+.product-details-image {
+  height: 633px;
+}
+
+.product-details-information-container {
+  display: grid;
+  grid-template-rows: 2fr 1fr 1fr 1fr 2fr 3fr 3fr;
+  justify-items: start;
+  align-items: end;
+}
+
+.product-details-title {
+  margin: 0;
+}
+
+.product-details-description {
+  margin: 0;
+}
+
+.isit-in-stock {
+  color: #787878;
+}
+
+.product-details-price {
+  font-size: 2rem;
+  margin: 0;
+  color: #000000;
+  position: relative;
+  top: 2rem;
+}
+
+.product-quantity-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.product-quantity-title {
+  margin: 0;
+}
+
+.product-quantity {
+  border: 1px solid gray;
+  width: 2rem;
+  border-left: 0;
+  border-right: 0;
+  align-content: center;
+}
+
+.button {
+  border: 1px solid gray;
+  width: 2rem;
+  align-content: center;
+}
+
+.remove-product-button {
+  color: #000000;
+}
+
+.add-product-button {
+  color: #000000;
+}
+
+.button,
+.add-to-cart-button,
+.buy-now-cart-button:hover {
+  cursor: pointer;
+}
+
+.product-quantity-buttons-container {
+  display: flex;
+  height: 2rem;
+}
+
+.cart-button {
+  width: 10rem;
+  height: 3rem;
+  background-color: white;
+  font-size: 1.25rem;
+}
+
+.add-to-cart-button {
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+.add-to-cart-button:hover {
+  border: 1px solid #000000db;
+  color: #000000c1;
+  transform: scale(1.05);
+}
+
+.buy-now-cart-button {
+  background-color: #000000;
+  color: white;
+  border: 1px solid white;
+}
+
+.buy-now-cart-button:hover {
+  background-color: #000000db;
+  transform: scale(1.05);
+}
+
+.product-cart-button-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .product-details-container {
+    flex-direction: column;
+    bottom: 3rem;
+  }
+
+  .product-details-information-container {
+    grid-template-rows: 1fr 1fr 1fr 1fr 2fr 1fr;
+    width: 88%;
+  }
+
+  .product-details-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .product-details-title {
+    font-size: 2rem;
+  }
+  .product-details-price {
+    position: inherit;
+  }
+  .product-cart-button-container {
+    margin-top: 1rem;
+  }
+}
