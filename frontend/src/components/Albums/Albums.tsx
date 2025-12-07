@@ -3,18 +3,7 @@ import { Link } from "react-router-dom";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "../Albums/Albums.css";
 import sanityClient, { urlFor } from "../../sanityClient";
-
-interface Album {
-  _id: string;
-  title: string;
-  slug?: {
-    current: string;
-  };
-  description?: string;
-  coverImage?: {
-    asset?: any;
-  };
-}
+import type {Album} from "../../types/photo.types"
 
 const Home = () => {
   const [albums, setAlbums] = useState<Album[]>([]);

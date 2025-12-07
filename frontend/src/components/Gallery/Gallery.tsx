@@ -20,32 +20,8 @@ import { useResponsiveRowHeight } from "../../hooks/useResponsiveRowHeight";
 import sanityClient from "../../sanityClient";
 // customised CSS
 import "./Gallery.css";
-
-interface ExifData {
-  camera?: string;
-  lens?: string;
-  aperture?: string;
-  iso?: number;
-  focalLength?: string;
-  shutterSpeed?: string;
-}
-
-interface Photo {
-  _id: string;
-  title: string;
-  caption: string;
-  description: string;
-  exif_data: ExifData;
-  image: {
-    asset: {
-      url: string;
-      metadata: {
-        dimensions: { width: number; height: number; aspectRatio: number };
-        lqip?: string;
-      };
-    };
-  };
-}
+// types
+import type {Photo, ExifData} from "../../types/photo.types"
 
 const Gallery = () => {
   const captionsRef = useRef<{
