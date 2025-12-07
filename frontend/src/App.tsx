@@ -8,6 +8,7 @@ import Albums from "./components/Albums/Albums";
 import Gallery from "./components/Gallery/Gallery";
 import About from "./components/About/About";
 import Shop from "./components/Shop/Shop";
+import Product from "./components/Product/Product";
 import Contact from "./components/Contact/Contact";
 
 import "./App.css";
@@ -24,6 +25,7 @@ function App() {
           <Route path="/gallery/:slug" element={<Gallery />} />
           <Route path="/about" element={<About />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:id" element={<Product />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
         {/* <Analytics /> */}
