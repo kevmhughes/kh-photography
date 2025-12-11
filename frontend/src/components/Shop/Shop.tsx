@@ -36,7 +36,6 @@ const Shop = () => {
       <>
         <StickyLinks />
         <div>
-          <div style={{ fontSize: "2rem" }}>Loading products...</div>
           <Loader />
         </div>
       </>
