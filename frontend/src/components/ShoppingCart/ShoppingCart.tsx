@@ -1,13 +1,155 @@
-import Cart from "../../assets/cart.svg"
-import "./ShoppingCart.css"
+import Cart from "../../assets/cart.svg";
+import "./ShoppingCart.css";
+import { useProducts } from "../../context/ProductContext";
+import Arrow from "../../assets/arrow.svg";
+import Delete from "../../assets/delete.svg";
+import ShoppingBag from "../../assets/shopping-bag.svg";
 
 const ShoppingCart = () => {
-  return (
-    <div className="shopping-cart-icon-container">
-      <img src={Cart} alt="shopping cart icon" className="shopping-cart-icon" />
-      <div className="shopping-cart-number">0</div>
-    </div>
-  )
-}
+  const {
+    totalItems,
+    products,
+    cartTotal,
+    removeProduct,
+    updateQuantity,
+    cartIsVisible,
+    handleCartVisibility,
+  } = useProducts();
 
-export default ShoppingCart
+  return (
+    <>
+      {/* Cart Icon */}
+      <div
+        className="shopping-cart-icon-container"
+        onClick={handleCartVisibility}
+      >
+        <img
+          src={Cart}
+          alt="shopping cart icon"
+          className="shopping-cart-icon"
+        />
+        {!cartIsVisible && (
+          <div className="shopping-cart-number">{totalItems}</div>
+        )}
+      </div>
+
+      {/* Overlay */}
+      {cartIsVisible && (
+        <div className="overlay active" onClick={handleCartVisibility}></div>
+      )}
+
+      {/* Sidebar Cart */}
+      <div
+        className={
+          cartIsVisible ? "shopping-cart-is-visible" : "shopping-cart-is-hidden"
+        }
+      >
+        <div onClick={handleCartVisibility}></div>
+        <div className="cart-header" onClick={handleCartVisibility}>
+          <img
+            src={Arrow}
+            className="cart-header-arrow"
+            alt="Go back arrow icon"
+          />
+          <div>
+            Your Cart:
+            <span style={{ color: "#f02d34", marginLeft: "0.5rem" }}>
+              ({totalItems} Items)
+            </span>
+          </div>
+        </div>
+
+        {/* Empty Cart */}
+        {totalItems === 0 && (
+          <>
+            <div className="empty-cart">
+              <img
+                src={ShoppingBag}
+                alt="empty cart icon"
+                className="shopping-bag-icon"
+              />
+              <h3>Your cart is empty!</h3>
+            </div>
+            <div className="cart-footer-container">
+              <div className="cart-footer-total">
+                <h3>Total:</h3>
+                <h3>€{cartTotal.toFixed(2)}</h3>
+              </div>
+              <div className="cart-footer-button" onClick={handleCartVisibility}>Continue Shopping</div>
+            </div>
+          </>
+        )}
+
+        {/* Cart with products */}
+        {totalItems > 0 && (
+          <>
+            <div className="cart-products-list">
+              {products.map((p) => (
+                <div key={p.productId} className="cart-product-card">
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    className="cart-product-image"
+                  />
+                  <div className="cart-product-info-container">
+                    <div>
+                      <div className="cart-product-info">
+                        <div className="cart-product-info-title">{p.title}</div>
+                        <div className="cart-product-info-price">
+                          €{p.price.toFixed(2)}
+                        </div>
+                      </div>
+                      <div className="cart-product-info cart-product-subtotal">
+                        <div>Subtotal:</div>
+                        <div>€{(p.price * p.quantity).toFixed(2)}</div>
+                      </div>
+                    </div>
+                    <div className="cart-product-buttons-container">
+                      <div className="cart-product-buttons">
+                        <div
+                          className="cart-product-minus-button"
+                          onClick={() =>
+                            updateQuantity(p.productId, p.quantity + 1)
+                          }
+                        >
+                          +
+                        </div>
+                        <div className="cart-product-quantity">
+                          {p.quantity}
+                        </div>
+                        <div
+                          className="cart-product-add-button"
+                          onClick={() => {
+                            if (p.quantity > 1)
+                              updateQuantity(p.productId, p.quantity - 1);
+                          }}
+                        >
+                          -
+                        </div>
+                      </div>
+                      <img
+                        src={Delete}
+                        alt="delete icon"
+                        className="cart-product-delete-button"
+                        onClick={() => removeProduct(p.productId)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="cart-footer-container">
+              <div className="cart-footer-total">
+                <h3>Total:</h3>
+                <h3>€{cartTotal.toFixed(2)}</h3>
+              </div>
+              <div className="cart-footer-button">Go To Checkout</div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default ShoppingCart;
