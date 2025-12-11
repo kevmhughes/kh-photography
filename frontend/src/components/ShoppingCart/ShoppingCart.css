@@ -229,3 +229,10 @@ h3 {
     right: 3.5rem;
   }
 }
+
+@media (max-width: 480px) {
+  .cart-footer-button {
+    width: calc(100vw - 2rem);
+  }
+}
+
