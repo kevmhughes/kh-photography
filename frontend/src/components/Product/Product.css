@@ -129,6 +129,7 @@
     bottom: 3rem;
     right: auto;
     gap: unset;
+    margin-top: 1rem;
   }
 
   .product-details-information-container {
