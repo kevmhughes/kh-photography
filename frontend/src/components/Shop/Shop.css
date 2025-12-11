@@ -67,11 +67,12 @@
   .product-grid {
     grid-template-columns: 1fr;
     margin-bottom: 1rem;
+    margin-top: 1rem;
   }
   .product-card-link-container {
     width: 100%;
-    background-color: #eae9e970;
     border-radius: 8px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 2px 0px;
     border: 1px solid #d3d3d3a3;
   }
   /*  .product-card {

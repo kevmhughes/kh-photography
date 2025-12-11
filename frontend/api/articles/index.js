@@ -27,22 +27,12 @@ export default async function handler(req, res) {
 /* VERCEL DEV  */
 
 /* import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config(); // loads .env.local locally
-console.log("SPREADCONNECT_KEY:", process.env.SPREADCONNECT_KEY); 
 
 export default async function handler(req, res) {
-  const token = ""; 
-  if (!token) {
-    console.error("Missing SPREADCONNECT_KEY environment variable!");
-    return res.status(500).json({ error: "Missing API key" });
-  }
-
   try {
     const response = await axios.get("https://api.spreadconnect.app/articles", {
       headers: {
-        "X-SPOD-ACCESS-TOKEN": token,
+        "X-SPOD-ACCESS-TOKEN": "",
       },
     });
     res.status(200).json(response.data);

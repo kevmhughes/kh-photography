@@ -229,9 +229,13 @@ h3 {
   .cart-footer-button {
     width: calc(100vw - 2rem);
   }
-  
+
   .shopping-cart-icon-container {
     top: 1.55rem;
     right: 3.5rem;
+  }
+
+  .shopping-bag-icon {
+    height: 14rem;
   }
 }

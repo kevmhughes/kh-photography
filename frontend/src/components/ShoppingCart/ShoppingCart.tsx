@@ -1,6 +1,6 @@
-import Cart from "../../assets/cart.svg";
 import "./ShoppingCart.css";
 import { useProducts } from "../../context/ProductContext";
+import Cart from "../../assets/cart.svg";
 import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
 import ShoppingBag from "../../assets/shopping-bag.svg";
@@ -23,13 +23,15 @@ const ShoppingCart = () => {
         className="shopping-cart-icon-container"
         onClick={handleCartVisibility}
       >
-        <img
-          src={Cart}
-          alt="shopping cart icon"
-          className="shopping-cart-icon"
-        />
         {!cartIsVisible && (
-          <div className="shopping-cart-number">{totalItems}</div>
+          <>
+            <img
+              src={Cart}
+              alt="shopping cart icon"
+              className="shopping-cart-icon"
+            />
+            <div className="shopping-cart-number">{totalItems}</div>
+          </>
         )}
       </div>
 
@@ -75,7 +77,12 @@ const ShoppingCart = () => {
                 <h3>Total:</h3>
                 <h3>€{cartTotal.toFixed(2)}</h3>
               </div>
-              <div className="cart-footer-button" onClick={handleCartVisibility}>Continue Shopping</div>
+              <div
+                className="cart-footer-button"
+                onClick={handleCartVisibility}
+              >
+                Continue Shopping
+              </div>
             </div>
           </>
         )}

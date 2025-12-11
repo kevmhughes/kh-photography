@@ -13,3 +13,10 @@
 .yarl__button.togglebutton {
   width: 100px;
 }
+
+@media (max-width: 480px) {
+  .react-photo-album--rows {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+}
