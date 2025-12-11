@@ -1,7 +1,19 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+
 #root {
   margin: 0 auto;
   padding: 0 1rem;
   text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
 }
 
 a {
@@ -27,6 +39,10 @@ li {
 
 .react-photo-album--masonry {
   margin-bottom: 1rem;
+}
+
+button {
+  font-family: "Inter", sans-serif;
 }
 
 button:focus {

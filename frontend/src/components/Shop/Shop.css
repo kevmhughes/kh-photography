@@ -39,8 +39,7 @@
 .product-title {
   position: relative;
   bottom: 5rem;
-  width: 200px;
-  margin: auto;
+  width: 300px;
 }
 
 .product-price {
@@ -71,11 +70,12 @@
   }
   .product-card-link-container {
     width: 100%;
-    background-color: #efefef;
+    background-color: #eae9e970;
+    border-radius: 8px;
+    border: 1px solid #d3d3d3a3;
   }
-  .product-card {
-    border: solid 1px #000000db;
-  }
+  /*  .product-card {
+  } */
   .product-image {
     height: auto;
     width: 100%;
