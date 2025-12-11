@@ -2,22 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Loader from "../Loader/Loader";
 import "./Shop.css";
 import type { SpreadProduct } from "../../types/product.types";
-
-/* interface SpreadProduct {
-  id: number;
-  title: string;
-  images: { imageUrl: string }[];
-  price: {
-    value: number;
-    currency: string;
-  };
-  variants?: {
-    d2cPrice: string;
-  }[];
-} */
 
 const Shop = () => {
   const [products, setProducts] = useState<SpreadProduct[]>([]);
@@ -47,13 +35,15 @@ const Shop = () => {
     return (
       <>
         <StickyLinks />
-        <p>Loading products...</p>
-        <Loader />
+        <div>
+          <div style={{ fontSize: "2rem" }}>Loading products...</div>
+          <Loader />
+        </div>
       </>
     );
 
   if (error)
-    return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
+    return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
 
   return (
     <div>
@@ -61,7 +51,11 @@ const Shop = () => {
 
       <div className="product-grid">
         {products.map((p) => (
-          <Link to={`/shop/${p.id}`} key={p.id} className="product-card-link-container">
+          <Link
+            to={`/shop/${p.id}`}
+            key={p.id}
+            className="product-card-link-container"
+          >
             <div className="product-card">
               <img
                 src={p.images?.[0]?.imageUrl}
@@ -74,6 +68,7 @@ const Shop = () => {
           </Link>
         ))}
       </div>
+      <ShoppingCart />
     </div>
   );
 };

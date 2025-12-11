@@ -3,38 +3,28 @@ import { useParams } from "react-router-dom";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import Loader from "../Loader/Loader";
 import axios from "axios";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
+import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
-import ShoppingCart from "../ShoppingCart/ShoppingCart"
-
-interface ProductImage {
-  imageUrl: string;
-  perspective: string
-}
-
-interface ProductVariant {
-  d2cPrice: number;
-  productTypeName: string;
-  stock: number;
-}
-
-interface ProductDetail {
-  title: string;
-  description: string;
-  images: ProductImage[];
-  variants: ProductVariant[];
-}
+import type { SpreadProduct } from "../../types/product.types";
 
 const Product = () => {
   const { id } = useParams();
+  const { addProduct, cartIsVisible, handleCartVisibility } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [numberOfProducts, setNumberOfProducts] = useState(0);
-  const [productDetail, setProductDetail] = useState<ProductDetail | null>(
+  const [productDetail, setProductDetail] = useState<SpreadProduct | null>(
     null
   );
 
-  console.log("product detail:", productDetail);
+  /*  const { products, cartTotal, totalItems } = useProducts();
 
+  console.log("Current cart products:", products);
+  console.log("Total items in cart:", totalItems);
+  console.log("Cart total:", cartTotal);
+  console.log("Product details", productDetail);
+ */
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -45,6 +35,7 @@ const Product = () => {
         setProductDetail(res.data);
       } catch (err) {
         console.error("Failed to fetch product:", err);
+        setError("Failed to fetch product.");
       } finally {
         setLoading(false);
       }
@@ -53,26 +44,47 @@ const Product = () => {
   }, [id]);
 
   const handleAddProduct = () => {
-    if (numberOfProducts >= 9) {
-      setNumberOfProducts(9);
-    } else {
-      setNumberOfProducts((prev) => prev + 1);
-    }
+    setNumberOfProducts((prev) => Math.min(prev + 1, 9));
   };
 
   const handleRemoveProduct = () => {
-    if (numberOfProducts <= 0) {
-      setNumberOfProducts(0);
-    } else {
-      setNumberOfProducts((prev) => prev - 1);
-    }
+    setNumberOfProducts((prev) => Math.max(prev - 1, 0));
   };
 
-  const quantity = productDetail?.variants?.[0]?.stock ?? 0;
-  const inStock = quantity > 0;
+  const handleAddToCart = () => {
+    if (!productDetail || numberOfProducts === 0) return;
+
+    addProduct({
+      productId: productDetail.id,
+      price: productDetail?.variants?.[0]?.d2cPrice,
+      quantity: numberOfProducts,
+      img: productDetail.images[0]?.imageUrl || "",
+      title: productDetail?.title || "",
+    });
+
+    setNumberOfProducts(0);
+  };
+
+  const handleBuyNow = () => {
+    if (!productDetail || numberOfProducts === 0) return;
+
+    addProduct({
+      productId: productDetail.id,
+      price: productDetail?.variants?.[0]?.d2cPrice,
+      quantity: numberOfProducts,
+      img: productDetail.images[0]?.imageUrl || "",
+      title: productDetail?.title || "",
+    });
+
+    setNumberOfProducts(0);
+    handleCartVisibility();
+  };
+
+  const quantityInStock = productDetail?.variants?.[0]?.stock ?? 0;
+  const inStock = quantityInStock > 0;
 
   if (error)
-    return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
+    return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
 
   if (loading)
     return (
@@ -87,7 +99,7 @@ const Product = () => {
       <StickyLinks />
       <div className="product-details-container">
         <img
-          src={productDetail?.images[0].imageUrl}
+          src={productDetail?.images[0]?.imageUrl}
           alt={productDetail?.title}
           className="product-details-image"
         />
@@ -97,13 +109,13 @@ const Product = () => {
             {productDetail?.description}
           </p>
           <p className="product-details-description">
-            {productDetail?.variants[0].productTypeName}
+            {productDetail?.variants?.[0]?.productTypeName}
           </p>
-          <p className="product-details-description isit-in-stock">
+          <p className={`product-details-description isit-in-stock`}>
             {inStock ? "In stock" : "Out of stock"}
           </p>
           <p className="product-details-price">
-            €{productDetail?.variants[0].d2cPrice}
+            €{productDetail?.variants?.[0]?.d2cPrice}
           </p>
 
           <div className="product-quantity-container">
@@ -124,13 +136,14 @@ const Product = () => {
               </div>
             </div>
           </div>
+
           <div className="product-cart-button-container">
             <button
               className={`cart-button add-to-cart-button ${
                 inStock ? "" : "disabled"
               }`}
               disabled={!inStock}
-              onClick={() => console.log("hey")}
+              onClick={handleAddToCart}
             >
               Add To Cart
             </button>
@@ -139,19 +152,15 @@ const Product = () => {
                 inStock ? "" : "disabled"
               }`}
               disabled={!inStock}
-              onClick={() => console.log("hey")}
+              onClick={handleBuyNow}
             >
               Buy Now
             </button>
           </div>
         </div>
       </div>
+
       <ShoppingCart />
-      {/* {productDetail?.images?.length > 0 && productDetail?.images.map((i) => (
-        <div>
-          <img src={i.imageUrl} alt={i.perspective} />
-        </div>
-      ))} */}
     </>
   );
 };
