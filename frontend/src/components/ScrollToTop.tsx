@@ -6,7 +6,6 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0); // scroll to top on route change
-    // Reset body styles in case menu was left open
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.width = "";

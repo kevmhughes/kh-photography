@@ -47,4 +47,5 @@ export default async function handler(req, res) {
     console.error("API error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch product" });
   }
-} */
+} 
+ */
