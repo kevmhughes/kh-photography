@@ -11,25 +11,29 @@ import Shop from "./components/Shop/Shop";
 import Product from "./components/Product/Product";
 import Contact from "./components/Contact/Contact";
 
+import { ProductProvider } from "../src/context/ProductContext";
+
 import "./App.css";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/galleries" element={<Albums />} />
-          <Route path="/gallery/:slug" element={<Gallery />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shop/:id" element={<Product />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        {/* <Analytics /> */}
-      </BrowserRouter>
+      <ProductProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/galleries" element={<Albums />} />
+            <Route path="/gallery/:slug" element={<Gallery />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:id" element={<Product />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+          {/* <Analytics /> */}
+        </BrowserRouter>
+      </ProductProvider>
     </>
   );
 }
