@@ -1,12 +1,11 @@
 export interface SpreadProduct {
   id: number;
   title: string;
+  description: string;
   images: { imageUrl: string }[];
-  price: {
-    value: number;
-    currency: string;
-  };
-  variants?: {
-    d2cPrice: string;
+  variants: {
+    productTypeName: string;
+    d2cPrice: number;
+    stock: number;
   }[];
 }
