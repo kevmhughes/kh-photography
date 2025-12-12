@@ -10,21 +10,14 @@ import type { SpreadProduct } from "../../types/product.types";
 
 const Product = () => {
   const { id } = useParams();
-  const { addProduct, cartIsVisible, handleCartVisibility } = useProducts();
+  const { addProduct, handleCartVisibility } = useProducts();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [numberOfProducts, setNumberOfProducts] = useState(0);
+  const [numberOfProducts, setNumberOfProducts] = useState(1);
   const [productDetail, setProductDetail] = useState<SpreadProduct | null>(
     null
   );
 
-  /*  const { products, cartTotal, totalItems } = useProducts();
-
-  console.log("Current cart products:", products);
-  console.log("Total items in cart:", totalItems);
-  console.log("Cart total:", cartTotal);
-  console.log("Product details", productDetail);
- */
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -48,7 +41,7 @@ const Product = () => {
   };
 
   const handleRemoveProduct = () => {
-    setNumberOfProducts((prev) => Math.max(prev - 1, 0));
+    setNumberOfProducts((prev) => Math.max(prev - 1, 1));
   };
 
   const handleAddToCart = () => {
@@ -62,7 +55,7 @@ const Product = () => {
       title: productDetail?.title || "",
     });
 
-    setNumberOfProducts(0);
+    setNumberOfProducts(1);
   };
 
   const handleBuyNow = () => {
@@ -76,7 +69,7 @@ const Product = () => {
       title: productDetail?.title || "",
     });
 
-    setNumberOfProducts(0);
+    setNumberOfProducts(1);
     handleCartVisibility();
   };
 
