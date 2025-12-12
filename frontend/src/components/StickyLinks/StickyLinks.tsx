@@ -13,13 +13,19 @@ const StickyLinks = () => {
             </Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/about" className="navbar-links">
+              About
+            </Link>
           </li>
           <li>
-            <Link to="/shop">Shop</Link>
+            <Link to="/shop" className="navbar-links">
+              Shop
+            </Link>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
+            <Link to="/contact" className="navbar-links">
+              Contact
+            </Link>
           </li>
           <a
             href="https://www.instagram.com/kevin_hughes_photography/"

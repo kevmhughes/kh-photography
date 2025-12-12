@@ -17,6 +17,10 @@
   z-index: 1000;
 }
 
+.navbar-links:hover {
+  color: rgb(105, 105, 105);
+}
+
 .menu-overlay {
   display: none;
 }

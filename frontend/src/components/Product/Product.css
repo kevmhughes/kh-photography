@@ -57,6 +57,7 @@
   border-left: 0;
   border-right: 0;
   align-content: center;
+  align-items: center;
 }
 
 .button {
@@ -67,10 +68,12 @@
 
 .remove-product-button {
   color: #000000;
+  align-items: center;
 }
 
 .add-product-button {
   color: #000000;
+  align-items: center;
 }
 
 .button,
