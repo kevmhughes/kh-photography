@@ -5,7 +5,7 @@ import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
 import ShoppingBag from "../../assets/shopping-bag.svg";
 
-/* import { loadStripe } from "@stripe/stripe-js"; */
+import { loadStripe } from "@stripe/stripe-js";
 
 const ShoppingCart = () => {
   const {
@@ -18,16 +18,22 @@ const ShoppingCart = () => {
     handleCartVisibility,
   } = useProducts();
 
-/*   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+  console.log("products", products);
+
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
   const handleCheckout = async () => {
+    console.log("go to checkout button working");
+
     const res = await fetch("/api/stripe/create-checkout-session", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ products }), 
     });
 
     const { url } = await res.json();
     window.location.href = url;
-  }; */
+  };
 
   return (
     <>
@@ -164,7 +170,9 @@ const ShoppingCart = () => {
                 <h3>Total:</h3>
                 <h3>€{cartTotal.toFixed(2)}</h3>
               </div>
-              <div className="cart-footer-button" /* onClick={handleCheckout} */>Go To Checkout</div>
+              <div className="cart-footer-button" onClick={handleCheckout}>
+                Go To Checkout
+              </div>
             </div>
           </>
         )}

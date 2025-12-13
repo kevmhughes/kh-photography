@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get(`https://api.spreadconnect.app/articles/${id}`, {
       headers: {
-        "X-SPOD-ACCESS-TOKEN": process.env.SPREADCONNECT_KEY,
+        "X-SPOD-ACCESS-TOKEN": process.env.SPREADCONNECT_KEY || "",
       },
     });
 
