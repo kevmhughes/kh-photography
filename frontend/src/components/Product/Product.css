@@ -56,8 +56,9 @@
   width: 2rem;
   border-left: 0;
   border-right: 0;
-  align-content: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .button {
@@ -66,14 +67,12 @@
   align-content: center;
 }
 
-.remove-product-button {
-  color: #000000;
-  align-items: center;
-}
-
+.remove-product-button,
 .add-product-button {
   color: #000000;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .button,
@@ -84,6 +83,7 @@
 
 .product-quantity-buttons-container {
   display: flex;
+
   height: 2rem;
 }
 
@@ -132,7 +132,7 @@
     bottom: 3rem;
     right: auto;
     gap: unset;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   .product-details-information-container {

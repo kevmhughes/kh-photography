@@ -150,6 +150,9 @@ h3 {
   width: 2rem;
   align-content: center;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-product-quantity {
@@ -158,6 +161,9 @@ h3 {
   border-left: 0;
   border-right: 0;
   align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-product-delete-button {
@@ -237,5 +243,9 @@ h3 {
 
   .shopping-bag-icon {
     height: 14rem;
+  }
+
+  .cart-product-card {
+    height: 8rem;
   }
 }

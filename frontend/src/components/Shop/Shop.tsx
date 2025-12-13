@@ -61,8 +61,13 @@ const Shop = () => {
                 alt={p.title}
                 className="product-image"
               />
-              <h3 className="product-title">{p.title}</h3>
-              <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
+              <div className="product-card-details-container">
+                <h3 className="product-title">{p.title}</h3>
+                <p className="product-detail">
+                  {p.variants?.[0]?.productTypeName}
+                </p>
+                <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
+              </div>
             </div>
           </Link>
         ))}
