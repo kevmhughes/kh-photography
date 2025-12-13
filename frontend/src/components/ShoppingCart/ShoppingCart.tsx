@@ -5,8 +5,6 @@ import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
 import ShoppingBag from "../../assets/shopping-bag.svg";
 
-import { loadStripe } from "@stripe/stripe-js";
-
 const ShoppingCart = () => {
   const {
     totalItems,
@@ -19,8 +17,6 @@ const ShoppingCart = () => {
   } = useProducts();
 
   console.log("products", products);
-
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
   const handleCheckout = async () => {
     console.log("go to checkout button working");
