@@ -5,6 +5,8 @@ import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
 import ShoppingBag from "../../assets/shopping-bag.svg";
 
+/* import { loadStripe } from "@stripe/stripe-js"; */
+
 const ShoppingCart = () => {
   const {
     totalItems,
@@ -15,6 +17,17 @@ const ShoppingCart = () => {
     cartIsVisible,
     handleCartVisibility,
   } = useProducts();
+
+/*   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+  const handleCheckout = async () => {
+    const res = await fetch("/api/stripe/create-checkout-session", {
+      method: "POST",
+    });
+
+    const { url } = await res.json();
+    window.location.href = url;
+  }; */
 
   return (
     <>
@@ -114,17 +127,6 @@ const ShoppingCart = () => {
                     <div className="cart-product-buttons-container">
                       <div className="cart-product-buttons">
                         <div
-                          className="cart-product-minus-button"
-                          onClick={() =>
-                            updateQuantity(p.productId, p.quantity + 1)
-                          }
-                        >
-                          +
-                        </div>
-                        <div className="cart-product-quantity">
-                          {p.quantity}
-                        </div>
-                        <div
                           className="cart-product-add-button"
                           onClick={() => {
                             if (p.quantity > 1)
@@ -132,6 +134,18 @@ const ShoppingCart = () => {
                           }}
                         >
                           -
+                        </div>
+
+                        <div className="cart-product-quantity">
+                          {p.quantity}
+                        </div>
+                        <div
+                          className="cart-product-minus-button"
+                          onClick={() =>
+                            updateQuantity(p.productId, p.quantity + 1)
+                          }
+                        >
+                          +
                         </div>
                       </div>
                       <img
@@ -150,7 +164,7 @@ const ShoppingCart = () => {
                 <h3>Total:</h3>
                 <h3>€{cartTotal.toFixed(2)}</h3>
               </div>
-              <div className="cart-footer-button">Go To Checkout</div>
+              <div className="cart-footer-button" /* onClick={handleCheckout} */>Go To Checkout</div>
             </div>
           </>
         )}
