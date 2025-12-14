@@ -75,6 +75,7 @@
   }
   .product-card-link-container {
     width: 100%;
+    max-width: unset;
   }
   .product-image {
     height: auto;
