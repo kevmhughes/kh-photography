@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get("https://api.printful.com/store/products", {
       headers: {
-        Authorization: "Bearer ",
+        Authorization: `Bearer ${process.env.VITE_PRINTFUL_KEY}`,
       },
     });
     res.status(200).json(response.data);
