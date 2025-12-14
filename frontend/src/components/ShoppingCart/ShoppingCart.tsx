@@ -24,7 +24,7 @@ const ShoppingCart = () => {
     const res = await fetch("/api/stripe/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ products }), 
+      body: JSON.stringify({ products }),
     });
 
     const { url } = await res.json();
@@ -116,7 +116,12 @@ const ShoppingCart = () => {
                   <div className="cart-product-info-container">
                     <div>
                       <div className="cart-product-info">
-                        <div className="cart-product-info-title">{p.title}</div>
+                        <div>
+                          <div className="cart-product-info-title">
+                            {p.title}
+                          </div>
+                          <div className="cart-product-info-size">Size: {p.size}</div>
+                        </div>
                         <div className="cart-product-info-price">
                           €{p.price.toFixed(2)}
                         </div>
@@ -129,7 +134,7 @@ const ShoppingCart = () => {
                     <div className="cart-product-buttons-container">
                       <div className="cart-product-buttons">
                         <div
-                          className="cart-product-add-button"
+                          className="cart-product-minus-button"
                           onClick={() => {
                             if (p.quantity > 1)
                               updateQuantity(p.productId, p.quantity - 1);
@@ -142,7 +147,7 @@ const ShoppingCart = () => {
                           {p.quantity}
                         </div>
                         <div
-                          className="cart-product-minus-button"
+                          className="cart-product-add-button"
                           onClick={() =>
                             updateQuantity(p.productId, p.quantity + 1)
                           }

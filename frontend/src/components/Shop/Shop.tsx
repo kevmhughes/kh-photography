@@ -18,8 +18,10 @@ const Shop = () => {
       setError(null);
 
       try {
-        const res = await axios.get("/api/articles");
-        setProducts(res.data.items || []);
+        const res = await axios.get("/api/products");
+        console.log(res.data.result);
+        setProducts(res.data.result || []);
+        /* setProducts(res.data.items || []); */
       } catch (err) {
         console.error("Failed to fetch products:", err);
         setError("Failed to load products");
@@ -57,16 +59,12 @@ const Shop = () => {
           >
             <div className="product-card">
               <img
-                src={p.images?.[0]?.imageUrl}
-                alt={p.title}
+                src={p.thumbnail_url}
+                alt={p.name}
                 className="product-image"
               />
               <div className="product-card-details-container">
-                <h3 className="product-title">{p.title}</h3>
-                <p className="product-detail">
-                  {p.variants?.[0]?.productTypeName}
-                </p>
-                <p className="product-price">€{p.variants?.[0]?.d2cPrice}</p>
+                <h3 className="product-title">{p.name}</h3>
               </div>
             </div>
           </Link>

@@ -17,6 +17,9 @@ const Product = () => {
   const [productDetail, setProductDetail] = useState<SpreadProduct | null>(
     null
   );
+  const [viewedProductIndex, setViewedProductIndex] = useState(0);
+
+  const currentVariant = productDetail?.sync_variants?.[viewedProductIndex];
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,8 +27,9 @@ const Product = () => {
       setError(null);
 
       try {
-        const res = await axios.get(`/api/articles/${id}`);
-        setProductDetail(res.data);
+        const res = await axios.get(`/api/products/${id}`);
+        console.log("data", res.data.result);
+        setProductDetail(res.data.result);
       } catch (err) {
         console.error("Failed to fetch product:", err);
         setError("Failed to fetch product.");
@@ -47,12 +51,16 @@ const Product = () => {
   const handleAddToCart = () => {
     if (!productDetail || numberOfProducts === 0) return;
 
+    if (!currentVariant || !currentVariant.id || !currentVariant.retail_price)
+      return;
+
     addProduct({
-      productId: productDetail.id,
-      price: productDetail?.variants?.[0]?.d2cPrice,
+      productId: currentVariant?.id,
+      price: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
-      img: productDetail.images[0]?.imageUrl || "",
-      title: productDetail?.title || "",
+      img: currentVariant.files[1]?.preview_url || "",
+      title: productDetail?.sync_product.name || "",
+      size: currentVariant?.size,
     });
 
     setNumberOfProducts(1);
@@ -61,20 +69,24 @@ const Product = () => {
   const handleBuyNow = () => {
     if (!productDetail || numberOfProducts === 0) return;
 
+    if (!currentVariant || !currentVariant.id || !currentVariant.retail_price)
+      return;
+
     addProduct({
-      productId: productDetail.id,
-      price: productDetail?.variants?.[0]?.d2cPrice,
+      productId: currentVariant?.id,
+      price: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
-      img: productDetail.images[0]?.imageUrl || "",
-      title: productDetail?.title || "",
+      img: currentVariant.files[1]?.preview_url || "",
+      title: productDetail?.sync_product.name || "",
+      size: currentVariant?.size,
     });
 
     setNumberOfProducts(1);
     handleCartVisibility();
   };
 
-  const quantityInStock = productDetail?.variants?.[0]?.stock ?? 0;
-  const inStock = quantityInStock > 0;
+  const inStock = currentVariant?.availability_status === "active";
+  console.log("is it in stock", inStock);
 
   if (error)
     return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
@@ -91,64 +103,90 @@ const Product = () => {
     <>
       <StickyLinks />
       <div className="product-details-container">
-        <img
-          src={productDetail?.images[0]?.imageUrl}
-          alt={productDetail?.title}
-          className="product-details-image"
-        />
-        <div className="product-details-information-container">
-          <h1 className="product-details-title">{productDetail?.title}</h1>
-          <p className="product-details-description">
-            {productDetail?.description}
-          </p>
-          <p className="product-details-description">
-            {productDetail?.variants?.[0]?.productTypeName}
-          </p>
-          <p className={`product-details-description isit-in-stock`}>
-            {inStock ? "In stock" : "Out of stock"}
-          </p>
-          <p className="product-details-price">
-            €{productDetail?.variants?.[0]?.d2cPrice}
-          </p>
+        {
+          <img
+            src={currentVariant?.files[1]?.preview_url}
+            alt={productDetail?.sync_product?.name}
+            className="product-details-image"
+          />
+        }
 
-          <div className="product-quantity-container">
-            <h2 className="product-quantity-title">Quantity: </h2>
-            <div className="product-quantity-buttons-container">
-              <div
-                className="button remove-product-button"
-                onClick={handleRemoveProduct}
-              >
-                -
-              </div>
-              <div className="product-quantity">{numberOfProducts}</div>
-              <div
-                className="button add-product-button"
-                onClick={handleAddProduct}
-              >
-                +
+        <div className="product-details-information-and-thumbnails-container">
+          <div className="product-details-information-container">
+            <h1 className="product-details-title">
+              {productDetail?.sync_product.name}
+            </h1>
+            <p className="product-details-description">
+              {currentVariant?.product.name}
+            </p>
+            <p className={`product-details-description isit-in-stock`}>
+              {inStock ? "In stock" : "Out of stock"}
+            </p>
+            <p className="product-details-price">
+              €{currentVariant?.retail_price}
+            </p>
+
+            <div className="product-quantity-container">
+              <h2 className="product-quantity-title">Quantity: </h2>
+              <div className="product-quantity-buttons-container">
+                <div
+                  className="button remove-product-button"
+                  onClick={handleRemoveProduct}
+                >
+                  -
+                </div>
+                <div className="product-quantity">{numberOfProducts}</div>
+                <div
+                  className="button add-product-button"
+                  onClick={handleAddProduct}
+                >
+                  +
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="product-cart-button-container">
-            <button
-              className={`cart-button add-to-cart-button ${
-                inStock ? "" : "disabled"
-              }`}
-              disabled={!inStock}
-              onClick={handleAddToCart}
-            >
-              Add To Cart
-            </button>
-            <button
-              className={`cart-button buy-now-cart-button ${
-                inStock ? "" : "disabled"
-              }`}
-              disabled={!inStock}
-              onClick={handleBuyNow}
-            >
-              Buy Now
-            </button>
+            <div className="product-cart-button-container">
+              <button
+                className={`cart-button add-to-cart-button ${
+                  inStock ? "" : "disabled"
+                }`}
+                disabled={!inStock}
+                onClick={handleAddToCart}
+              >
+                Add To Cart
+              </button>
+              <button
+                className={`cart-button buy-now-cart-button ${
+                  inStock ? "" : "disabled"
+                }`}
+                disabled={!inStock}
+                onClick={handleBuyNow}
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+          <div className="variant-thumbnails-container">
+            {productDetail?.sync_variants.map((item, index) => (
+              <div
+                key={item.id}
+                onClick={() => {
+                  setViewedProductIndex(index);
+                  console.log("index", index);
+                }}
+              >
+                <img
+                  src={item.files[0].thumbnail_url}
+                  alt={item.name}
+                  className={
+                    index === viewedProductIndex
+                      ? "variant-thumbnail-active"
+                      : "variant-thumbnail"
+                  }
+                />
+                <div>{item.size}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

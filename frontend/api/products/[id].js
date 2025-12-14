@@ -1,13 +1,14 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
+  const { id } = req.query;
+  
   try {
-    const response = await axios.get("https://api.spreadconnect.app/articles", {
+    const response = await axios.get(`https://api.printful.com/store/products/${id}`, {
       headers: {
-        "X-SPOD-ACCESS-TOKEN": process.env.SPREADCONNECT_KEY || "",
+        Authorization: "Bearer ",
       },
     });
-
     res.status(200).json(response.data);
   } catch (err) {
     console.error("API error:", err);

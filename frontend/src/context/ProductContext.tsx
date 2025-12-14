@@ -7,6 +7,7 @@ export type Product = {
   quantity: number;
   totalPrice: number;
   img: string;
+  size: string
 };
 
 type ProductContextType = {
