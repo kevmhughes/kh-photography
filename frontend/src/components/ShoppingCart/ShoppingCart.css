@@ -245,7 +245,7 @@ h3 {
   .shopping-cart-icon-container {
     top: 1.55rem;
     right: 3.5rem;
-    position: absolute;
+    position: fixed;
   }
 
   .shopping-bag-icon {
