@@ -17,6 +17,9 @@ const Product = () => {
   const [productDetail, setProductDetail] = useState<SpreadProduct | null>(
     null
   );
+
+  console.log("data", productDetail);
+
   const [viewedProductIndex, setViewedProductIndex] = useState(0);
 
   const currentVariant = productDetail?.sync_variants?.[viewedProductIndex];
@@ -28,8 +31,16 @@ const Product = () => {
 
       try {
         const res = await axios.get(`/api/products/${id}`);
-        console.log("data", res.data.result);
-        setProductDetail(res.data.result);
+        const product: SpreadProduct = res.data.result;
+
+        const sortedVariants = [...product.sync_variants].sort(
+          (a, b) => Number(a.retail_price) - Number(b.retail_price)
+        );
+
+        setProductDetail({
+          ...product,
+          sync_variants: sortedVariants,
+        });
       } catch (err) {
         console.error("Failed to fetch product:", err);
         setError("Failed to fetch product.");
@@ -37,6 +48,7 @@ const Product = () => {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, [id]);
 

@@ -19,7 +19,6 @@ const ShoppingCart = () => {
   console.log("products", products);
 
   const handleCheckout = async () => {
-    console.log("go to checkout button working");
 
     const res = await fetch("/api/stripe/create-checkout-session", {
       method: "POST",
