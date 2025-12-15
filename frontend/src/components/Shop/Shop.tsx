@@ -62,6 +62,7 @@ const Shop = () => {
                 src={p.thumbnail_url}
                 alt={p.name}
                 className="product-image"
+                loading="lazy" 
               />
               <div className="product-card-details-container">
                 <h3 className="product-title">{p.name}</h3>
