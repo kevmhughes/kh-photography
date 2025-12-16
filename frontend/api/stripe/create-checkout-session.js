@@ -17,22 +17,43 @@ export default async function handler(req, res) {
         currency: "eur",
         product_data: {
           name: item.title,
-          images: [item.img], 
+          images: [item.img],
         },
-        unit_amount: Math.round(item.price * 100), 
+        unit_amount: Math.round(item.price * 100),
+      },
+      adjustable_quantity: {
+        enabled: true,
+        minimum: 1,
       },
       quantity: item.quantity,
     }));
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "paypal"],
       mode: "payment",
       line_items,
+      custom_text: {
+          submit: {
+            message: "**For testing purposes:** fill in all the card number fields using a series of the numbers 4 and 2. (eg. 4242 4242 4242 4242)"
+          }
+        },
       success_url: `${req.headers.origin}/success`,
       cancel_url: `${req.headers.origin}/cancel`,
       shipping_address_collection: {
-      allowed_countries: ["ES"], 
-  },
+        allowed_countries: ["ES"],
+      },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            display_name: "Standard shipping",
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "eur",
+            },
+          }
+        }
+      ]
     });
 
     res.status(200).json({ url: session.url });

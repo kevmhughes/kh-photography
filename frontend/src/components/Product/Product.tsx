@@ -115,69 +115,79 @@ const Product = () => {
     <>
       <StickyLinks />
       <div className="product-details-container">
-        {
-          <img
-            src={currentVariant?.files[1]?.preview_url}
-            alt={productDetail?.sync_product?.name}
-            className="product-details-image"
-          />
-        }
+        {/* Preview image */}
+        <img
+          src={currentVariant?.files[1]?.preview_url}
+          alt={productDetail?.sync_product?.name}
+          className="product-details-image"
+        />
 
         <div className="product-details-information-and-thumbnails-container">
           <div className="product-details-information-container">
-            <h1 className="product-details-title">
-              {productDetail?.sync_product.name}
-            </h1>
-            <p className="product-details-description">
-              {currentVariant?.product.name}
-            </p>
-            <p className={`product-details-description isit-in-stock`}>
-              {inStock ? "In stock" : "Out of stock"}
-            </p>
-            <p className="product-details-price">
-              €{currentVariant?.retail_price}
-            </p>
 
-            <div className="product-quantity-container">
-              <h2 className="product-quantity-title">Quantity: </h2>
-              <div className="product-quantity-buttons-container">
-                <div
-                  className="button remove-product-button"
-                  onClick={handleRemoveProduct}
-                >
-                  -
-                </div>
-                <div className="product-quantity">{numberOfProducts}</div>
-                <div
-                  className="button add-product-button"
-                  onClick={handleAddProduct}
-                >
-                  +
+            <div className="product-details-text-container">
+              <h1 className="product-details-title">
+                {productDetail?.sync_product.name}
+              </h1>
+              <p className="product-details-description">
+                {currentVariant?.product.name}
+              </p>
+              <p className={`product-details-description isit-in-stock`}>
+                {inStock ? "In stock" : "Out of stock"}
+              </p>
+            </div>
+
+            <div className="product-details-price-container">
+              <p className="product-details-price">
+                €{currentVariant?.retail_price}
+              </p>
+              <p className="product-p-and-p">Free Post & Packaging</p>
+            </div>
+
+            {/* Buttons: add, buy, quantity */}
+            <div className="product-buttons-container">
+              <div className="product-quantity-container">
+                {/* <h2 className="product-quantity-title">Quantity: </h2> */}
+                <div className="product-quantity-buttons-container">
+                  <div
+                    className="button remove-product-button"
+                    onClick={handleRemoveProduct}
+                  >
+                    -
+                  </div>
+                  <div className="product-quantity">{numberOfProducts}</div>
+                  <div
+                    className="button add-product-button"
+                    onClick={handleAddProduct}
+                  >
+                    +
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="product-cart-button-container">
-              <button
-                className={`cart-button add-to-cart-button ${
-                  inStock ? "" : "disabled"
-                }`}
-                disabled={!inStock}
-                onClick={handleAddToCart}
-              >
-                Add To Cart
-              </button>
-              <button
-                className={`cart-button buy-now-cart-button ${
-                  inStock ? "" : "disabled"
-                }`}
-                disabled={!inStock}
-                onClick={handleBuyNow}
-              >
-                Buy Now
-              </button>
+              <div className="product-cart-button-container">
+                <button
+                  className={`cart-button add-to-cart-button ${
+                    inStock ? "" : "disabled"
+                  }`}
+                  disabled={!inStock}
+                  onClick={handleAddToCart}
+                >
+                  Add To Cart
+                </button>
+                <button
+                  className={`cart-button buy-now-cart-button ${
+                    inStock ? "" : "disabled"
+                  }`}
+                  disabled={!inStock}
+                  onClick={handleBuyNow}
+                >
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
+
+          {/* Scrollable variant thumbnails */}
           <div className="variant-thumbnails-container">
             {productDetail?.sync_variants.map((item, index) => (
               <div
