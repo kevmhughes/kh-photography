@@ -16,13 +16,13 @@ export default async function handler(req, res) {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-  limit: 100, // max 100 items
-})
+      limit: 100,
+    })
 
     /* console.log("session: ", session) */
     console.log("line items: ", lineItems)
 
-    res.status(200).json({session, lineItems})
+    res.status(200).json({ session, lineItems })
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

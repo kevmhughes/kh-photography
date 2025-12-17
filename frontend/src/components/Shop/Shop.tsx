@@ -46,12 +46,16 @@ const Shop = () => {
   if (error)
     return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
 
+  const sortedProducts = [...products].sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+  );
+  
   return (
     <div>
       <StickyLinks />
 
       <div className="product-grid">
-        {products.map((p) => (
+        {sortedProducts.map((p) => (
           <Link
             to={`/shop/${p.id}`}
             key={p.id}
@@ -62,7 +66,7 @@ const Shop = () => {
                 src={p.thumbnail_url}
                 alt={p.name}
                 className="product-image"
-                loading="lazy" 
+                loading="lazy"
               />
               <div className="product-card-details-container">
                 <h3 className="product-title">{p.name}</h3>

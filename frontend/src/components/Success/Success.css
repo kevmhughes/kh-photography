@@ -1,0 +1,112 @@
+.success-details-and-order-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 600px;
+  margin: auto;
+  gap: 1rem;
+}
+
+.success-payment-message {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.success-customer-details-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: start;
+  justify-content: start;
+  align-items: start;
+  width: 100%;
+  gap: 1rem;
+}
+
+.success-customer-details,
+.success-shipping-address-container,
+.success-order-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.success-order-title,
+.success-shipping-address-title,
+.success-customer-details-title {
+  margin-bottom: 0.25rem;
+}
+
+.success-order-container {
+  width: 100%;
+}
+
+.success-order-items-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+/* .success-order-items-container > :only-child {
+  grid-column: 1 / -1;
+} */
+
+.success-order-item-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border-radius: 4px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 2px;
+  background-color: rgba(241, 241, 241, 0.53);
+}
+
+.success-order-item-image {
+  height: 8rem;
+  border-radius: 4px 0 0 4px;
+}
+
+.success-order-item-description-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  justify-content: center;
+  height: 100%;
+}
+
+.success-order-item-description {
+  font-size: 1rem;
+}
+
+.success-order-total-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.success-order-total {
+  font-size: 2rem;
+  font-weight: 200;
+}
+
+@media (max-width: 480px) {
+  .success-details-and-order-container {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .success-order-thankyou {
+    font-size: 2rem;
+  }
+  .success-customer-details-container {
+    grid-template-columns: 1fr;
+  }
+  .success-order-items-container {
+    grid-template-columns: 1fr;
+  }
+}

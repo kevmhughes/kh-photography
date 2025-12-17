@@ -11,7 +11,7 @@ import About from "./components/About/About";
 import Shop from "./components/Shop/Shop";
 import Product from "./components/Product/Product";
 import Contact from "./components/Contact/Contact";
-import Success from "./components/Success";
+import Success from "./components/Success/Success";
 
 import { ProductProvider } from "../src/context/ProductContext";
 

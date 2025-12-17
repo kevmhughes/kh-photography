@@ -28,6 +28,7 @@ export default async function handler(req, res) {
       quantity: item.quantity,
       metadata: {
         size: item.size,
+        image: item.img,
       },
     }));
 
