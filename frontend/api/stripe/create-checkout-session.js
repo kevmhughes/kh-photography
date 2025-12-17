@@ -23,9 +23,12 @@ export default async function handler(req, res) {
       },
       adjustable_quantity: {
         enabled: true,
-        minimum: 1,
+        minimum: 0,
       },
       quantity: item.quantity,
+      metadata: {
+        size: item.size,
+      },
     }));
 
     const session = await stripe.checkout.sessions.create({
@@ -33,12 +36,12 @@ export default async function handler(req, res) {
       mode: "payment",
       line_items,
       custom_text: {
-          submit: {
-            message: "**For testing purposes:** fill in all the card number fields using a series of the numbers 4 and 2. (eg. 4242 4242 4242 4242)"
-          }
-        },
-      success_url: `${req.headers.origin}/success`,
-      cancel_url: `${req.headers.origin}/cancel`,
+        submit: {
+          message: "**For testing purposes:** fill in the card number field using a series of the numbers 4 and 2 (eg. 4242 4242 4242 4242). Put a future date and three numbers in the other fields"
+        }
+      },
+      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.origin}/shop`,
       shipping_address_collection: {
         allowed_countries: ["ES"],
       },

@@ -141,7 +141,7 @@ const Product = () => {
               <p className="product-details-price">
                 €{currentVariant?.retail_price}
               </p>
-              <p className="product-p-and-p">Free Post & Packaging</p>
+              <p className="product-p-and-p">Free shipping</p>
             </div>
 
             {/* Buttons: add, buy, quantity */}

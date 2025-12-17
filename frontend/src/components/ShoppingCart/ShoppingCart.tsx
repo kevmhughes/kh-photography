@@ -5,6 +5,8 @@ import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
 import ShoppingBag from "../../assets/shopping-bag.svg";
 
+import toast from "react-hot-toast";
+
 const ShoppingCart = () => {
   const {
     totalItems,
@@ -19,15 +21,26 @@ const ShoppingCart = () => {
   console.log("products", products);
 
   const handleCheckout = async () => {
+    const toastId = toast.loading("Redirecting to checkout…");
 
-    const res = await fetch("/api/stripe/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ products }),
-    });
+    try {
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ products }),
+      });
 
-    const { url } = await res.json();
-    window.location.href = url;
+      if (!res.ok) {
+        throw new Error("Checkout failed");
+      }
+
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch (error) {
+      toast.error("Unable to start checkout. Please try again.", {
+        id: toastId,
+      });
+    }
   };
 
   return (
@@ -119,7 +132,9 @@ const ShoppingCart = () => {
                           <div className="cart-product-info-title">
                             {p.title}
                           </div>
-                          <div className="cart-product-info-size">Size: {p.size}</div>
+                          <div className="cart-product-info-size">
+                            Size: {p.size}
+                          </div>
                         </div>
                         <div className="cart-product-info-price">
                           €{p.price.toFixed(2)}

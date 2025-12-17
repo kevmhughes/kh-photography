@@ -41,7 +41,7 @@ const Home = () => {
     fetchAlbums();
   }, []);
 
-  // Preload all album cover images using async/await
+  // Preload all album cover images
   useEffect(() => {
     if (albums.length === 0) return;
 
