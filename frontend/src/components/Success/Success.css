@@ -102,6 +102,8 @@
   }
   .success-order-thankyou {
     font-size: 2rem;
+    display: flex;
+    justify-content: flex-start;
   }
   .success-customer-details-container {
     grid-template-columns: 1fr;

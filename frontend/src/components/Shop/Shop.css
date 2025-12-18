@@ -77,6 +77,9 @@
     width: 100%;
     max-width: unset;
   }
+  .product-card-link-container:hover {
+    transform: scale(1);
+  }
   .product-image {
     height: auto;
     width: 100%;
