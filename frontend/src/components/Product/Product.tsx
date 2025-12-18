@@ -8,6 +8,8 @@ import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
 import type { SpreadProduct } from "../../types/product.types";
 
+import toast from "react-hot-toast";
+
 const Product = () => {
   const { id } = useParams();
   const { addProduct, handleCartVisibility } = useProducts();
@@ -75,6 +77,9 @@ const Product = () => {
       size: currentVariant?.size,
     });
 
+    toast.success(
+      `${productDetail?.sync_product.name} x ${numberOfProducts} added to cart`
+    );
     setNumberOfProducts(1);
   };
 
@@ -124,7 +129,6 @@ const Product = () => {
 
         <div className="product-details-information-and-thumbnails-container">
           <div className="product-details-information-container">
-
             <div className="product-details-text-container">
               <h1 className="product-details-title">
                 {productDetail?.sync_product.name}
