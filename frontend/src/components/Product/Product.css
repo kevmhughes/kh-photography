@@ -186,6 +186,11 @@
     right: auto;
     gap: unset;
     margin-top: 16rem;
+    align-items: center;
+  }
+
+  .product-details-image {
+    max-height: initial;
   }
 
   .product-details-information-container {
@@ -227,6 +232,7 @@
 @media (max-width: 480px) {
   .product-cart-button-container {
     margin-top: 0;
+    margin-bottom: 1rem;
   }
   .cart-button {
     width: 9rem;
@@ -234,8 +240,6 @@
   }
   .product-details-information-and-thumbnails-container {
     flex-direction: column-reverse;
-    width: auto;
-    margin-top: 0;
     padding-bottom: 1rem;
     gap: 0;
     width: 100%;
