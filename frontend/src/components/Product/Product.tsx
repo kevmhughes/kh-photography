@@ -201,7 +201,7 @@ const Product = () => {
                 }}
               >
                 <img
-                  src={item.files[1]?.preview_url}
+                  src={item.files[1]?.thumbnail_url}
                   alt={item.name}
                   className={
                     index === viewedProductIndex
