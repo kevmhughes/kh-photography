@@ -4,7 +4,6 @@ import StickyLinks from "../StickyLinks/StickyLinks";
 import Loader from "../Loader/Loader";
 import axios from "axios";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
-import Variants from "../Variants";
 import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
 import type { SpreadProduct } from "../../types/product.types";
@@ -191,14 +190,29 @@ const Product = () => {
           </div>
 
           {/* Scrollable variant thumbnails */}
-          {productDetail && (
-            <Variants
-              variants={productDetail.sync_variants}
-              activeIndex={viewedProductIndex}
-              onSelect={setViewedProductIndex}
-            />
-          )}
 
+          <div className="variant-thumbnails-container">
+            {productDetail?.sync_variants.map((item, index) => (
+              <div
+                key={item.id}
+                onClick={() => {
+                  setViewedProductIndex(index);
+                  console.log("index", index);
+                }}
+              >
+                <img
+                  src={item.files[1]?.preview_url}
+                  alt={item.name}
+                  className={
+                    index === viewedProductIndex
+                      ? "variant-thumbnail-active"
+                      : "variant-thumbnail"
+                  }
+                />
+                <div className="variant-thumbnail-size">{item.size}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

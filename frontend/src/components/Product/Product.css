@@ -169,7 +169,7 @@
 }
 
 .variant-thumbnail-size {
-  font-size: 10px;
+  font-size: 16px;
 }
 
 .variant-thumbnail-active {
@@ -218,14 +218,14 @@
   }
   .variant-thumbnails-container {
     margin-top: 0;
-    height: auto;
+    height: 7rem;
     overflow: hidden;
     overflow-x: scroll;
     width: 100%;
   }
   .variant-thumbnail,
   .variant-thumbnail-active {
-    height: 3rem;
+    height: 5rem;
   }
 }
 
@@ -258,8 +258,18 @@
   }
   .variant-thumbnails-container {
     overflow: hidden;
+    height: auto;
     overflow-x: scroll;
     flex-wrap: unset;
     width: 100%;
+  }
+
+  .variant-thumbnail,
+  .variant-thumbnail-active {
+    height: 3rem;
+  }
+
+  .variant-thumbnail-size {
+    font-size: 12px;
   }
 }
