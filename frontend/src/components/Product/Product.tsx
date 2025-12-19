@@ -203,6 +203,7 @@ const Product = () => {
                 <img
                   src={item.files[1]?.thumbnail_url}
                   alt={item.name}
+                  loading="lazy"
                   className={
                     index === viewedProductIndex
                       ? "variant-thumbnail-active"
