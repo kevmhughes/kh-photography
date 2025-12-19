@@ -79,10 +79,6 @@
   align-items: center;
 }
 
-.product-quantity-title {
-  font-weight: 300;
-}
-
 .product-quantity {
   border: 1px solid gray;
   width: 2rem;
@@ -170,6 +166,10 @@
 .variant-thumbnail {
   height: 4rem;
   cursor: pointer;
+}
+
+.variant-thumbnail-size {
+  font-size: 10px;
 }
 
 .variant-thumbnail-active {

@@ -4,6 +4,7 @@ import StickyLinks from "../StickyLinks/StickyLinks";
 import Loader from "../Loader/Loader";
 import axios from "axios";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
+import Variants from "../Variants";
 import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
 import type { SpreadProduct } from "../../types/product.types";
@@ -103,7 +104,6 @@ const Product = () => {
   };
 
   const inStock = currentVariant?.availability_status === "active";
-  console.log("is it in stock", inStock);
 
   if (error)
     return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
@@ -151,7 +151,6 @@ const Product = () => {
             {/* Buttons: add, buy, quantity */}
             <div className="product-buttons-container">
               <div className="product-quantity-container">
-                {/* <h2 className="product-quantity-title">Quantity: </h2> */}
                 <div className="product-quantity-buttons-container">
                   <div
                     className="button remove-product-button"
@@ -192,28 +191,14 @@ const Product = () => {
           </div>
 
           {/* Scrollable variant thumbnails */}
-          <div className="variant-thumbnails-container">
-            {productDetail?.sync_variants.map((item, index) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  setViewedProductIndex(index);
-                  console.log("index", index);
-                }}
-              >
-                <img
-                  src={item.files[0].thumbnail_url}
-                  alt={item.name}
-                  className={
-                    index === viewedProductIndex
-                      ? "variant-thumbnail-active"
-                      : "variant-thumbnail"
-                  }
-                />
-                <div>{item.size}</div>
-              </div>
-            ))}
-          </div>
+          {productDetail && (
+            <Variants
+              variants={productDetail.sync_variants}
+              activeIndex={viewedProductIndex}
+              onSelect={setViewedProductIndex}
+            />
+          )}
+
         </div>
       </div>
 

@@ -3,7 +3,6 @@ import { useProducts } from "../../context/ProductContext";
 import Cart from "../../assets/cart.svg";
 import Arrow from "../../assets/arrow.svg";
 import Delete from "../../assets/delete.svg";
-import ShoppingBag from "../../assets/shopping-bag.svg";
 
 import toast from "react-hot-toast";
 
@@ -83,7 +82,7 @@ const ShoppingCart = () => {
           <div>
             Your Cart:
             <span style={{ color: "#f02d34", marginLeft: "0.5rem" }}>
-              ({totalItems} Items)
+              ({totalItems} {totalItems === 1 ? "Item" : "Items"})
             </span>
           </div>
         </div>
@@ -93,7 +92,7 @@ const ShoppingCart = () => {
           <>
             <div className="empty-cart">
               <img
-                src={ShoppingBag}
+                src={Cart}
                 alt="empty cart icon"
                 className="shopping-bag-icon"
               />

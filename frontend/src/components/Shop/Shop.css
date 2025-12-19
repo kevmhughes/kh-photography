@@ -19,7 +19,7 @@
   border-radius: 4px;
   background-color: #f1f1f187;
   box-shadow: #63636333 0 2px 2px;
-  max-width: 330px;
+  width: 320px;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -34,6 +34,7 @@
 
 .product-image {
   height: 20rem;
+  border-radius: 4px 4px 0 0;
 }
 
 .product-title {
