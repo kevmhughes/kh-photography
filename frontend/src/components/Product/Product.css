@@ -247,6 +247,7 @@
   }
   .product-details-information-container {
     margin-top: 0;
+    height: calc(100% - 132px);
   }
   .product-details-container {
     justify-content: unset;
