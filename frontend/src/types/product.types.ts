@@ -19,10 +19,7 @@ export interface SpreadProduct {
     availability_status: "active" | "inactive";
     color: string;
     currency: string;
-    files: {
-      preview_url: string;
-      thumbnail_url: string;
-    }[];
+    files: Array<{ id?: number; preview_url?: string; thumbnail_url?: string }>;
     main_category_id: number;
     options: { name: string; value: string }[];
     product: {
@@ -39,4 +36,4 @@ export interface SpreadProduct {
     warehouse_product_id: number | null;
     warehouse_product_variant_id: number | null;
   }[];
-};
+}

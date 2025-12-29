@@ -118,7 +118,7 @@ const ShoppingCart = () => {
           <>
             <div className="cart-products-list">
               {products.map((p) => (
-                <div key={p.productId} className="cart-product-card">
+                <div key={p.variantId} className="cart-product-card">
                   <img
                     src={p.img}
                     alt={p.title}
@@ -136,12 +136,12 @@ const ShoppingCart = () => {
                           </div>
                         </div>
                         <div className="cart-product-info-price">
-                          €{p.price.toFixed(2)}
+                          €{p.retailPrice.toFixed(2)}
                         </div>
                       </div>
                       <div className="cart-product-info cart-product-subtotal">
                         <div>Subtotal:</div>
-                        <div>€{(p.price * p.quantity).toFixed(2)}</div>
+                        <div>€{(p.retailPrice * p.quantity).toFixed(2)}</div>
                       </div>
                     </div>
                     <div className="cart-product-buttons-container">
@@ -150,7 +150,7 @@ const ShoppingCart = () => {
                           className="cart-product-minus-button"
                           onClick={() => {
                             if (p.quantity > 1)
-                              updateQuantity(p.productId, p.quantity - 1);
+                              updateQuantity(p.variantId, p.quantity - 1);
                           }}
                         >
                           -
@@ -162,7 +162,7 @@ const ShoppingCart = () => {
                         <div
                           className="cart-product-add-button"
                           onClick={() =>
-                            updateQuantity(p.productId, p.quantity + 1)
+                            updateQuantity(p.variantId, p.quantity + 1)
                           }
                         >
                           +
@@ -172,7 +172,7 @@ const ShoppingCart = () => {
                         src={Delete}
                         alt="delete icon"
                         className="cart-product-delete-button"
-                        onClick={() => removeProduct(p.productId)}
+                        onClick={() => removeProduct(p.variantId)}
                       />
                     </div>
                   </div>

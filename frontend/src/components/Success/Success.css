@@ -51,10 +51,6 @@
   margin-bottom: 1rem;
 }
 
-/* .success-order-items-container > :only-child {
-  grid-column: 1 / -1;
-} */
-
 .success-order-item-container {
   display: flex;
   gap: 1rem;
@@ -80,6 +76,7 @@
 
 .success-order-item-description {
   font-size: 1rem;
+  text-align: left;
 }
 
 .success-order-total-container {

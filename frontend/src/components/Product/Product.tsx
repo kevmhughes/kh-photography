@@ -69,12 +69,14 @@ const Product = () => {
       return;
 
     addProduct({
-      productId: currentVariant?.id,
-      price: Number(currentVariant.retail_price),
+      variantId: currentVariant?.variant_id,
+      retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",
       title: productDetail?.sync_product.name || "",
       size: currentVariant?.size,
+      fileId: currentVariant.files[0]?.id,
+      sku: currentVariant.sku,
     });
 
     toast.success(
@@ -90,12 +92,14 @@ const Product = () => {
       return;
 
     addProduct({
-      productId: currentVariant?.id,
-      price: Number(currentVariant.retail_price),
+      variantId: currentVariant?.variant_id,
+      retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",
       title: productDetail?.sync_product.name || "",
       size: currentVariant?.size,
+      fileId: currentVariant.files[0]?.id,
+      sku: currentVariant.sku,
     });
 
     setNumberOfProducts(1);

@@ -1,6 +1,9 @@
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
+const stripe = new Stripe(
+  process.env.STRIPE_SECRET_KEY ||
+    ""
+);
 
 export default async function handler(req, res) {
   if (req.method !== "POST")
@@ -19,7 +22,7 @@ export default async function handler(req, res) {
           name: item.title,
           images: [item.img],
         },
-        unit_amount: Math.round(item.price * 100),
+        unit_amount: Math.round(item.retailPrice * 100),
       },
       adjustable_quantity: {
         enabled: true,
@@ -36,10 +39,14 @@ export default async function handler(req, res) {
       payment_method_types: ["card", "paypal"],
       mode: "payment",
       line_items,
+      metadata: {
+        passed: "yes"
+      },
       custom_text: {
         submit: {
-          message: "**For testing purposes:** fill in the card number field using a series of the numbers 4 and 2 (eg. 4242 4242 4242 4242). Put a future date and three numbers in the other fields"
-        }
+          message:
+            "**For testing purposes:** fill in the card number field using a series of the numbers 4 and 2 (eg. 4242 4242 4242 4242). Put a future date and three numbers in the other fields",
+        },
       },
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
@@ -55,9 +62,9 @@ export default async function handler(req, res) {
               amount: 0,
               currency: "eur",
             },
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     res.status(200).json({ url: session.url });

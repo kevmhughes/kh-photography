@@ -16,7 +16,7 @@ export function useResponsiveRowHeight() {
         // desktop
         setTargetRowHeight(450);
       } else {
-        setTargetRowHeight(900);
+        setTargetRowHeight(600);
       }
     }
 

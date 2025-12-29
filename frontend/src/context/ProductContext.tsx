@@ -2,12 +2,14 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 export type Product = {
   title: string;
-  productId: number;
-  price: number;
+  variantId: number;
+  retailPrice: number;
   quantity: number;
   totalPrice: number;
   img: string;
-  size: string
+  size: string;
+  fileId: number | undefined;
+  sku: string
 };
 
 type ProductContextType = {
@@ -39,18 +41,18 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   // Add new product OR merge with existing one
   const addProduct = (product: Omit<Product, "totalPrice">) => {
     setProducts((prev) => {
-      const existing = prev.find((p) => p.productId === product.productId);
+      const existing = prev.find((p) => p.variantId === product.variantId);
 
       // If product exists → update quantity
       if (existing) {
         const newQty = existing.quantity + product.quantity;
 
         return prev.map((p) =>
-          p.productId === product.productId
+          p.variantId === product.variantId
             ? {
                 ...p,
                 quantity: newQty,
-                totalPrice: newQty * p.price,
+                totalPrice: newQty * p.retailPrice,
               }
             : p
         );
@@ -61,21 +63,21 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
         ...prev,
         {
           ...product,
-          totalPrice: product.price * product.quantity,
+          totalPrice: product.retailPrice * product.quantity,
         },
       ];
     });
   };
 
   const removeProduct = (productId: number) => {
-    setProducts((prev) => prev.filter((p) => p.productId !== productId));
+    setProducts((prev) => prev.filter((p) => p.variantId !== productId));
   };
 
   const updateQuantity = (productId: number, quantity: number) => {
     setProducts((prev) =>
       prev.map((p) =>
-        p.productId === productId
-          ? { ...p, quantity, totalPrice: quantity * p.price }
+        p.variantId === productId
+          ? { ...p, quantity, totalPrice: quantity * p.retailPrice }
           : p
       )
     );

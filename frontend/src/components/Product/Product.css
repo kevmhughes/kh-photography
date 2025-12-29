@@ -166,7 +166,6 @@
 .variant-thumbnail {
   height: 4rem;
   cursor: pointer;
-  margin: 2px;
 }
 
 .variant-thumbnail-size {
@@ -178,7 +177,6 @@
   transform: scale(1.05);
   cursor: pointer;
   box-shadow: #63636366 0px 2px 6px;
-  margin: 2px;
 }
 
 @media (max-width: 1024px) {
@@ -269,6 +267,6 @@
 
   .variant-thumbnail,
   .variant-thumbnail-active {
-    height: 5rem;
+    height: 4rem;
   }
 }
