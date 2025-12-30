@@ -65,11 +65,15 @@ const Product = () => {
   const handleAddToCart = () => {
     if (!productDetail || numberOfProducts === 0) return;
 
-    if (!currentVariant || !currentVariant.id || !currentVariant.retail_price)
+    if (
+      !currentVariant ||
+      !currentVariant.variant_id ||
+      !currentVariant.retail_price
+    )
       return;
 
     addProduct({
-      variantId: currentVariant?.variant_id,
+      variantId: currentVariant?.id,
       retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",
@@ -88,11 +92,15 @@ const Product = () => {
   const handleBuyNow = () => {
     if (!productDetail || numberOfProducts === 0) return;
 
-    if (!currentVariant || !currentVariant.id || !currentVariant.retail_price)
+    if (
+      !currentVariant ||
+      !currentVariant.variant_id ||
+      !currentVariant.retail_price
+    )
       return;
 
     addProduct({
-      variantId: currentVariant?.variant_id,
+      variantId: currentVariant?.id,
       retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",
