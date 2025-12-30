@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       mode: "payment",
       line_items,
       metadata: {
-        passed: "yes"
+        products: JSON.stringify(products), 
       },
       custom_text: {
         submit: {
