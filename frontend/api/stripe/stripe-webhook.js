@@ -4,9 +4,7 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
-    api: {
-        bodyParser: false, // Stripe requires raw body
-    },
+    api: { bodyParser: false }, // Stripe requires raw body
 };
 
 export default async function handler(req, res) {
@@ -30,13 +28,14 @@ export default async function handler(req, res) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // Only act on completed payments
     if (event.type === "checkout.session.completed") {
         const session = event.data.object;
 
         try {
-            // Build Printful order payload
-            const orderPayload = buildPrintfulPayload(session.metadata);
+            // Build Printful order payload from session
+            const orderPayload = buildPrintfulPayload(session);
+
+            console.log("Printful payload:", JSON.stringify(orderPayload, null, 2));
 
             const printfulResponse = await axios.post(
                 "https://api.printful.com/orders",
@@ -72,22 +71,21 @@ async function buffer(req) {
     return Buffer.concat(chunks);
 }
 
-// Build Printful payload from Stripe metadata
-function buildPrintfulPayload(metadata) {
-    const products = JSON.parse(metadata.products); // your metadata format
+// Build Printful payload from Checkout Session
+function buildPrintfulPayload(session) {
+    const products = JSON.parse(session.metadata.products || "[]");
 
     const recipient = {
-        name: metadata.customer_name,
-        address1: metadata.address_line1, // mandatory
-        city: metadata.city,
-        country_code: metadata.country,
-        zip: metadata.zip,
-        email: metadata.customer_email,
+        name: session.customer_details?.name || "Unknown",
+        address1: session.shipping_details.address.line1,
+        city: session.shipping_details.address.city,
+        country_code: session.shipping_details.address.country,
+        zip: session.shipping_details.address.postal_code,
+        email: session.customer_details?.email || session.customer_email,
     };
 
-    // Include address2 only if provided
-    if (metadata.address_line2 && metadata.address_line2.trim() !== "") {
-        recipient.address2 = metadata.address_line2;
+    if (session.shipping_details.address.line2) {
+        recipient.address2 = session.shipping_details.address.line2;
     }
 
     return {
@@ -102,7 +100,7 @@ function buildPrintfulPayload(metadata) {
             sku: p.sku,
         })),
         retail_costs: {
-            shipping: metadata.shipping_cost || "0.00",
+            shipping: "0.00",
         },
     };
 }
