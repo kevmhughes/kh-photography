@@ -94,32 +94,49 @@ async function buffer(req) {
 /* -------- BUILD PRINTFUL PAYLOAD -------- */
 
 function buildPrintfulPayload(session) {
-  const products = JSON.parse(session.metadata?.products || "[]");
+  const products = JSON.parse(session.metadata.products || "[]");
+
+  const shipping =
+    session.shipping_details ||
+    session.collected_information?.shipping_details ||
+    null;
+
+  const address =
+    shipping?.address ||
+    session.customer_details?.address ||
+    null;
+
+  if (!address) {
+    throw new Error("No shipping address found in Checkout Session");
+  }
 
   const recipient = {
-    name: session.customer_details?.name,
-    email: session.customer_details?.email,
-    address1: session.shipping_details.address.line1,
-    city: session.shipping_details.address.city,
-    zip: session.shipping_details.address.postal_code,
-    country_code: session.shipping_details.address.country,
+    name: shipping?.name || session.customer_details?.name || "Unknown",
+    address1: address.line1,
+    city: address.city,
+    country_code: address.country,
+    zip: address.postal_code,
+    email:
+      session.customer_details?.email ||
+      session.customer_email ||
+      "unknown@example.com",
   };
 
-  if (session.shipping_details.address.line2) {
-    recipient.address2 = session.shipping_details.address.line2;
+  if (address.line2) {
+    recipient.address2 = address.line2;
   }
 
   const items = products.map((p) => ({
     variant_id: p.variantId,
     quantity: p.quantity,
     retail_price: p.retailPrice.toString(),
-    currency: "EUR",
+    currency: p.currency || "EUR",
     files: [{ id: p.fileId }],
     sku: p.sku,
   }));
 
   return {
-    confirm: false, // test mode
+    confirm: false, // keep false for now
     recipient,
     items,
     retail_costs: {
@@ -127,3 +144,4 @@ function buildPrintfulPayload(session) {
     },
   };
 }
+
