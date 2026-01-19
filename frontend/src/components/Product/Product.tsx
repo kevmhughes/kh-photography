@@ -117,7 +117,7 @@ const Product = () => {
   const inStock = currentVariant?.availability_status === "active";
 
   if (error)
-    return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
+    return <p className="error">{error}</p>;
 
   if (loading)
     return (

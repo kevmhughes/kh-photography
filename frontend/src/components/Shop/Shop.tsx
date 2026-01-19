@@ -21,7 +21,6 @@ const Shop = () => {
         const res = await axios.get("/api/products");
         console.log(res.data.result);
         setProducts(res.data.result || []);
-        /* setProducts(res.data.items || []); */
       } catch (err) {
         console.error("Failed to fetch products:", err);
         setError("Failed to load products");
@@ -44,7 +43,7 @@ const Shop = () => {
     );
 
   if (error)
-    return <p style={{ color: "#f02d34", textAlign: "center" }}>{error}</p>;
+    return <p className="error">{error}</p>;
 
   const sortedProducts = [...products].sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: "base" })

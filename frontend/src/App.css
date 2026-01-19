@@ -49,6 +49,16 @@ button:focus {
   border-radius: 0;
 }
 
+.error {
+  color: red;
+  display: flex;
+  align-items: center;
+  place-content: center;
+  height: calc(100vh - 216px);
+  font-size: 1.5rem;
+  font-family: Inter;
+}
+
 /* ========================= */
 /*        MEDIA QUERIES      */
 /* ========================= */
@@ -60,5 +70,8 @@ button:focus {
   }
   .navbar-sticky-links-bottom-bar {
     display: none;
+  }
+  .error {
+    height: calc(100vh - 120px);
   }
 }

@@ -99,7 +99,7 @@ const Success = () => {
   }, [sessionId]);
 
   if (loading) return null;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) return <p className="error">{error}</p>;
   if (!session) return null;
 
   const customer = session.session.customer_details;
