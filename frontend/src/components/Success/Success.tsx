@@ -66,6 +66,29 @@ const Success = () => {
 
   useEffect(() => {
     if (!sessionId) {
+      window.location.href = "/";
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    // Replace the current history entry so back doesn't go to checkout
+    window.history.replaceState(null, "", window.location.href);
+
+    // Detect if user tries to go back
+    const handlePopState = (event: PopStateEvent) => {
+      // Redirect to homepage or shop page
+      window.location.href = "/";
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!sessionId) {
       setError("Missing session ID");
       setLoading(false);
       return;
@@ -75,7 +98,7 @@ const Success = () => {
       const toastId = toast.loading("Fetching your order…");
       try {
         const res = await axios.get(
-          `/api/stripe/order-success?session_id=${sessionId}`
+          `/api/stripe/order-success?session_id=${sessionId}`,
         );
         setSession(res.data);
         runFireworks();
