@@ -2,7 +2,7 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY ||
-    ""
+  ""
 );
 
 export default async function handler(req, res) {
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       mode: "payment",
       line_items,
       metadata: {
-        products: JSON.stringify(products), 
+        products: JSON.stringify(products),
       },
       custom_text: {
         submit: {
@@ -51,7 +51,9 @@ export default async function handler(req, res) {
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
       shipping_address_collection: {
-        allowed_countries: ["ES"],
+        allowed_countries: ["BE", "AU", "BG", "HR", "CY", "CZ", "DZ", "EE", "FI", "FR",
+          "DE", "GI", "GR", "HU", "IE", "IT", "LI", "LU", "NL", "NO",
+          "PL", "PT", "RO", "SK", "SI", "SE", "CH", "GB"],
       },
       shipping_options: [
         {
