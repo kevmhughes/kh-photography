@@ -19,7 +19,6 @@ export default async function handler(req, res) {
       limit: 100,
     })
 
-    /* console.log("session: ", session) */
     console.log("line items: ", lineItems)
 
     res.status(200).json({ session, lineItems })
