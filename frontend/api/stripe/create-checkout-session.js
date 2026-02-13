@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
       shipping_address_collection: {
-        allowed_countries: ["ES", "AU", "BE","BG", "HR", "CY", "CZ", "DZ", "EE", "FI", "FR",
+        allowed_countries: ["ES", "BE","BG", "HR", "CY", "CZ", "EE", "FI", "FR",
           "DE", "GI", "GR", "HU", "IE", "IT", "LI", "LU", "NL", "NO",
           "PL", "PT", "RO", "SK", "SI", "SE", "CH", "GB"],
       },
