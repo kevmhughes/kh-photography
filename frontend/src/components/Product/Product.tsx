@@ -6,7 +6,7 @@ import axios from "axios";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
-import type { SpreadProduct } from "../../types/product.types";
+import type { PrintfulProduct } from "../../types/product.types";
 
 import toast from "react-hot-toast";
 
@@ -16,8 +16,8 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [numberOfProducts, setNumberOfProducts] = useState(1);
-  const [productDetail, setProductDetail] = useState<SpreadProduct | null>(
-    null
+  const [productDetail, setProductDetail] = useState<PrintfulProduct | null>(
+    null,
   );
 
   console.log("data", productDetail);
@@ -33,10 +33,10 @@ const Product = () => {
 
       try {
         const res = await axios.get(`/api/products/${id}`);
-        const product: SpreadProduct = res.data.result;
+        const product: PrintfulProduct = res.data.result;
 
         const sortedVariants = [...product.sync_variants].sort(
-          (a, b) => Number(a.retail_price) - Number(b.retail_price)
+          (a, b) => Number(a.retail_price) - Number(b.retail_price),
         );
 
         setProductDetail({
@@ -84,7 +84,7 @@ const Product = () => {
     });
 
     toast.success(
-      `${productDetail?.sync_product.name} x ${numberOfProducts} added to cart`
+      `${productDetail?.sync_product.name} x ${numberOfProducts} added to cart`,
     );
     setNumberOfProducts(1);
   };
@@ -116,8 +116,7 @@ const Product = () => {
 
   const inStock = currentVariant?.availability_status === "active";
 
-  if (error)
-    return <p className="error">{error}</p>;
+  if (error) return <p className="error">{error}</p>;
 
   if (loading)
     return (

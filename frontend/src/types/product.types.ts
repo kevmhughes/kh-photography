@@ -1,4 +1,4 @@
-export interface SpreadProduct {
+export interface PrintfulProduct {
   id: string;
   thumbnail_url: string;
   name: string;

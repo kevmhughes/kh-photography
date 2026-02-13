@@ -5,10 +5,10 @@ import StickyLinks from "../StickyLinks/StickyLinks";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Loader from "../Loader/Loader";
 import "./Shop.css";
-import type { SpreadProduct } from "../../types/product.types";
+import type { PrintfulProduct } from "../../types/product.types";
 
 const Shop = () => {
-  const [products, setProducts] = useState<SpreadProduct[]>([]);
+  const [products, setProducts] = useState<PrintfulProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,13 +42,12 @@ const Shop = () => {
       </>
     );
 
-  if (error)
-    return <p className="error">{error}</p>;
+  if (error) return <p className="error">{error}</p>;
 
   const sortedProducts = [...products].sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
   );
-  
+
   return (
     <div>
       <StickyLinks />
