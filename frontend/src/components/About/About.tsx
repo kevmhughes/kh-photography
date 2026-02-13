@@ -8,16 +8,16 @@ const About = () => {
       <div className="about-text">
         <div className="about-text-line-one">I’m a passionate</div>
         <div className="about-text-line-two">nature photographer</div>
-        <div className="about-text-line-three">drawn to enigmatic postures</div>
+        <div className="about-text-line-three">drawn to enigmatic creatures</div>
         <div className="about-text-line-four">
-          and how light shapes emotion.
+          of all shapes and sizes.
         </div>
-        {/* <div className="slide-in">
+        <div className="slide-in">
           I capture quiet, fleeting moments
         </div>
         <div className="slide-in-two">
-          where nature wants to tell its subtle story
-        </div> */}
+          where nature tells subtle stories!
+        </div>
       </div>
     </div>
   );

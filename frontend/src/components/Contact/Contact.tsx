@@ -6,13 +6,13 @@ const Contact = () => {
     <div>
       <StickyLinks />
       <div className="about-text">
-        <div className="about-text-line-one">Let’s connect.</div>
-        <div className="about-text-line-two">
-          For collaborations or inquiries.
-        </div>
+        <div className="about-text-line-one">If you have questions about prints, </div>
+        <div className="about-text-line-two">licensing, or future photography tours,</div>
         <div className="about-text-line-three">
-          <strong>email: </strong>
-          kevhughes24@hotmail.com{" "}
+          feel free to reach out!
+        </div>
+        <div className="about-text-line-four">
+          <strong>kevhughes24@hotmail.com</strong>
         </div>
       </div>
     </div>

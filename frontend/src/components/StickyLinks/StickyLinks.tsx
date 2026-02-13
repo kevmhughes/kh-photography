@@ -19,7 +19,7 @@ const StickyLinks = () => {
           </li>
           <li>
             <Link to="/shop" className="navbar-links">
-              Shop
+              Prints
             </Link>
           </li>
           <li>
