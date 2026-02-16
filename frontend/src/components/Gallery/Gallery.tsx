@@ -51,6 +51,8 @@ const Gallery = () => {
     }[]
   >([]);
 
+  console.log("photo info", photos)
+
   const [index, setIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -253,6 +255,7 @@ const Gallery = () => {
                 ISO: ${p.exif.iso ?? "-"}
                 Focal Length: ${p.exif.focalLength || "-"}
                 Shutter Speed: ${p.exif.shutterSpeed || "-"}
+                Location: ${p.description || "-"}
               `
                   : ""
               }

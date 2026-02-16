@@ -20,7 +20,6 @@ export default {
       type: 'object',
       options: {collapsible: true},
       fields: [
-        // optionally define common EXIF fields like ISO, aperture, etc.
         {name: 'camera', type: 'string', title: 'Camera'},
         {name: 'lens', type: 'string', title: 'Lens'},
         {name: 'aperture', type: 'string', title: 'Aperture'},
