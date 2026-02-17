@@ -1,4 +1,7 @@
 .about-container {
+  height: 100%;
+  top: 0rem;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,15 +16,15 @@
 }
 
 .body {
-  height: 500px;
+  height: 100%;
   z-index: 10;
   position: absolute;
-  margin-left: 3rem;
+  margin-left: 5rem;
 }
 
 .trees {
   position: absolute;
-  height: 450px;
+  height: 95%;
 }
 
 .about-text {
@@ -47,7 +50,7 @@
 .about-text-line-five,
 .about-text-line-six,
 .about-text-line-seven {
-  transform: translateX(100%);
+  transform: translateY(30%);
   opacity: 0;
   animation: fadeUp 1s ease forwards;
 }
@@ -57,27 +60,27 @@
 }
 
 .about-text-line-two {
-  animation-delay: 4s;
+  animation-delay: 3.2s;
 }
 
 .about-text-line-three {
-  animation-delay: 5s;
+  animation-delay: 3.4s;
 }
 
 .about-text-line-four {
-  animation-delay: 6s;
+  animation-delay: 3.6s;
 }
 
 .about-text-line-five {
-  animation-delay: 7s;
+  animation-delay: 3.8s;
 }
 
 .about-text-line-six {
-  animation-delay: 8s;
+  animation-delay: 4s;
 }
 
 .about-text-line-seven {
-  animation-delay: 9s;
+  animation-delay: 4.2s;
 }
 
 @keyframes fadeUp {
@@ -136,6 +139,7 @@
 
   .body {
     height: 300px;
+    margin-left: 3rem;
   }
 
   .trees {
