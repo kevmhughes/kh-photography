@@ -1,15 +1,42 @@
+.about-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -6rem;
+  gap: 8rem;
+}
+
+.about-images-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  right: 150px;
+}
+
+.body {
+  height: 500px;
+  z-index: 10;
+  position: absolute;
+  margin-left: 3rem;
+}
+
+.trees {
+  position: absolute;
+  height: 450px;
+}
+
 .about-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: calc(100vh - 15rem);
+  height: 500px;
   align-items: center;
   font-size: 1.75rem;
   line-height: 1.5;
   font-weight: 200;
   font-style: italic;
   position: relative;
-  top: -5rem;
+  top: -1rem;
   color: #656363;
 }
 
@@ -18,26 +45,39 @@
 .about-text-line-three,
 .about-text-line-four,
 .about-text-line-five,
-.about-text-line-six {
-  transform: translateY(2rem);
+.about-text-line-six,
+.about-text-line-seven {
+  transform: translateX(100%);
   opacity: 0;
   animation: fadeUp 1s ease forwards;
 }
 
 .about-text-line-one {
-  animation-delay: 1s;
+  animation-delay: 3s;
 }
 
 .about-text-line-two {
-  animation-delay: 1.75s;
+  animation-delay: 4s;
 }
 
 .about-text-line-three {
-  animation-delay: 2.75s;
+  animation-delay: 5s;
 }
 
 .about-text-line-four {
-  animation-delay: 3.75s;
+  animation-delay: 6s;
+}
+
+.about-text-line-five {
+  animation-delay: 7s;
+}
+
+.about-text-line-six {
+  animation-delay: 8s;
+}
+
+.about-text-line-seven {
+  animation-delay: 9s;
 }
 
 @keyframes fadeUp {
@@ -47,18 +87,19 @@
   }
 }
 
-.slide-in {
+.slide-in-face,
+.slide-in-face-two {
   opacity: 0; /* start invisible */
   transform: translateX(-100%); /* start off-screen left */
   animation: slideIn 1s ease forwards;
-  animation-delay: 5s; /* optional: delay before animation */
 }
 
-.slide-in-two {
-  opacity: 0; /* start invisible */
-  transform: translateX(100%); /* start off-screen left */
-  animation: slideIn 1s ease forwards;
-  animation-delay: 6.5s; /* optional: delay before animation */
+.slide-in-face {
+  animation-delay: 1s; /* optional: delay before animation */
+}
+
+.slide-in-face-two {
+  animation-delay: 2s; /* optional: delay before animation */
 }
 
 @keyframes slideIn {
@@ -73,9 +114,29 @@
 /* ========================= */
 
 @media (max-width: 480px) {
+  .about-container {
+    flex-direction: column;
+    gap: 0rem;
+    margin-left: 0;
+  }
+
+  .about-images-container {
+    height: 200px;
+    width: 200px;
+    margin-top: 2rem;
+  } 
+
   .about-text {
     height: 100vh;
     width: 300px;
     margin: auto;
+  }
+
+  .body {
+    height: 300px;
+  }
+
+  .trees {
+    height: 300px;
   }
 }
