@@ -116,7 +116,6 @@
 @media (max-width: 480px) {
   .about-container {
     flex-direction: column;
-    gap: 0rem;
     margin-left: 0;
   }
 
@@ -124,12 +123,13 @@
     height: 200px;
     width: 200px;
     margin-top: 2rem;
-  } 
+  }
 
   .about-text {
     height: 100vh;
     width: 300px;
     margin: auto;
+    justify-content: flex-start;
   }
 
   .body {
