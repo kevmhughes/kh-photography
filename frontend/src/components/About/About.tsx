@@ -30,7 +30,7 @@ const About = () => {
             <div>of all shapes and sizes.</div>
           </div>
           <div className="about-text-line-two">
-            <div>I capture those fleeting moments</div>
+            <div>I capture fleeting moments</div>
             <div>where nature tells subtle stories</div>
             <div>revealing the hidden poetry of the wild.</div>
           </div>

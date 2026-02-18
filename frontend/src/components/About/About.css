@@ -106,6 +106,7 @@
   .about-text {
     width: 300px;
     margin: auto;
+    text-align: left;
   }
 
   .about-text-line-one,
@@ -120,5 +121,13 @@
 
   .trees {
     height: 300px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .about-images-container {
+    height: 800px;
+    width: 800px;
+    right: 300px;
   }
 }
