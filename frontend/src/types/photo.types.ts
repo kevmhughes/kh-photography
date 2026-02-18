@@ -5,7 +5,7 @@ export interface ExifData {
   iso?: number;
   focalLength?: string;
   shutterSpeed?: string;
-  // description field being used to describe location
+  // description field is being used to describe location
   description?: string
 }
 

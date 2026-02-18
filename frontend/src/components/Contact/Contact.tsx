@@ -1,13 +1,103 @@
+import React, { useState } from "react";
+import type { FormEvent } from "react";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import "../About/About.css";
+import "./Contact.css";
+
+interface Contact {}
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    user_name: "",
+    user_email: "",
+    message: "",
+  });
+
+  const [status, setStatus] = React.useState<"success" | "error" | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      // Example: Replace this with your email sending logic
+      console.log("Sending email...", formData);
+      setStatus("success");
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
+  };
+
   return (
     <div>
       <StickyLinks />
-      <div className="about-text" style={{marginTop: "5rem"}}>
-        If you have questions about prints, licensing, or coming-up photography
-        tours, feel free to reach out!
+      <div className="contact-form-and-text-container">
+        <div className="contact-text">
+          For inquiries about prints, licensing, or upcoming photography tours,
+          please don’t hesitate to reach out.
+        </div>
+        <form
+          id="contact-form"
+          className="contact-container"
+          onSubmit={sendEmail}
+          style={{ fontFamily: "Raleway" }}
+        >
+          <input type="hidden" name="contact_number" />
+          <label className="form-text">Name</label>
+          <input
+            type="text"
+            id="user_name"
+            name="user_name"
+            value={formData.user_name}
+            onChange={handleChange}
+            required
+          />
+          <label className="form-text">E-mail</label>
+          <input
+            type="email"
+            id="user_email"
+            name="user_email"
+            value={formData.user_email}
+            onChange={handleChange}
+            required
+          />
+          <label className="form-text">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows={5}
+            minLength={10}
+            maxLength={500}
+            placeholder="Write your message here..."
+            className="form-text"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
+          <div
+            className="g-recaptcha"
+            data-sitekey="6LeltFkrAAAAAPEG8JPYSCXDftKf4CjX2v6Q7AlN"
+          ></div>
+          <button type="submit" className="form-text form-button">
+            Send
+          </button>
+        </form>
+        <div className="container">
+          {status === "success" && (
+            <div className="container success-message message-container">
+              Your message has been sent successfully!
+            </div>
+          )}
+          {status === "error" && (
+            <div className="container error-message message-container">
+              Something went wrong, please try again later.
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
