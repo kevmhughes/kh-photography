@@ -24,7 +24,7 @@ const About = () => {
 
         <div className="about-text">
           <div className="about-text-line-one">
-            <div>I’m a passionate</div>
+            <div>"I’m a passionate</div>
             <div>nature photographer</div>
             <div>drawn to enigmatic creatures</div>
             <div>of all shapes and sizes.</div>
@@ -32,7 +32,7 @@ const About = () => {
           <div className="about-text-line-two">
             <div>I capture fleeting moments</div>
             <div>where nature tells subtle stories</div>
-            <div>revealing the hidden poetry of the wild.</div>
+            <div>revealing the hidden poetry of the wild."</div>
           </div>
         </div>
       </div>
