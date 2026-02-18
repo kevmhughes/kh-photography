@@ -32,7 +32,6 @@
   flex-direction: column;
   justify-content: center;
   height: 500px;
-  align-items: center;
   font-size: 1.75rem;
   line-height: 1.5;
   font-weight: 200;
@@ -116,7 +115,7 @@
 /*        MEDIA QUERIES      */
 /* ========================= */
 
-@media (max-width: 480px) {
+@media (max-width: 1024px) {
   .about-container {
     flex-direction: column;
     margin-left: 0;
@@ -129,7 +128,6 @@
   }
 
   .about-text {
-    height: 100vh;
     width: 300px;
     margin: auto;
     align-content: normal;
