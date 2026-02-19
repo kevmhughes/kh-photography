@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import type { FormEvent } from "react";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
 
@@ -12,6 +11,8 @@ const Contact = () => {
     message: "",
   });
 
+  console.log("form data", formData);
+
   const [status, setStatus] = React.useState<"success" | "error" | null>(null);
 
   const handleChange = (
@@ -20,14 +21,33 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      // Example: Replace this with your email sending logic
-      console.log("Sending email...", formData);
+      const response = await fetch("/api/contact/sendEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      let result: any;
+      try {
+        result = await response.json(); // try parse JSON
+      } catch {
+        const text = await response.text(); // fallback to text
+        throw new Error(text || "Unknown server error");
+      }
+
+      if (!response.ok) {
+        throw new Error(result?.error || "Failed to send email");
+      }
+
+      alert("Email sent successfully!");
       setStatus("success");
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error("Error sending email:", err);
+      alert("Failed to send email: " + err.message);
       setStatus("error");
     }
   };
@@ -50,7 +70,7 @@ const Contact = () => {
           <label className="form-text">Name</label>
           <input
             type="text"
-            id="user_name"
+            id="name"
             name="user_name"
             value={formData.user_name}
             onChange={handleChange}
@@ -59,7 +79,7 @@ const Contact = () => {
           <label className="form-text">E-mail</label>
           <input
             type="email"
-            id="user_email"
+            id="email"
             name="user_email"
             value={formData.user_email}
             onChange={handleChange}
