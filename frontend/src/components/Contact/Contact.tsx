@@ -3,6 +3,20 @@ import ReCAPTCHA from "react-google-recaptcha";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
 
+declare global {
+  interface Window {
+    grecaptcha: {
+      reset: () => void;
+      getResponse: () => string;
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options?: { action?: string },
+      ) => Promise<string>;
+    };
+  }
+}
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     user_name: "",
@@ -52,9 +66,12 @@ const Contact = () => {
       });
 
       setCaptchaToken(null);
+      window.grecaptcha?.reset();
     } catch (err) {
       console.error("Error sending email:", err);
       setStatus("error");
+      setCaptchaToken(null);
+      window.grecaptcha?.reset();
     }
   };
 
