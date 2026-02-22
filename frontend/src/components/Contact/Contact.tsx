@@ -25,29 +25,29 @@ const Contact = () => {
     e.preventDefault();
 
     try {
+      const token = await window.grecaptcha.execute(
+        import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+        { action: "contact_form" },
+      );
+
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          token, 
+        }),
       });
 
-      let result: any;
-      try {
-        result = await response.json(); // try parse JSON
-      } catch {
-        const text = await response.text(); // fallback to text
-        throw new Error(text || "Unknown server error");
-      }
+      const result = await response.json();
 
       if (!response.ok) {
         throw new Error(result?.error || "Failed to send email");
       }
 
-      alert("Email sent successfully!");
       setStatus("success");
     } catch (err: any) {
       console.error("Error sending email:", err);
-      alert("Failed to send email: " + err.message);
       setStatus("error");
     }
   };
@@ -98,10 +98,6 @@ const Contact = () => {
             onChange={handleChange}
             required
           ></textarea>
-          <div
-            className="g-recaptcha"
-            data-sitekey="6LeltFkrAAAAAPEG8JPYSCXDftKf4CjX2v6Q7AlN"
-          ></div>
           <button type="submit" className="form-text form-button">
             Send
           </button>

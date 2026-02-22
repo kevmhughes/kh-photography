@@ -9,10 +9,36 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid JSON" });
   }
 
-  const { user_name, user_email, message } = body;
+  const { user_name, user_email, message, token } = body;
 
   if (!user_name || !user_email || !message)
     return res.status(400).json({ error: "All fields are required" });
+
+  if (!token)
+  return res.status(400).json({ error: "Missing reCAPTCHA token" });
+
+const recaptchaResponse = await fetch(
+  "https://www.google.com/recaptcha/api/siteverify",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      secret: process.env.RECAPTCHA_SECRET_KEY,
+      response: token,
+    }),
+  }
+);
+
+const recaptchaData = await recaptchaResponse.json();
+
+if (!recaptchaData.success)
+  return res.status(400).json({ error: "reCAPTCHA failed" });
+
+if (recaptchaData.action !== "contact_form")
+  return res.status(400).json({ error: "Invalid action" });
+
+if (recaptchaData.score < 0.5)
+  return res.status(400).json({ error: "Low reCAPTCHA score" });
 
   try {
     const emailResponse = await fetch(
