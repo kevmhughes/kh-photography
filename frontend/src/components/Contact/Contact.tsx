@@ -33,7 +33,10 @@ const Contact = () => {
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, token: captchaToken }),
+        body: JSON.stringify({
+          ...formData,
+          "g-recaptcha-response": captchaToken,
+        }),
       });
 
       const result = await response.json();

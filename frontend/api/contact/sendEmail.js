@@ -10,7 +10,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Invalid JSON" });
   }
 
-  const { user_name, user_email, message, token } = body;
+  const { user_name, user_email, message, "g-recaptcha-response": token } = body;
+
+  if (!token) {
+    return res.status(400).json({ error: "Missing reCAPTCHA token" });
+  }
 
   if (!user_name || !user_email || !message) {
     return res.status(400).json({ error: "All fields are required" });
