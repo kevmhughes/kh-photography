@@ -42,8 +42,7 @@
   align-items: flex-start;
 }
 
-.about-text-line-one,
-.about-text-line-two {
+.about-text-line-one {
   text-align: left;
   transform: translateY(30%);
   opacity: 0;
@@ -52,10 +51,6 @@
 
 .about-text-line-one {
   animation-delay: 3s;
-}
-
-.about-text-line-two {
-  animation-delay: 4s;
 }
 
 @keyframes fadeUp {

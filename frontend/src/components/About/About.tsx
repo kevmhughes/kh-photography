@@ -28,8 +28,6 @@ const About = () => {
             <div>nature photographer</div>
             <div>drawn to enigmatic creatures</div>
             <div>of all shapes and sizes.</div>
-          </div>
-          <div className="about-text-line-two">
             <div>I capture fleeting moments</div>
             <div>where nature tells subtle stories</div>
             <div>revealing the hidden poetry of the wild."</div>
