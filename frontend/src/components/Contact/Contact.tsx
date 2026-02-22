@@ -11,7 +11,7 @@ declare global {
       ready: (callback: () => void) => void;
       execute: (
         siteKey: string,
-        options?: { action?: string },
+        options?: { action?: string }
       ) => Promise<string>;
     };
   }
@@ -24,15 +24,19 @@ const Contact = () => {
     message: "",
   });
 
-  console.log("SITE KEY:", import.meta.env.VITE_RECAPTCHA_SITE_KEY);
-
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCaptchaChange = (token: string | null) => {
+    console.log("Captcha token generated:", token);
+    setCaptchaToken(token);
   };
 
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,6 +46,8 @@ const Contact = () => {
       setStatus("error");
       return;
     }
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/contact/sendEmail", {
@@ -54,24 +60,25 @@ const Contact = () => {
       });
 
       const result = await response.json();
+
       if (!response.ok) throw new Error(result?.error);
 
       setStatus("success");
 
-      // Reset form + captcha
+      // Reset form
       setFormData({
         user_name: "",
         user_email: "",
         message: "",
       });
-
-      setCaptchaToken(null);
-      window.grecaptcha?.reset();
     } catch (err) {
       console.error("Error sending email:", err);
       setStatus("error");
+    } finally {
+      // Always reset captcha and token
       setCaptchaToken(null);
       window.grecaptcha?.reset();
+      setIsSubmitting(false);
     }
   };
 
@@ -122,14 +129,15 @@ const Contact = () => {
 
           <ReCAPTCHA
             sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-            onChange={(token) => {
-              console.log("Captcha token generated:", token);
-              setCaptchaToken(token);
-            }}
+            onChange={handleCaptchaChange}
           />
 
-          <button type="submit" className="form-text form-button">
-            Send
+          <button
+            type="submit"
+            className="form-text form-button"
+            disabled={!captchaToken || isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send"}
           </button>
         </form>
 
