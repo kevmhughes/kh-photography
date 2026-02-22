@@ -12,7 +12,7 @@ const Contact = () => {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  // Load reCAPTCHA script dynamically
+  // Load reCAPTCHA v3 dynamically
   useEffect(() => {
     if (!window.grecaptcha) {
       const script = document.createElement("script");
@@ -31,28 +31,32 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Safely get reCAPTCHA token
+  const getRecaptchaToken = async (): Promise<string> => {
+    if (!window.grecaptcha) throw new Error("reCAPTCHA not loaded yet");
+
+    return new Promise((resolve, reject) => {
+      window.grecaptcha.ready(() => {
+        window.grecaptcha
+          .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: "contact_form" })
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  };
+
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!scriptLoaded || !window.grecaptcha) {
-      alert("reCAPTCHA not loaded yet. Please wait a moment.");
+    if (!scriptLoaded) {
+      alert("reCAPTCHA is still loading, please wait a moment.");
       return;
     }
 
     try {
-      // Get v3 token safely
-      const token = await new Promise<string>((resolve, reject) => {
-        window.grecaptcha.ready(() => {
-          window.grecaptcha
-            .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, {
-              action: "contact_form",
-            })
-            .then(resolve)
-            .catch(reject);
-        });
-      });
+      const token = await getRecaptchaToken();
+      console.log("reCAPTCHA token:", token);
 
-      // Send form data + token to backend
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -60,7 +64,6 @@ const Contact = () => {
       });
 
       const result = await response.json();
-
       if (!response.ok) throw new Error(result?.error || "Failed to send email");
 
       setStatus("success");
@@ -115,6 +118,7 @@ const Contact = () => {
             Send
           </button>
         </form>
+
         <div className="container">
           {status === "success" && (
             <div className="container success-message message-container">

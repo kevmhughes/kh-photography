@@ -15,32 +15,35 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "All fields are required" });
 
   if (!token)
-  return res.status(400).json({ error: "Missing reCAPTCHA token" });
-
-const recaptchaResponse = await fetch(
-  "https://www.google.com/recaptcha/api/siteverify",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      secret: process.env.RECAPTCHA_SECRET_KEY,
-      response: token,
-    }),
-  }
-);
-
-const recaptchaData = await recaptchaResponse.json();
-
-if (!recaptchaData.success)
-  return res.status(400).json({ error: "reCAPTCHA failed" });
-
-if (recaptchaData.action !== "contact_form")
-  return res.status(400).json({ error: "Invalid action" });
-
-if (recaptchaData.score < 0.5)
-  return res.status(400).json({ error: "Low reCAPTCHA score" });
+    return res.status(400).json({ error: "Missing reCAPTCHA token" });
 
   try {
+    // Verify reCAPTCHA token with Google
+    const recaptchaResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          secret: process.env.RECAPTCHA_SECRET_KEY,
+          response: token,
+        }),
+      }
+    );
+
+    const recaptchaData = await recaptchaResponse.json();
+    console.log("reCAPTCHA verification:", recaptchaData);
+
+    if (!recaptchaData.success)
+      return res.status(400).json({ error: "reCAPTCHA failed" });
+
+    if (recaptchaData.action !== "contact_form")
+      return res.status(400).json({ error: "Invalid action" });
+
+    if (recaptchaData.score < 0.5)
+      return res.status(400).json({ error: "Low reCAPTCHA score" });
+
+    // Send email via EmailJS
     const emailResponse = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
       {
@@ -53,7 +56,7 @@ if (recaptchaData.score < 0.5)
           accessToken: process.env.EMAILJS_PRIVATE_KEY,
           template_params: { user_name, user_email, message },
         }),
-      },
+      }
     );
 
     if (!emailResponse.ok) {
@@ -63,7 +66,7 @@ if (recaptchaData.score < 0.5)
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.error("EmailJS error:", err.message);
+    console.error("Error:", err.message);
     return res
       .status(500)
       .json({ error: err.message || "Internal Server Error" });
