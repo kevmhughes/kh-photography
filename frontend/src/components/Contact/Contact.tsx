@@ -12,12 +12,17 @@ const Contact = () => {
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
+  // Load reCAPTCHA script dynamically
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`;
-    script.async = true;
-    script.onload = () => setScriptLoaded(true);
-    document.body.appendChild(script);
+    if (!window.grecaptcha) {
+      const script = document.createElement("script");
+      script.src = `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`;
+      script.async = true;
+      script.onload = () => setScriptLoaded(true);
+      document.body.appendChild(script);
+    } else {
+      setScriptLoaded(true);
+    }
   }, []);
 
   const handleChange = (
@@ -35,6 +40,7 @@ const Contact = () => {
     }
 
     try {
+      // Get v3 token safely
       const token = await new Promise<string>((resolve, reject) => {
         window.grecaptcha.ready(() => {
           window.grecaptcha
@@ -46,6 +52,7 @@ const Contact = () => {
         });
       });
 
+      // Send form data + token to backend
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,11 +84,9 @@ const Contact = () => {
           onSubmit={sendEmail}
           style={{ fontFamily: "Raleway" }}
         >
-          <input type="hidden" name="contact_number" />
           <label className="form-text">Name</label>
           <input
             type="text"
-            id="name"
             name="user_name"
             value={formData.user_name}
             onChange={handleChange}
@@ -90,7 +95,6 @@ const Contact = () => {
           <label className="form-text">E-mail</label>
           <input
             type="email"
-            id="email"
             name="user_email"
             value={formData.user_email}
             onChange={handleChange}
@@ -98,17 +102,15 @@ const Contact = () => {
           />
           <label className="form-text">Message</label>
           <textarea
-            id="message"
             name="message"
             rows={5}
             minLength={10}
             maxLength={500}
             placeholder="Write your message here..."
-            className="form-text"
             value={formData.message}
             onChange={handleChange}
             required
-          ></textarea>
+          />
           <button type="submit" className="form-text form-button">
             Send
           </button>
