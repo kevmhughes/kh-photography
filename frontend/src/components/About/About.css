@@ -106,7 +106,6 @@
   .about-text {
     width: 300px;
     margin: auto;
-    text-align: left;
   }
 
   .about-text-line-one,
@@ -116,7 +115,7 @@
 
   .body {
     height: 300px;
-    margin-left: 3rem;
+    margin-left: 3.5rem;
   }
 
   .trees {
