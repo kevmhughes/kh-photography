@@ -17,30 +17,29 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const getRecaptchaToken = async (): Promise<string> => {
+    for (let i = 0; i < 50; i++) {
+      if (window.grecaptcha) break;
+      await new Promise(r => setTimeout(r, 50));
+    }
+    if (!window.grecaptcha) throw new Error("reCAPTCHA not loaded");
+
+    return new Promise<string>((resolve, reject) => {
+      window.grecaptcha.ready(() => {
+        window.grecaptcha
+          .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: "contact_form" })
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  };
+
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!window.grecaptcha) {
-      alert("reCAPTCHA not loaded yet. Please refresh.");
-      return;
-    }
-
     try {
-      // Get reCAPTCHA v3 token
-      const token = await new Promise<string>((resolve, reject) => {
-        window.grecaptcha.ready(() => {
-          window.grecaptcha
-            .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, {
-              action: "contact_form",
-            })
-            .then(resolve)
-            .catch(reject);
-        });
-      });
+      const token = await getRecaptchaToken();
 
-      console.log("reCAPTCHA token:", token); 
-
-      // Send form data + token to backend
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
