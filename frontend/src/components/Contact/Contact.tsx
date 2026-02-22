@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
 
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     user_name: "",
@@ -17,28 +23,16 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const getRecaptchaToken = async (): Promise<string> => {
-    for (let i = 0; i < 50; i++) {
-      if (window.grecaptcha) break;
-      await new Promise(r => setTimeout(r, 50));
-    }
-    if (!window.grecaptcha) throw new Error("reCAPTCHA not loaded");
-
-    return new Promise<string>((resolve, reject) => {
-      window.grecaptcha.ready(() => {
-        window.grecaptcha
-          .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: "contact_form" })
-          .then(resolve)
-          .catch(reject);
-      });
-    });
-  };
-
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const token = await getRecaptchaToken();
+      const token = window.grecaptcha?.getResponse();
+
+      if (!token) {
+        setStatus("error");
+        return;
+      }
 
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
@@ -47,10 +41,19 @@ const Contact = () => {
       });
 
       const result = await response.json();
-      if (!response.ok) throw new Error(result?.error || "Failed to send email");
+      if (!response.ok) throw new Error(result?.error);
 
       setStatus("success");
-    } catch (err: any) {
+
+      setFormData({
+        user_name: "",
+        user_email: "",
+        message: "",
+      });
+
+      window.grecaptcha.reset();
+
+    } catch (err) {
       console.error("Error sending email:", err);
       setStatus("error");
     }
@@ -64,6 +67,7 @@ const Contact = () => {
           For inquiries about prints, licensing, or upcoming photography tours,
           please don’t hesitate to reach out.
         </div>
+
         <form
           id="contact-form"
           className="contact-container"
@@ -100,6 +104,13 @@ const Contact = () => {
             required
           />
 
+          {/* ✅ reCAPTCHA v2 Checkbox */}
+          <div
+            className="g-recaptcha"
+            data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            style={{ margin: "15px 0" }}
+          ></div>
+
           <button type="submit" className="form-text form-button">
             Send
           </button>
@@ -113,7 +124,7 @@ const Contact = () => {
           )}
           {status === "error" && (
             <div className="container error-message message-container">
-              Something went wrong, please try again later.
+              Please complete the reCAPTCHA and try again.
             </div>
           )}
         </div>

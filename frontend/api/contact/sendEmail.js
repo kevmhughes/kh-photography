@@ -1,6 +1,7 @@
 export default async function handler(req, res) {
-  if (req.method !== "POST")
+  if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
+  }
 
   let body;
   try {
@@ -11,14 +12,16 @@ export default async function handler(req, res) {
 
   const { user_name, user_email, message, token } = body;
 
-  if (!user_name || !user_email || !message)
+  if (!user_name || !user_email || !message) {
     return res.status(400).json({ error: "All fields are required" });
+  }
 
-  if (!token)
+  if (!token) {
     return res.status(400).json({ error: "Missing reCAPTCHA token" });
+  }
 
   try {
-    // Verify reCAPTCHA token with Google
+    // ✅ Verify reCAPTCHA v2
     const recaptchaResponse = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
       {
@@ -32,18 +35,12 @@ export default async function handler(req, res) {
     );
 
     const recaptchaData = await recaptchaResponse.json();
-    console.log("reCAPTCHA verification:", recaptchaData);
 
-    if (!recaptchaData.success)
-      return res.status(400).json({ error: "reCAPTCHA failed" });
+    if (!recaptchaData.success) {
+      return res.status(400).json({ error: "reCAPTCHA verification failed" });
+    }
 
-    if (recaptchaData.action !== "contact_form")
-      return res.status(400).json({ error: "Invalid action" });
-
-    if (recaptchaData.score < 0.5)
-      return res.status(400).json({ error: "Low reCAPTCHA score" });
-
-    // Send email via EmailJS
+    // ✅ Send email via EmailJS
     const emailResponse = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
       {
@@ -65,10 +62,11 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({ success: true });
+
   } catch (err) {
     console.error("Error:", err.message);
-    return res
-      .status(500)
-      .json({ error: err.message || "Internal Server Error" });
+    return res.status(500).json({
+      error: err.message || "Internal Server Error",
+    });
   }
 }
