@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ Verify reCAPTCHA v2
+    // Verify reCAPTCHA v2 with Google
     const recaptchaResponse = await fetch(
       "https://www.google.com/recaptcha/api/siteverify",
       {
@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "reCAPTCHA verification failed" });
     }
 
-    // ✅ Send email via EmailJS
+    // Send email via EmailJS
     const emailResponse = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
       {

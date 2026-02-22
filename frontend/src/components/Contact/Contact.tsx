@@ -1,12 +1,7 @@
 import React, { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
-
-declare global {
-  interface Window {
-    grecaptcha: any;
-  }
-}
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +11,7 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -26,18 +22,16 @@ const Contact = () => {
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!captchaToken) {
+      setStatus("error");
+      return;
+    }
+
     try {
-      const token = window.grecaptcha?.getResponse();
-
-      if (!token) {
-        setStatus("error");
-        return;
-      }
-
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, token }),
+        body: JSON.stringify({ ...formData, token: captchaToken }),
       });
 
       const result = await response.json();
@@ -45,13 +39,14 @@ const Contact = () => {
 
       setStatus("success");
 
+      // Reset form + captcha
       setFormData({
         user_name: "",
         user_email: "",
         message: "",
       });
 
-      window.grecaptcha.reset();
+      setCaptchaToken(null);
 
     } catch (err) {
       console.error("Error sending email:", err);
@@ -104,12 +99,11 @@ const Contact = () => {
             required
           />
 
-          {/* ✅ reCAPTCHA v2 Checkbox */}
-          <div
-            className="g-recaptcha"
-            data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          <ReCAPTCHA
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={(token) => setCaptchaToken(token)}
             style={{ margin: "15px 0" }}
-          ></div>
+          />
 
           <button type="submit" className="form-text form-button">
             Send
