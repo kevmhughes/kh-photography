@@ -10,11 +10,13 @@ const Contact = () => {
     message: "",
   });
 
+  console.log("SITE KEY:", import.meta.env.VITE_RECAPTCHA_SITE_KEY);
+
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -47,7 +49,6 @@ const Contact = () => {
       });
 
       setCaptchaToken(null);
-
     } catch (err) {
       console.error("Error sending email:", err);
       setStatus("error");
@@ -101,8 +102,10 @@ const Contact = () => {
 
           <ReCAPTCHA
             sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-            onChange={(token) => setCaptchaToken(token)}
-            style={{ margin: "15px 0" }}
+            onChange={(token) => {
+              console.log("Captcha token generated:", token);
+              setCaptchaToken(token);
+            }}
           />
 
           <button type="submit" className="form-text form-button">
