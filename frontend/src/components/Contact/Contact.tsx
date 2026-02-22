@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
-
-interface Contact {}
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -11,12 +9,19 @@ const Contact = () => {
     message: "",
   });
 
-  console.log("form data", formData);
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  const [status, setStatus] = React.useState<"success" | "error" | null>(null);
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.onload = () => setScriptLoaded(true);
+    document.body.appendChild(script);
+  }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,26 +29,32 @@ const Contact = () => {
   const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!scriptLoaded || !window.grecaptcha) {
+      alert("reCAPTCHA not loaded yet. Please wait a moment.");
+      return;
+    }
+
     try {
-      const token = await window.grecaptcha.execute(
-        import.meta.env.VITE_RECAPTCHA_SITE_KEY,
-        { action: "contact_form" },
-      );
+      const token = await new Promise<string>((resolve, reject) => {
+        window.grecaptcha.ready(() => {
+          window.grecaptcha
+            .execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, {
+              action: "contact_form",
+            })
+            .then(resolve)
+            .catch(reject);
+        });
+      });
 
       const response = await fetch("/api/contact/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          token, 
-        }),
+        body: JSON.stringify({ ...formData, token }),
       });
 
       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result?.error || "Failed to send email");
-      }
+      if (!response.ok) throw new Error(result?.error || "Failed to send email");
 
       setStatus("success");
     } catch (err: any) {
