@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
@@ -11,7 +11,7 @@ declare global {
       ready: (callback: () => void) => void;
       execute: (
         siteKey: string,
-        options?: { action?: string }
+        options?: { action?: string },
       ) => Promise<string>;
     };
   }
@@ -24,12 +24,18 @@ const Contact = () => {
     message: "",
   });
 
+  useEffect(() => {
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith("rc::"))
+      .forEach((key) => localStorage.removeItem(key));
+  }, []);
+
   const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
