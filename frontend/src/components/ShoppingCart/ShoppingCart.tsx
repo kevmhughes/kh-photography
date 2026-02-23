@@ -17,8 +17,6 @@ const ShoppingCart = () => {
     handleCartVisibility,
   } = useProducts();
 
-  console.log("products", products);
-
   const handleCheckout = async () => {
     const toastId = toast.loading("Redirecting to checkout…");
 

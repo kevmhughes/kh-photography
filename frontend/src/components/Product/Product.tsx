@@ -20,8 +20,6 @@ const Product = () => {
     null,
   );
 
-  console.log("data", productDetail);
-
   const [viewedProductIndex, setViewedProductIndex] = useState(0);
 
   const currentVariant = productDetail?.sync_variants?.[viewedProductIndex];
@@ -208,7 +206,6 @@ const Product = () => {
                 key={item.id}
                 onClick={() => {
                   setViewedProductIndex(index);
-                  console.log("index", index);
                 }}
               >
                 <img

@@ -19,7 +19,6 @@ const Shop = () => {
 
       try {
         const res = await axios.get("/api/products");
-        console.log(res.data.result);
         setProducts(res.data.result || []);
       } catch (err) {
         console.error("Failed to fetch products:", err);

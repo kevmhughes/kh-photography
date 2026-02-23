@@ -55,12 +55,10 @@ export default async function handler(req, res) {
           template_id: process.env.EMAILJS_TEMPLATE_ID,
           user_id: process.env.EMAILJS_PUBLIC_KEY,
           accessToken: process.env.EMAILJS_PRIVATE_KEY,
-          template_params: { user_name, user_email, message, /* "g-recaptcha-response": token  */},
+          template_params: { user_name, user_email, message},
         }),
       }
     );
-
-    console.log("Sending to EmailJS, token:", token);
 
     if (!emailResponse.ok) {
       const text = await emailResponse.text();

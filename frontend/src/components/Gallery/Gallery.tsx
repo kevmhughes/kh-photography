@@ -51,8 +51,6 @@ const Gallery = () => {
     }[]
   >([]);
 
-  console.log("photo info", photos)
-
   const [index, setIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -69,7 +67,6 @@ const Gallery = () => {
       }));
 
       await sanityClient.patch(albumId).set({ photos: newOrder }).commit();
-      console.log("Saved new order to Sanity:", newOrder);
     } catch (err) {
       console.error("Error saving new photo order:", err);
     }

@@ -41,7 +41,6 @@ const Contact = () => {
   };
 
   const handleCaptchaChange = (token: string | null) => {
-    console.log("Captcha token generated:", token);
     setCaptchaToken(token);
   };
 

@@ -6,8 +6,6 @@ export default async function handler(req, res) {
   try {
     const { session_id } = req.query;
 
-    console.log("session id", session_id)
-
     if (!session_id) {
       return res.status(400).json({ error: 'Missing session_id' });
     }
@@ -18,8 +16,6 @@ export default async function handler(req, res) {
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
       limit: 100,
     })
-
-    console.log("line items: ", lineItems)
 
     res.status(200).json({ session, lineItems })
   } catch (err) {
