@@ -3,6 +3,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "./Contact.css";
 
+import toast from "react-hot-toast";
+
 declare global {
   interface Window {
     grecaptcha: {
@@ -30,7 +32,6 @@ const Contact = () => {
       .forEach((key) => localStorage.removeItem(key));
   }, []);
 
-  const [status, setStatus] = useState<"success" | "error" | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -48,7 +49,7 @@ const Contact = () => {
     e.preventDefault();
 
     if (!captchaToken) {
-      setStatus("error");
+      toast.error("Please complete the reCAPTCHA.");
       return;
     }
 
@@ -67,8 +68,7 @@ const Contact = () => {
       const result = await response.json();
 
       if (!response.ok) throw new Error(result?.error);
-
-      setStatus("success");
+      toast.success("Your message has been sent successfully!");
 
       // Reset form
       setFormData({
@@ -78,7 +78,7 @@ const Contact = () => {
       });
     } catch (err) {
       console.error("Error sending email:", err);
-      setStatus("error");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       // Always reset captcha and token
       setCaptchaToken(null);
@@ -145,19 +145,6 @@ const Contact = () => {
             {isSubmitting ? "Sending..." : "Send"}
           </button>
         </form>
-
-        <div className="container">
-          {status === "success" && (
-            <div className="container success-message message-container">
-              Your message has been sent successfully!
-            </div>
-          )}
-          {status === "error" && (
-            <div className="container error-message message-container">
-              Please complete the reCAPTCHA and try again.
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );
