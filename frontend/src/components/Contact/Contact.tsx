@@ -80,7 +80,6 @@ const Contact = () => {
       console.error("Error sending email:", err);
       toast.error("Something went wrong. Please try again.");
     } finally {
-      // Always reset captcha and token
       setCaptchaToken(null);
       window.grecaptcha?.reset();
       setIsSubmitting(false);

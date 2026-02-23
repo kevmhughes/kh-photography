@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 /* import { Analytics } from "@vercel/analytics/react"; */
 
 import ScrollToTop from "./components/ScrollToTop";
@@ -18,6 +19,18 @@ import { ProductProvider } from "../src/context/ProductContext";
 import "./App.css";
 
 function App() {
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
     <>
       <ProductProvider>
