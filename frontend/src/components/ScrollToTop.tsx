@@ -5,22 +5,23 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Prevent Safari restoring scroll
-    window.history.scrollRestoration = "manual";
+    // Make sure browser doesn't auto restore scroll
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
 
-    // Remove any body locks from nav menus
-    document.body.style.removeProperty("position");
-    document.body.style.removeProperty("top");
-    document.body.style.removeProperty("width");
-    document.body.style.removeProperty("overflow");
+    // Use a small timeout to let the browser paint first
+    const timeout = setTimeout(() => {
+      const root = document.querySelector("#root") || document.documentElement;
 
-    // Scroll both window and root containers
-    requestAnimationFrame(() => {
+      // Reset all possible scroll positions
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      document.documentElement.scrollTop = 0;
+      root.scrollTo?.(0, 0);
       document.body.scrollTop = 0;
-      document.querySelector("#root")?.scrollTo?.(0, 0);
-    });
+      document.documentElement.scrollTop = 0;
+    }, 50); 
+
+    return () => clearTimeout(timeout);
   }, [pathname]);
 
   return null;
