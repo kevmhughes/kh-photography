@@ -36,18 +36,18 @@ export default async function handler(req, res) {
     }));
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card", "paypal"],
+      payment_method_types: ["card"],
       mode: "payment",
       line_items,
       metadata: {
         products: JSON.stringify(products),
       },
-      custom_text: {
+      /* custom_text: {
         submit: {
           message:
             "**For testing purposes:** fill in the card number field using a series of the numbers 4 and 2 (eg. 4242 4242 4242 4242). Put a future date and three numbers in the other fields",
         },
-      },
+      }, */
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
       shipping_address_collection: {
