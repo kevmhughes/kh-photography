@@ -139,7 +139,7 @@ const Contact = () => {
           <button
             type="submit"
             className="form-text form-button"
-            disabled={!captchaToken || isSubmitting}
+            disabled={isSubmitting}
           >
             {isSubmitting ? "Sending..." : "Send"}
           </button>
