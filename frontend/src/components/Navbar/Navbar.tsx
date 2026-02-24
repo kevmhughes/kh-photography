@@ -111,7 +111,7 @@ const Navbar = () => {
           </Link>
 
           <a
-            href="https://www.instagram.com/kevin_hughes_photography/"
+            href="https://www.instagram.com/khphotography.es/"
             target="_blank"
             rel="noopener noreferrer"
           >
