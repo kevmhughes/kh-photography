@@ -46,21 +46,21 @@ The system separates content management, payment processing, and fulfillment int
 
 ### All Users Can:
 
-* Browse Galleries
+* Browse galleries
 * View curated photography collections
 * Open images in an immersive Lightbox viewer
-* Browse Products
+* Browse products
 * View products associated with the photography
 * See pricing and product details
 * Purchase products securely
 
 ### Automated Order Flow
-* User selects product
-* Server creates Stripe Checkout session
-* User completes payment
-* Stripe emits checkout.session.completed event
-* Webhook verifies signature
-* Order is programmatically created in Printful
-* Printful handles printing and global shipping
-* No manual order processing required.
+1. User selects product
+2. Server creates Stripe Checkout session
+3. User completes payment
+4. Stripe emits checkout.session.completed event
+5. Webhook verifies signature
+6. Order is programmatically created in Printful
+7. Printful handles printing and global shipping
+8. No manual order processing required.
 
