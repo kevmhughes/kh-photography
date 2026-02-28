@@ -4,7 +4,7 @@
 
 This project is a fully responsive, full-stack photography eCommerce web application designed to showcase curated galleries and sell physical products through secure online payments.
 
-Use the app [here](khphotography.es)*   
+Use the app [here](khphotography.es)   
 
 The application follows a modern JAMstack-inspired architecture using:
 
