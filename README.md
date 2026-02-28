@@ -4,8 +4,6 @@
 
 This project is a fully responsive, full-stack photography eCommerce web application designed to showcase curated galleries and sell physical products through secure online payments.
 
-Use the web application <a href="https://khphotography.es" target="_blank" rel="noopener noreferrer">here</a>
-
 The application follows a modern JAMstack-inspired architecture using:
 
 - **React (v19)** for UI rendering  
@@ -16,6 +14,8 @@ The application follows a modern JAMstack-inspired architecture using:
 - **Vercel** for deployment with CI/CD and preview environments  
 
 The system separates content management, payment processing, and fulfillment into independent services, creating a scalable and production-ready architecture.
+
+Use the web application <a href="https://khphotography.es" target="_blank" rel="noopener noreferrer">here</a>
 
 ## Tools Used
 
