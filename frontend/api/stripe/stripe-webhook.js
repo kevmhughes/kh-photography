@@ -136,7 +136,7 @@ function buildPrintfulPayload(session) {
   }));
 
   return {
-    confirm: false, // keep false for now
+    confirm: false, // false => Sends the order to Printful via Stripe webhook, but requires manual confirmation in Printful before fulfillment.
     recipient,
     items,
     retail_costs: {
