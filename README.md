@@ -1,5 +1,12 @@
 # Photography eCommerce Platform
 
+[![Vercel](https://img.shields.io/badge/deployed-Vercel-000000?style=flat&logo=vercel)](https://your-app-url.vercel.app)
+[![React](https://img.shields.io/badge/React-19-blue?style=flat&logo=react)]
+[![Vite](https://img.shields.io/badge/Vite-7.2.4-brightgreen?style=flat&logo=vite)]
+[![Sanity](https://img.shields.io/badge/Sanity-CMS-ff1e00?style=flat&logo=sanity)]
+[![Stripe](https://img.shields.io/badge/Stripe-Payments-635bff?style=flat&logo=stripe)]
+[![Printful](https://img.shields.io/badge/Printful-Fulfillment-ff7f50?style=flat&logo=printful)]
+
 ## Overview
 
 This project is a fully responsive, full-stack photography eCommerce web application designed to showcase curated galleries and sell physical products through secure online payments.
