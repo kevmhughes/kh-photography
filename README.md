@@ -44,7 +44,7 @@ The system separates content management, payment processing, and fulfillment int
 
 ## Features
 
-##All Users Can:
+## All Users Can:
 
 * Browse Galleries
 * View curated photography collections
