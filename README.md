@@ -6,8 +6,6 @@ This project is a fully responsive, full-stack photography eCommerce web applica
 
 Use the web application <a href="https://khphotography.es" target="_blank" rel="noopener noreferrer">here</a>
 
-Use the web application [here](https://khphotography.es)   
-
 The application follows a modern JAMstack-inspired architecture using:
 
 - **React (v19)** for UI rendering  
