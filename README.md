@@ -30,7 +30,6 @@ The system separates content management, payment processing, and fulfillment int
 * Canvas Confetti – Micro-interactions for improved UX
 
 ### Back End
-* Stripe (Server SDK) – Secure payment processing & checkout sessions
 * Axios – Promise-based HTTP client for API communication
 
 ### CMS / Content Management
