@@ -64,5 +64,6 @@ Use the web application <a href="https://khphotography.es" target="_blank" rel="
 5. Webhook verifies signature
 6. Order is programmatically created in Printful
 7. Printful handles printing and global shipping
-8. No manual order processing required.
+
+No manual order processing is required.
 
