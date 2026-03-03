@@ -99,7 +99,7 @@ const Navbar = () => {
               setTimeout(() => closeMenu(), 10);
             }}
           >
-            Shop
+            Store
           </Link>
           <Link
             to="/contact"
