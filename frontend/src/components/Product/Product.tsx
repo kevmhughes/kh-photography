@@ -72,6 +72,7 @@ const Product = () => {
 
     addProduct({
       variantId: currentVariant?.variant_id,
+      id: currentVariant?.id,
       retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",
@@ -99,6 +100,7 @@ const Product = () => {
 
     addProduct({
       variantId: currentVariant?.variant_id,
+      id: currentVariant?.id,
       retailPrice: Number(currentVariant.retail_price),
       quantity: numberOfProducts,
       img: currentVariant.files[1]?.preview_url || "",

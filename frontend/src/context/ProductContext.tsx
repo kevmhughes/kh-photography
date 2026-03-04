@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 
 export type Product = {
   title: string;
+  id: number;
   variantId: number;
   retailPrice: number;
   quantity: number;
@@ -41,14 +42,14 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   // Add new product OR merge with existing one
   const addProduct = (product: Omit<Product, "totalPrice">) => {
     setProducts((prev) => {
-      const existing = prev.find((p) => p.variantId === product.variantId);
+      const existing = prev.find((p) => p.id === product.id);
 
       // If product exists → update quantity
       if (existing) {
         const newQty = existing.quantity + product.quantity;
 
         return prev.map((p) =>
-          p.variantId === product.variantId
+          p.id === product.id
             ? {
                 ...p,
                 quantity: newQty,
@@ -70,13 +71,13 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const removeProduct = (productId: number) => {
-    setProducts((prev) => prev.filter((p) => p.variantId !== productId));
+    setProducts((prev) => prev.filter((p) => p.id !== productId));
   };
 
   const updateQuantity = (productId: number, quantity: number) => {
     setProducts((prev) =>
       prev.map((p) =>
-        p.variantId === productId
+        p.id === productId
           ? { ...p, quantity, totalPrice: quantity * p.retailPrice }
           : p
       )

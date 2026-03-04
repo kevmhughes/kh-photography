@@ -116,7 +116,7 @@ const ShoppingCart = () => {
           <>
             <div className="cart-products-list">
               {products.map((p) => (
-                <div key={p.variantId} className="cart-product-card">
+                <div key={p.id} className="cart-product-card">
                   <img
                     src={p.img}
                     alt={p.title}
@@ -148,7 +148,7 @@ const ShoppingCart = () => {
                           className="cart-product-minus-button"
                           onClick={() => {
                             if (p.quantity > 1)
-                              updateQuantity(p.variantId, p.quantity - 1);
+                              updateQuantity(p.id, p.quantity - 1);
                           }}
                         >
                           -
@@ -160,7 +160,7 @@ const ShoppingCart = () => {
                         <div
                           className="cart-product-add-button"
                           onClick={() =>
-                            updateQuantity(p.variantId, p.quantity + 1)
+                            updateQuantity(p.id, p.quantity + 1)
                           }
                         >
                           +
@@ -170,7 +170,7 @@ const ShoppingCart = () => {
                         src={Delete}
                         alt="delete icon"
                         className="cart-product-delete-button"
-                        onClick={() => removeProduct(p.variantId)}
+                        onClick={() => removeProduct(p.id)}
                       />
                     </div>
                   </div>
