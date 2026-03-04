@@ -107,7 +107,7 @@ function buildPrintfulPayload(session, products) {
   const items = products.map(p => ({
     variant_id: p.variantId,
     quantity: p.quantity,
-    retail_price: p.retailPrice.toString(),
+    retail_price: p.retailPrice,
     currency: p.currency || "EUR",
     files: [{ id: p.fileId }],
     sku: p.sku,

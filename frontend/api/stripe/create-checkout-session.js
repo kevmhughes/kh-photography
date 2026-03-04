@@ -29,7 +29,9 @@ export default async function handler(req, res) {
       metadata: {
         fileId: item.fileId, 
         variantId: item.variantId,
+        retailPrice: item.retailPrice,
         sku: item.sku,
+        image: item.img,
       },
     }));
 
