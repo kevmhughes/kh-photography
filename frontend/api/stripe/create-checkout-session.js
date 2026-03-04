@@ -1,9 +1,6 @@
 import Stripe from "stripe";
 
-const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY ||
-  ""
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 export default async function handler(req, res) {
   if (req.method !== "POST")
@@ -26,12 +23,12 @@ export default async function handler(req, res) {
       },
       adjustable_quantity: {
         enabled: true,
-        minimum: 0,
+        minimum: 1, 
       },
       quantity: item.quantity,
       metadata: {
-        size: item.size,
-        image: item.img,
+        fileId: item.fileId, 
+        sku: item.sku,
       },
     }));
 
@@ -39,21 +36,14 @@ export default async function handler(req, res) {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      metadata: {
-        products: JSON.stringify(products),
-      },
-      /* custom_text: {
-        submit: {
-          message:
-            "**For testing purposes:** fill in the card number field using a series of the numbers 4 and 2 (eg. 4242 4242 4242 4242). Put a future date and three numbers in the other fields",
-        },
-      }, */
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/shop`,
       shipping_address_collection: {
-        allowed_countries: ["ES", "BE","BG", "HR", "CY", "CZ", "EE", "FI", "FR",
-          "DE", "GI", "GR", "HU", "IE", "IT", "LI", "LU", "NL", "NO",
-          "PL", "PT", "RO", "SK", "SI", "SE", "CH", "GB"],
+        allowed_countries: [
+          "ES","BE","BG","HR","CY","CZ","EE","FI","FR",
+          "DE","GI","GR","HU","IE","IT","LI","LU","NL","NO",
+          "PL","PT","RO","SK","SI","SE","CH","GB"
+        ],
       },
       shipping_options: [
         {
