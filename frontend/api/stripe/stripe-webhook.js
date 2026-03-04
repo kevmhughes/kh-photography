@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
       // Parse products from line_items
       const products = fullSession.line_items.data.map(item => ({
-        variantId: item.metadata?.variantId || item.price.product,
+        variantId: item.metadata?.variantId,
         fileId: item.metadata?.fileId,
         sku: item.metadata?.sku,
         quantity: item.quantity,
