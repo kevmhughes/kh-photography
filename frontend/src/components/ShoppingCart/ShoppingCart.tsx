@@ -32,6 +32,7 @@ const ShoppingCart = () => {
       }
 
       const { url } = await res.json();
+      toast.dismiss(toastId);
       window.location.href = url;
     } catch (error) {
       toast.error("Unable to start checkout. Please try again.", {
