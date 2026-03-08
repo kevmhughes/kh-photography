@@ -16,7 +16,7 @@
 
 @media (max-width: 480px) {
   .react-photo-album--rows {
-    margin-top: 1rem;
+    margin-top: 6rem;
     gap: 1rem;
   }
 }
