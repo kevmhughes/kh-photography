@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import Loader from "../Loader/Loader";
 import axios from "axios";
-import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import { useProducts } from "../../context/ProductContext";
 import "./Product.css";
 import type { PrintfulProduct } from "../../types/product.types";
@@ -20,10 +19,18 @@ const Product = () => {
     null,
   );
 
+  console.log("product detail", productDetail)
+
+  // Currently selected variant index
   const [viewedProductIndex, setViewedProductIndex] = useState(0);
 
+  // Active variant based on selected thumbnail
   const currentVariant = productDetail?.sync_variants?.[viewedProductIndex];
 
+  // Product variants
+  const variants = productDetail?.sync_variants ?? [];
+
+  // Fetch product data when component mounts or id changes
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -114,6 +121,7 @@ const Product = () => {
     handleCartVisibility();
   };
 
+  // Check stock status
   const inStock = currentVariant?.availability_status === "active";
 
   if (error) return <p className="error">{error}</p>;
@@ -203,7 +211,7 @@ const Product = () => {
           {/* Scrollable variant thumbnails */}
 
           <div className="variant-thumbnails-container">
-            {productDetail?.sync_variants.map((item, index) => (
+            {variants.length > 1 && variants.map((item, index) => (
               <div
                 key={item.id}
                 onClick={() => {
@@ -226,8 +234,6 @@ const Product = () => {
           </div>
         </div>
       </div>
-
-      <ShoppingCart />
     </>
   );
 };
