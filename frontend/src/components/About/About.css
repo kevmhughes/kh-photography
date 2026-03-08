@@ -125,3 +125,9 @@
     right: 300px;
   }
 }
+
+@media (max-width: 480px) {
+  .about-container {
+    top: 5rem;
+  }
+}

@@ -5,8 +5,9 @@
   font-size: 1.5rem;
   justify-content: center;
   background-color: white;
-  z-index: 1000;
+  z-index: 1;
   font-weight: 300;
+  align-items: center;
 }
 
 .navbar-list-container {
@@ -28,5 +29,41 @@
 }
 
 .insta-icon:hover {
+  opacity: 60%;
+}
+
+.navbar-and-search-bar-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.search-bar-container {
+  display: flex;
+}
+
+.search-input[type="text"] {
+  border-radius: 50px;
+  width: 156px;
+  transition: width 1s ease;
+  transition-delay: 0.2s;
+  height: 1.5rem;
+  outline: none;
+  position: relative;
+  right: -13px;
+  margin-bottom: 12px;
+  color: #343434;
+  padding-right: 30px;
+}
+
+.search-input[type="text"]:focus {
+  border: 1px solid #343434;
+  transition: width 1s ease;
+  width: 320px;
+}
+
+.search-bar-icon {
+  height: 1.6rem;
+  position: relative;
+  right: 20px;
   opacity: 60%;
 }

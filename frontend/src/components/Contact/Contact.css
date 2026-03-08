@@ -92,3 +92,10 @@ textarea {
     padding: 2rem 0;
   }
 }
+
+@media (max-width: 480px) {
+  .contact-form-and-text-container {
+    top: 5rem;
+    position: relative;
+  }
+}
