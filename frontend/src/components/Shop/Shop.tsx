@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import StickyLinks from "../StickyLinks/StickyLinks";
-import ShoppingCart from "../ShoppingCart/ShoppingCart";
+import Glass from "../../assets/glass.svg";
 import Loader from "../Loader/Loader";
 import "./Shop.css";
 import type { PrintfulProduct } from "../../types/product.types";
@@ -11,6 +11,8 @@ const Shop = () => {
   const [products, setProducts] = useState<PrintfulProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>("");
+  console.log("shop products", products);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,7 +36,7 @@ const Shop = () => {
   if (loading)
     return (
       <>
-        <StickyLinks />
+        <StickyLinks setSearch={setSearch} />
         <div>
           <Loader />
         </div>
@@ -43,36 +45,94 @@ const Shop = () => {
 
   if (error) return <p className="error">{error}</p>;
 
-  const sortedProducts = [...products].sort((a, b) =>
+  // Filter products by search text
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  // Sort products alphabetically
+  const sortedProducts = [...filteredProducts].sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
   );
 
   return (
     <div>
-      <StickyLinks />
+      <StickyLinks setSearch={setSearch} />
+
+      {location.pathname === "/shop" && (
+        <div className="search-bar-container-mobile">
+          <input
+            type="text"
+            onChange={(e) => setSearch?.(e.target.value)}
+            className="search-input-mobile"
+          />
+          <img
+            src={Glass}
+            alt="Search bar icon"
+            className="search-bar-icon-mobile"
+          />
+        </div>
+      )}
+
+      {sortedProducts.length === 0 && (
+        <p className="no-search-results-text">
+          Sorry, no results were found with that name.
+        </p>
+      )}
 
       <div className="product-grid">
-        {sortedProducts.map((p) => (
-          <Link
-            to={`/shop/${p.id}`}
-            key={p.id}
-            className="product-card-link-container"
-          >
-            <div className="product-card">
-              <img
-                src={p.thumbnail_url}
-                alt={p.name}
-                className="product-image"
-                loading="lazy"
-              />
-              <div className="product-card-details-container">
-                <h3 className="product-title">{p.name}</h3>
+        {/*        {sortedProducts.length > 0 &&
+          sortedProducts.map((p) => (
+            <Link
+              to={`/shop/${p.id}`}
+              key={p.id}
+              className="product-card-link-container"
+            >
+              <div className="product-card">
+                <img
+                  src={p.thumbnail_url}
+                  alt={p.name}
+                  className="product-image"
+                  loading="lazy"
+                />
+                <div className="product-card-details-container">
+                  <h3 className="product-title">
+                    {p.name.split("-")[0]?.trim()}
+                  </h3>
+                  <div className="product-type-label">{p.name.split("-")[1]?.trim()}</div>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))} */}
+        {sortedProducts.length > 0 &&
+          sortedProducts.map((p) => {
+            const name = p.name.split("-")[0]?.trim();
+            const type = p.name.split("-")[1]?.trim();
+
+            return (
+              <Link
+                to={`/shop/${p.id}`}
+                key={p.id}
+                className="product-card-link-container"
+              >
+                <div className="product-card">
+                  {type && <div className="product-type-label">{type}</div>}
+
+                  <img
+                    src={p.thumbnail_url}
+                    alt={name}
+                    className="product-image"
+                    loading="lazy"
+                  />
+
+                  <div className="product-card-details-container">
+                    <h3 className="product-title">{name}</h3>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
       </div>
-      <ShoppingCart />
     </div>
   );
 };
