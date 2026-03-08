@@ -19,7 +19,7 @@ const Product = () => {
     null,
   );
 
-  console.log("product detail", productDetail)
+  console.log("product detail", productDetail);
 
   // Currently selected variant index
   const [viewedProductIndex, setViewedProductIndex] = useState(0);
@@ -29,6 +29,8 @@ const Product = () => {
 
   // Product variants
   const variants = productDetail?.sync_variants ?? [];
+
+  const name = productDetail?.sync_product.name.split("-")[0]?.trim();
 
   // Fetch product data when component mounts or id changes
   useEffect(() => {
@@ -148,9 +150,7 @@ const Product = () => {
         <div className="product-details-information-and-thumbnails-container">
           <div className="product-details-information-container">
             <div className="product-details-text-container">
-              <h1 className="product-details-title">
-                {productDetail?.sync_product.name}
-              </h1>
+              <h1 className="product-details-title">{name}</h1>
               <p className="product-details-description">
                 {currentVariant?.product.name}
               </p>
@@ -211,26 +211,27 @@ const Product = () => {
           {/* Scrollable variant thumbnails */}
 
           <div className="variant-thumbnails-container">
-            {variants.length > 1 && variants.map((item, index) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  setViewedProductIndex(index);
-                }}
-              >
-                <img
-                  src={item.files[1]?.thumbnail_url}
-                  alt={item.name}
-                  loading="lazy"
-                  className={
-                    index === viewedProductIndex
-                      ? "variant-thumbnail-active"
-                      : "variant-thumbnail"
-                  }
-                />
-                <div className="variant-thumbnail-size">{item.size}</div>
-              </div>
-            ))}
+            {variants.length > 1 &&
+              variants.map((item, index) => (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    setViewedProductIndex(index);
+                  }}
+                >
+                  <img
+                    src={item.files[1]?.thumbnail_url}
+                    alt={item.name}
+                    loading="lazy"
+                    className={
+                      index === viewedProductIndex
+                        ? "variant-thumbnail-active"
+                        : "variant-thumbnail"
+                    }
+                  />
+                  <div className="variant-thumbnail-size">{item.size}</div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
