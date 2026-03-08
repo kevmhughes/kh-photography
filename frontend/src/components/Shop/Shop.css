@@ -160,4 +160,8 @@ input[type="text"].search-input-mobile {
     margin-top: 6rem;
     padding-left: 46px;
   }
+
+  .no-search-results-text {
+    height: calc(100vh + 77px);
+  }
 }
