@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Logo from "../../assets/logo.svg";
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Khp from "../../assets/khp.svg";
 import Insta from "../../assets/insta.svg";
 
 import "./Navbar.css";
 
 const Navbar = () => {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -58,6 +60,13 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {(location.pathname === "/shop" ||
+        location.pathname.startsWith("/shop/")) && (
+        <div>
+          <ShoppingCart />
+        </div>
+      )}
+
       <div onClick={toggleMenu} className="navbar-hamburger-menu-target-area">
         <div className="navbar-hamburger-menu-container">
           <div className="navbar-hamburger-icon">
@@ -99,7 +108,7 @@ const Navbar = () => {
               setTimeout(() => closeMenu(), 10);
             }}
           >
-            Store
+            Shop
           </Link>
           <Link
             to="/contact"
