@@ -76,34 +76,11 @@ const Shop = () => {
 
       {sortedProducts.length === 0 && (
         <p className="no-search-results-text">
-          Sorry, no results were found with that name.
+          Sorry, no results were found.
         </p>
       )}
 
       <div className="product-grid">
-        {/*        {sortedProducts.length > 0 &&
-          sortedProducts.map((p) => (
-            <Link
-              to={`/shop/${p.id}`}
-              key={p.id}
-              className="product-card-link-container"
-            >
-              <div className="product-card">
-                <img
-                  src={p.thumbnail_url}
-                  alt={p.name}
-                  className="product-image"
-                  loading="lazy"
-                />
-                <div className="product-card-details-container">
-                  <h3 className="product-title">
-                    {p.name.split("-")[0]?.trim()}
-                  </h3>
-                  <div className="product-type-label">{p.name.split("-")[1]?.trim()}</div>
-                </div>
-              </div>
-            </Link>
-          ))} */}
         {sortedProducts.length > 0 &&
           sortedProducts.map((p) => {
             const name = p.name.split("-")[0]?.trim();
