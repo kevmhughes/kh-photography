@@ -69,10 +69,10 @@ export default async function handler(req, res) {
         }
       );
 
-      console.log("✅ Order sent to Printful:", printfulResponse.data);
+      console.log("Order sent to Printful:", printfulResponse.data);
       return res.status(200).json({ received: true });
     } catch (err) {
-      console.error("❌ Failed to create Printful order:", err.response?.data || err.message);
+      console.error("Failed to create Printful order:", err.response?.data || err.message);
       return res.status(500).json({ error: "Printful order failed" });
     }
   }
