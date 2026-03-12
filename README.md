@@ -69,6 +69,8 @@ Use the web application <a href="https://khphotography.es" target="_blank" rel="
 
 No manual order processing is required.
 
+## Demo Video:
+
 <p align="center">
   <img src="./assets/demo.gif" alt="App demo video" width="350" />
   <br />
