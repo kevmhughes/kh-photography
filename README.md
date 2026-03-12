@@ -1,6 +1,6 @@
 # KH Photography – eCommerce Web App
 
-##**Role:** UI/UX Designer & Fullstack Developer  
+## **Role:** UI/UX Designer & Fullstack Developer  
 
 ## Overview
 
