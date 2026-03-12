@@ -56,7 +56,7 @@ Use the web application <a href="https://khphotography.es" target="_blank" rel="
 * See pricing and product details
 * Purchase products securely
 
-### Automated Order Flow
+### Fully Automated Flow of Order and Fulfillment
 1. User selects product
 2. Server creates Stripe Checkout session
 3. User completes payment
