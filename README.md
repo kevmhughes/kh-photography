@@ -1,4 +1,7 @@
-# Photography eCommerce Platform
+# KH Photography – eCommerce Web App
+
+**Type:** UI/UX Design & Fullstack Development 
+**Role:** Designer & Developer  
 
 ## Overview
 
