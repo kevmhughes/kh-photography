@@ -12,7 +12,6 @@ const Shop = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
-  console.log("shop products", products);
 
   useEffect(() => {
     const fetchProducts = async () => {

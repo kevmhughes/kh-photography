@@ -19,8 +19,6 @@ const Product = () => {
     null,
   );
 
-  console.log("product detail", productDetail);
-
   // Currently selected variant index
   const [viewedProductIndex, setViewedProductIndex] = useState(0);
 
