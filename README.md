@@ -72,7 +72,7 @@ No manual order processing is required.
 ## Demo Video:
 
 <p align="center">
-  <img src="./assets/demo.gif" alt="App demo video" width="350" />
+  <img src="./assets/demo.gif" alt="App demo video" width="300" />
   <br />
   <em>Demo of khphotography.es</em>
 </p
