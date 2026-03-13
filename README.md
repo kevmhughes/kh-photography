@@ -95,3 +95,6 @@ No manual order processing is required.
   <br />
   <em>Demo of khphotography.es</em>
 </p
+
+## Live Demo: 
+Visit [khphotography.es](https://www.khphotography.es)
