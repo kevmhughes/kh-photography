@@ -4,7 +4,7 @@ import Loader from "../Loader/Loader";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "../Albums/Albums.css";
 import sanityClient, { urlFor } from "../../sanityClient";
-import type {Album} from "../../types/photo.types"
+import type { Album } from "../../types/photo.types";
 
 const Home = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -12,11 +12,13 @@ const Home = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  console.log("albums", albums);
+
   // Fetch albums using async/await
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
-        const query = `*[_type == "album"]{
+        const query = `*[_type == "album"] | order(orderIndex asc) {
           _id,
           title,
           description,
