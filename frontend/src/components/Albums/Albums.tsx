@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import StickyLinks from "../StickyLinks/StickyLinks";
 import "../Albums/Albums.css";
 import sanityClient, { urlFor } from "../../sanityClient";
-import type {Album} from "../../types/photo.types"
+import type { Album } from "../../types/photo.types";
 
 const Home = () => {
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     async function fetchAlbums() {
       try {
-        const query = `*[_type == "album"]{
+        const query = `*[_type == "album"] | order(orderIndex asc) {
           _id,
           title,
           description,
